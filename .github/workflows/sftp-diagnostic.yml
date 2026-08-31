@@ -2,6 +2,10 @@ name: SFTP Diagnostic (read-only)
 
 on:
   workflow_dispatch:
+  push:
+    branches: [dev]
+    paths:
+      - ".github/workflows/sftp-diagnostic.yml"
 
 permissions:
   contents: read
