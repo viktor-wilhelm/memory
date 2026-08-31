@@ -38,5 +38,5 @@ jobs:
           password: ${{ secrets.SFTP_PASSWORD }}
           port: 22
           local_path: "./dist/*"
-          remote_path: "/memory-staging/"
+          remote_path: "/memory-staging"
           sftp_only: true
