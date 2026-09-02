@@ -3,9 +3,28 @@
 
 body {
   height: 100vh;
+  margin: 0;
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-family-base);
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.button {
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  font: inherit;
+  cursor: pointer;
 }
 
 .card {
