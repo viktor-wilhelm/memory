@@ -1,5 +1,11 @@
+@use 'tokens';
+@use 'themes';
+
 body {
   height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family-base);
 }
 
 .card {
@@ -19,13 +25,13 @@ body {
   &__face {
     position: absolute;
     inset: 0;
-    background-color: black;
+    background-color: var(--color-card-back);
     backface-visibility: hidden;
-
+    border-radius: var(--radius-sm);
 
     &--back {
       transform: rotateY(180deg);
-      background-color: red;
+      background-color: var(--color-accent);
     }
   }
 
