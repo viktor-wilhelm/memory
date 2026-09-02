@@ -1,0 +1,34 @@
+// Einzige Datei mit tatsächlichen Farbwerten. Jede Komponente referenziert
+// nur var(--color-*) aus _tokens.scss — nie Farben direkt.
+
+[data-theme="code-vibes"] {
+  --color-bg: #1e2b28;
+  --color-surface: #16211f;
+  --color-accent: #2bcfa0;
+  --color-text: #eafff5;
+  --color-card-back: #0f1a18;
+}
+
+[data-theme="games"] {
+  --color-bg: #16323a;
+  --color-surface: #102730;
+  --color-accent: #e8397e;
+  --color-text: #eef7fb;
+  --color-card-back: #0c1e24;
+}
+
+[data-theme="da-projects"] {
+  --color-bg: #eef3fb;
+  --color-surface: #ffffff;
+  --color-accent: #2f6fed;
+  --color-text: #14213d;
+  --color-card-back: #d7e3fb;
+}
+
+[data-theme="food"] {
+  --color-bg: #fdf3ea;
+  --color-surface: #ffffff;
+  --color-accent: #f0793a;
+  --color-text: #3a2415;
+  --color-card-back: #ffe3cc;
+}
