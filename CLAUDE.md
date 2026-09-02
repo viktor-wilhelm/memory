@@ -23,8 +23,15 @@ feature/* oder fix/*  →  dev  →  staging  →  main
 3. Änderungen werden im jeweiligen Branch entwickelt, committed, zu GitHub
    gepusht und getestet.
 4. Sobald eine Aufgabe **vollständig abgeschlossen** ist und alle Prüfungen
-   erfolgreich waren, wird der Branch automatisch und ohne Rückfrage in
-   `dev` gemergt, und `dev` wird zu GitHub gepusht.
+   erfolgreich waren, wird der Branch automatisch und ohne Rückfrage lokal
+   in `dev` gemergt. Der Push von `dev` nach GitHub erfolgt dabei
+   **nicht** automatisch bei jedem einzelnen Merge (siehe Punkt 4a).
+4a. Mehrere abgeschlossene Feature-/Fix-Branches werden lokal in `dev`
+    gesammelt (mehrere lokale Merges, jeweils getestet), bevor `dev`
+    gepusht wird — ein einzelner `git push` fasst mehrere lokale Merges
+    zusammen, statt nach jedem Merge einzeln zu pushen. So bleibt die
+    Remote-Historie von `dev` aufgeräumt. Gepusht wird, wenn der Nutzer
+    danach fragt oder mehrere Aufgaben angesammelt sind.
 5. Ein normaler Zwischenstand oder ein einzelner Push im Feature-/Fix-Branch
    löst **keinen** Merge aus. Der Merge nach `dev` erfolgt erst nach
    vollständigem Abschluss und erfolgreichem Test der gesamten Aufgabe.
