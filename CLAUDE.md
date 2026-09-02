@@ -61,3 +61,33 @@ npm run build
 ```
 
 Nur der Inhalt von `dist/` (Vite-Output) ist deploybar.
+
+## Projekt-Anforderungen (Memory Checkliste)
+
+Die verbindlichen fachlichen Anforderungen stehen in
+[`Memory Checkliste.md`](./Memory%20Checkliste.md) (User Stories 1–5 +
+Code Conventions). Bei jeder Aufgabe an diesem Projekt gilt:
+
+- Neue Features/Fixes müssen mit den dort beschriebenen User Stories
+  konsistent sein (Homescreen → Settings → Spielfeld → Game-Over-Flow,
+  Spielerfarben, Feldgrößen 4x4/4x6/6x6, mindestens 2 Themes, Punktestand,
+  „Exit Game", Kartenflip-Animation, Gewinneranzeige).
+- Die dort verlinkten Coding-Konventionen (HTML, TypeScript) sind
+  einzuhalten.
+- Vor Abschluss einer Aufgabe (siehe Merge-Regel oben) die relevanten
+  Punkte der Checkliste gegenprüfen, bevor der Branch als fertig gilt.
+
+Eine identische Kopie liegt zusätzlich als `docs/Memory Checkliste.docx`
+vor — verbindlich ist die `.md`-Version im Projekt-Root.
+
+## Keine Claude-Attribution in Commits/PRs
+
+`.claude/settings.json` setzt `attribution.commit` und `attribution.pr`
+auf `""`. Damit fügt Claude Code **keine** `Co-Authored-By: Claude`-Zeile
+und keinen `Claude-Session`-Link zu Commits oder PR-Beschreibungen hinzu.
+
+Grund: Auf dem Portfolio-Projekt hat dieser Trailer dazu geführt, dass
+GitHub „Claude Code" als Collaborator/Contributor des Repos gelistet hat.
+Das soll bei Memory nicht passieren. Diese Einstellung gilt projektweit
+(nicht nur für diese Session) und darf nicht ohne Rücksprache entfernt
+werden.
