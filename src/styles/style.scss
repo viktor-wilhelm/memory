@@ -1,13 +1,60 @@
+@use 'tokens';
+@use 'themes';
+
 body {
   height: 100vh;
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-family-base);
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+}
+
+.button {
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  font: inherit;
+  cursor: pointer;
 }
 
 .card {
   height: 100px;
   aspect-ratio: 1/1;
-  background-color: black;
-}
+  background-color: transparent;
+  border: none;
 
-.is-flipped {
-   background-color: red;
+  &__inner {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    transform-style: preserve-3d;
+    transition: all 300ms ease-in-out;
+  }
+
+  &__face {
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-card-back);
+    backface-visibility: hidden;
+    border-radius: var(--radius-sm);
+
+    &--back {
+      transform: rotateY(180deg);
+      background-color: var(--color-accent);
+    }
+  }
+
+  &.is-flipped .card__inner {
+    transform: rotateY(180deg);
+  }
 }
