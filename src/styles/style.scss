@@ -128,20 +128,23 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       inset: 0;
       background-repeat: no-repeat;
       background-position: center;
-      background-size: contain;
+      background-size: auto;
     }
 
     &::before {
       background-image: url('/assets/start-page/Arrow-1.png');
+      background-size: 33px auto;
       opacity: 1;
-      transition: opacity 100ms linear;
+      transform: translateY(-2px);
+      transition: opacity 0s linear 100ms;
     }
 
     &::after {
       background-image: url('/assets/start-page/Arrow-1-hover.png');
+      background-size: 36px auto;
       opacity: 0;
-      transform: translateX(0);
-      transition: opacity 100ms linear 100ms, transform 200ms $ease-portfolio 100ms;
+      transform: translateX(4px);
+      transition: opacity 0s linear;
     }
   }
 
@@ -158,12 +161,13 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   &:hover &__arrow::before,
   &:focus-visible &__arrow::before {
     opacity: 0;
+    transition: opacity 0s linear;
   }
 
   &:hover &__arrow::after,
   &:focus-visible &__arrow::after {
     opacity: 1;
-    transform: translateX(4px);
+    transition: opacity 0s linear 100ms;
   }
 }
 
