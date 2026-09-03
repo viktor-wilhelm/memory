@@ -27,6 +27,150 @@ body {
   cursor: pointer;
 }
 
+.screen--home {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  max-width: var(--breakpoint-wide);
+  margin-inline: auto;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  padding: var(--space-4) 96px var(--space-4) 230px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.home__decor {
+  position: absolute;
+  left: 0;
+  bottom: 16px;
+  width: 363px;
+  height: 410px;
+  background: url('/assets/start-page/stadia_controller-big.png') no-repeat center / contain;
+  pointer-events: none;
+}
+
+.home__content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home__eyebrow {
+  align-self: flex-start;
+  margin: 0 0 2rem;
+  font-family: var(--font-family-eyebrow);
+  font-size: clamp(1rem, 3.33vw, 3rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.home__title {
+  align-self: flex-start;
+  margin: 0 0 6rem;
+  font-family: var(--font-family-display);
+  font-size: clamp(2.5rem, 9.72vw, 8.75rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+$ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+.play-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 250px;
+  height: 98px;
+  padding: 0;
+  border: none;
+  border-radius: 1px;
+  background-color: var(--color-play-button-bg);
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 200ms $ease-portfolio;
+
+  &:hover,
+  &:focus-visible {
+    transform: scale(1.08, 1.0408);
+  }
+
+  &__controller {
+    display: inline-block;
+    width: 44px;
+    height: 32px;
+    background: url('/assets/start-page/stadia_controller.png') no-repeat center / contain;
+    transition: transform 200ms $ease-portfolio;
+  }
+
+  &__label {
+    display: inline-block;
+    width: 83px;
+    height: 39px;
+    background: url('/assets/start-page/Play.png') no-repeat center / contain;
+    transition: transform 200ms $ease-portfolio;
+  }
+
+  &__arrow {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 30px;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: auto;
+    }
+
+    &::before {
+      background-image: url('/assets/start-page/Arrow-1.png');
+      background-size: 33px auto;
+      opacity: 1;
+      transform: translateY(-2px);
+      transition: opacity 0s linear 100ms;
+    }
+
+    &::after {
+      background-image: url('/assets/start-page/Arrow-1-hover.png');
+      background-size: 36px auto;
+      opacity: 0;
+      transform: translateX(4px);
+      transition: opacity 0s linear;
+    }
+  }
+
+  &:hover &__controller,
+  &:focus-visible &__controller {
+    transform: rotate(-30deg) scale(1.3);
+  }
+
+  &:hover &__label,
+  &:focus-visible &__label {
+    transform: translate(7.5px, 2.7px);
+  }
+
+  &:hover &__arrow::before,
+  &:focus-visible &__arrow::before {
+    opacity: 0;
+    transition: opacity 0s linear;
+  }
+
+  &:hover &__arrow::after,
+  &:focus-visible &__arrow::after {
+    opacity: 1;
+    transition: opacity 0s linear 100ms;
+  }
+}
+
 .card {
   height: 100px;
   aspect-ratio: 1/1;
