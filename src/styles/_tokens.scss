@@ -1,9 +1,10 @@
 :root {
-  --color-bg: #1e2b28;
+  --color-bg: #303131;
   --color-surface: #16211f;
   --color-accent: #2bcfa0;
-  --color-text: #eafff5;
+  --color-text: #ffffff;
   --color-card-back: #0f1a18;
+  --color-play-button-bg: #f0ea6e;
 
   --radius-sm: 6px;
   --radius-md: 12px;
@@ -15,4 +16,6 @@
 
   --breakpoint-wide: 1440px;
   --font-family-base: system-ui, sans-serif;
+  --font-family-display: 'Red Rose', system-ui, sans-serif;
+  --font-family-eyebrow: 'Almarai', system-ui, sans-serif;
 }
