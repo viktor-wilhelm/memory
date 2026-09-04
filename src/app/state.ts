@@ -3,7 +3,9 @@ import type { GameState } from './types';
 const state: GameState = {
   theme: 'code-vibes',
   playerColor: 'blue',
+  playerSelected: false,
   boardSize: '4x4',
+  boardSizeSelected: false,
   screen: 'home',
 };
 
