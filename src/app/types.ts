@@ -6,6 +6,8 @@ export type Screen = 'home' | 'settings' | 'board' | 'gameOver';
 export interface GameState {
   theme: ThemeId;
   playerColor: PlayerColor;
+  playerSelected: boolean;
   boardSize: BoardSizeId;
+  boardSizeSelected: boolean;
   screen: Screen;
 }

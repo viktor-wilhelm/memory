@@ -172,6 +172,291 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
+.screen--settings {
+  width: 100%;
+  max-width: var(--breakpoint-wide);
+  margin-inline: auto;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: var(--space-4);
+  padding: var(--space-4) 96px;
+  box-sizing: border-box;
+  background-color: var(--color-settings-bg);
+  color: var(--color-settings-text);
+  min-height: 100vh;
+}
+
+.settings__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1 1 420px;
+}
+
+.settings__title {
+  position: relative;
+  display: inline-block;
+  margin: 0 0 var(--space-2);
+  padding-bottom: 12px;
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: -6px;
+    right: 10px;
+    bottom: 0;
+    height: 24px;
+    background: url('/assets/settings-page/line-settings.svg') no-repeat left center / contain;
+  }
+}
+
+.settings__group-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-size: 1.25rem;
+}
+
+.settings__group-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.radio-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.radio-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  cursor: pointer;
+  font-size: 1.05rem;
+  color: var(--color-settings-text);
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  &__dot {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    flex-shrink: 0;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    &::before {
+      background-image: url('/assets/settings-page/fiber_manual_record.svg');
+    }
+
+    &::after {
+      background-image: url('/assets/settings-page/mode_standby.svg');
+      opacity: 0;
+      transition: opacity 150ms ease-in-out;
+    }
+  }
+
+  &__arrow {
+    display: inline-flex;
+    align-items: center;
+    margin-left: var(--space-1);
+    opacity: 0;
+    transition: opacity 150ms ease-in-out;
+
+    &::before {
+      content: '';
+      width: 41px;
+      height: 3px;
+      background-color: var(--color-play-button-bg);
+    }
+
+    &::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      margin-left: -3px;
+      flex-shrink: 0;
+      background-color: var(--color-play-button-bg);
+      transform: rotate(45deg);
+    }
+  }
+
+  &.is-checked {
+    font-weight: 700;
+
+    .radio-row__dot::after {
+      opacity: 1;
+    }
+
+    .radio-row__arrow {
+      opacity: 1;
+    }
+  }
+}
+
+// Game themes: hovering a still-unselected option previews the selected look
+// (bold text, filled dot, arrow). Choose player / Board size intentionally do
+// NOT get this hover preview — they only show cursor:pointer until actually
+// chosen (see reference design).
+.radio-list--theme .radio-row:hover {
+  font-weight: 700;
+
+  .radio-row__dot::after {
+    opacity: 1;
+  }
+
+  .radio-row__arrow {
+    opacity: 1;
+  }
+}
+
+// While hovering the theme list, the highlight follows the cursor: the
+// actually checked option loses its highlighted look unless it's the one
+// being hovered, so it doesn't stay lit up on two options at once.
+.radio-list--theme:has(.radio-row:hover) .radio-row.is-checked:not(:hover) {
+  font-weight: 400;
+
+  .radio-row__dot::after {
+    opacity: 0;
+  }
+
+  .radio-row__arrow {
+    opacity: 0;
+  }
+}
+
+.settings__preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1 1 480px;
+  max-width: 560px;
+}
+
+.settings__preview-board {
+  position: relative;
+  height: 340px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg);
+  overflow: hidden;
+  padding: var(--space-3);
+  box-sizing: border-box;
+}
+
+.settings__preview-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.8rem;
+  color: var(--color-text);
+}
+
+.settings__score {
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+
+  &--blue {
+    color: #4a9eff;
+  }
+
+  &--orange {
+    color: #ff9a4a;
+  }
+}
+
+.settings__preview-current {
+  margin-left: auto;
+}
+
+.settings__preview-exit {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--color-text);
+  border-radius: var(--radius-sm);
+}
+
+.settings__preview-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+}
+
+.settings__preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.settings__breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background-color: #f2f2f2;
+  color: var(--color-settings-text);
+}
+
+.settings__sep {
+  height: 20px;
+  width: auto;
+}
+
+.settings__start {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  margin-left: auto;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: 1px;
+  background-color: var(--color-settings-muted);
+  color: var(--color-settings-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: not-allowed;
+  transition: transform 200ms ease-in-out, background-color 200ms ease-in-out;
+
+  &:not(:disabled) {
+    background-color: var(--color-play-button-bg);
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.06);
+    }
+
+    &:hover .settings__start-icon {
+      transform: rotate(-20deg);
+    }
+  }
+}
+
+.settings__start-icon {
+  display: inline-flex;
+  transition: transform 200ms ease-in-out;
+}
+
 .card {
   height: 100px;
   aspect-ratio: 1/1;
