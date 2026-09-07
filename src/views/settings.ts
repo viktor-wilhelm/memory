@@ -36,19 +36,21 @@ export function renderSettings(): HTMLElement {
     <div class="settings__panel">
       <h1 class="settings__title">Settings</h1>
 
-      <div class="settings__group">
-        <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/palette.svg" alt="" />Game themes</h2>
-        <div class="radio-list radio-list--theme">${themeRows}</div>
-      </div>
+      <div class="settings__groups">
+        <div class="settings__group">
+          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/palette.svg" alt="" />Game themes</h2>
+          <div class="radio-list radio-list--theme">${themeRows}</div>
+        </div>
 
-      <div class="settings__group">
-        <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/chess_pawn.svg" alt="" />Choose player</h2>
-        <div class="radio-list radio-list--player">${playerRows}</div>
-      </div>
+        <div class="settings__group">
+          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/chess_pawn.svg" alt="" />Choose player</h2>
+          <div class="radio-list radio-list--player">${playerRows}</div>
+        </div>
 
-      <div class="settings__group">
-        <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/style.svg" alt="" />Board size</h2>
-        <div class="radio-list radio-list--board">${sizeRows}</div>
+        <div class="settings__group">
+          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/style.svg" alt="" />Board size</h2>
+          <div class="radio-list radio-list--board">${sizeRows}</div>
+        </div>
       </div>
     </div>
 
