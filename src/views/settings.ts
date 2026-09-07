@@ -75,9 +75,9 @@ export function renderSettings(): HTMLElement {
         <span>Board size</span>
         <button type="button" class="settings__start" ${state.boardSizeSelected ? '' : 'disabled'}>
           <span class="settings__start-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="1" y="1" width="22" height="22" rx="5" stroke="currentColor" stroke-width="2" />
-              <path d="M9 7L17 12L9 17V7Z" fill="currentColor" />
+            <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="1" y="1" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.5" />
+              <path d="M8 4L14 8L8 12V4Z" fill="currentColor" />
             </svg>
           </span>
           Start

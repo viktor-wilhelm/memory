@@ -433,24 +433,33 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 .settings__start {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  justify-content: center;
+  gap: 8px;
+  width: 126px;
+  height: 53px;
   margin-left: auto;
-  padding: var(--space-2) var(--space-4);
+  padding: 14px 20px;
+  box-sizing: border-box;
   border: none;
   border-radius: 1px;
   background-color: var(--color-settings-muted);
   color: var(--color-settings-text);
-  font: inherit;
+  font-family: var(--font-family-display);
+  font-size: 20px;
   font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
   cursor: not-allowed;
-  transition: transform 200ms ease-in-out, background-color 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, background-color 200ms ease-in-out,
+    box-shadow 200ms ease-in-out;
 
   &:not(:disabled) {
     background-color: var(--color-play-button-bg);
     cursor: pointer;
 
     &:hover {
-      transform: scale(1.06);
+      transform: scale(1.1);
+      box-shadow: 0 4px 14px rgba(240, 234, 110, 0.55);
     }
 
     &:hover .settings__start-icon {
