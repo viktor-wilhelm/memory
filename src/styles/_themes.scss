@@ -7,6 +7,9 @@
   --color-accent: #2bcfa0;
   --color-text: #ffffff;
   --color-card-back: #0f1a18;
+  --color-board-bg: #303131;
+  --color-board-panel: #303131;
+  --color-board-score-bg: #3f676f;
 }
 
 [data-theme="games"] {
@@ -15,6 +18,9 @@
   --color-accent: #e8397e;
   --color-text: #eef7fb;
   --color-card-back: #0c1e24;
+  --color-board-bg: #16323a;
+  --color-board-panel: #555d74;
+  --color-board-score-bg: #ffffff;
 }
 
 [data-theme="da-projects"] {
@@ -23,6 +29,9 @@
   --color-accent: #2f6fed;
   --color-text: #14213d;
   --color-card-back: #d7e3fb;
+  --color-board-bg: #ffffff;
+  --color-board-panel: #eef2f3;
+  --color-board-score-bg: #ffffff;
 }
 
 [data-theme="food"] {
@@ -31,4 +40,7 @@
   --color-accent: #f0793a;
   --color-text: #3a2415;
   --color-card-back: #ffe3cc;
+  --color-board-bg: #ffffff;
+  --color-board-panel: #efe4d8;
+  --color-board-score-bg: #ffffff;
 }
