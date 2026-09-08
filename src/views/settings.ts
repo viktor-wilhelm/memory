@@ -32,6 +32,13 @@ export function renderSettings(): HTMLElement {
     .map((id) => radioRow('boardSize', id, BOARD_SIZES[id].label, state.boardSizeSelected && state.boardSize === id))
     .join('');
 
+  const themeText = THEMES[state.theme].label;
+  const playerText = state.playerSelected ? `${PLAYERS[state.playerColor].label} Player` : 'Player';
+  const boardSizeText = state.boardSizeSelected
+    ? `Board-${BOARD_SIZES[state.boardSize].pairCount * 2} Cards`
+    : 'Board size';
+  const isReadyToStart = Boolean(state.theme) && state.playerSelected && state.boardSizeSelected;
+
   section.innerHTML = `
     <div class="settings__panel">
       <h1 class="settings__title">Settings</h1>
@@ -62,12 +69,12 @@ export function renderSettings(): HTMLElement {
       </div>
 
       <div class="settings__breadcrumb">
-        <span>Game theme</span>
+        <span>${themeText}</span>
         <img class="settings__sep" src="/assets/settings-page/line-6.png" alt="" />
-        <span>Player</span>
+        <span>${playerText}</span>
         <img class="settings__sep" src="/assets/settings-page/line-6.png" alt="" />
-        <span>Board size</span>
-        <button type="button" class="settings__start" ${state.boardSizeSelected ? '' : 'disabled'}>
+        <span>${boardSizeText}</span>
+        <button type="button" class="settings__start" ${isReadyToStart ? '' : 'disabled'}>
           <span class="settings__start-icon">
             <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect x="1" y="1" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.5" />

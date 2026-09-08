@@ -371,12 +371,23 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 .settings__breadcrumb {
   display: flex;
   align-items: center;
-  gap: 16px;
+  align-self: flex-end;
+  gap: 8px;
+  width: max-content;
   height: 81px;
   padding: 14px 20px;
   background-color: rgba(246, 246, 246, 1);
   color: var(--color-settings-text);
   box-sizing: border-box;
+
+  span {
+    font-family: var(--font-family-eyebrow);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
 }
 
 .settings__sep {
@@ -444,6 +455,19 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   .settings__panel {
     max-width: var(--settings-panel-width);
+  }
+
+  .settings__breadcrumb {
+    align-self: stretch;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    min-height: 81px;
+    flex-wrap: wrap;
+  }
+
+  .settings__breadcrumb span {
+    white-space: normal;
   }
 }
 
