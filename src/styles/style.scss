@@ -372,26 +372,64 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
   align-items: center;
   align-self: flex-end;
-  gap: 8px;
+  gap: 1rem;
   width: max-content;
   height: 81px;
   padding: 14px 20px;
   background-color: rgba(246, 246, 246, 1);
   color: var(--color-settings-text);
   box-sizing: border-box;
-
-  span {
-    font-family: var(--font-family-eyebrow);
-    font-weight: 400;
-    font-size: 20px;
-    line-height: 1;
-    letter-spacing: 0;
-    white-space: nowrap;
-  }
 }
 
+.settings__breadcrumb-labels {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings__breadcrumb-label {
+  font-family: var(--font-family-eyebrow);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+// Two mutually exclusive states, per Figma:
+// - not selected: a plain thick stick (56x0, 8px border, rotated -70.67deg
+//   — CSS rotation is measured from the element's own axis, not Figma's
+//   layer angle (-109.33deg), so -70.67deg is the equivalent "/" tilt).
+// - selected: swaps to the ready-made line-5.svg (line + diamond tip already
+//   drawn at the correct angle inside the file) — no extra CSS rotate, no
+//   extra line/diamond on top of it.
 .settings__sep {
-   width: auto;
+  display: inline-block;
+  width: 3.5rem;
+  height: 0;
+  border-top: 0.5rem solid var(--color-play-button-bg);
+  opacity: 1;
+  transform: rotate(-70.67deg);
+  flex-shrink: 0;
+}
+
+.settings__sep-arrow {
+  display: none;
+}
+
+.settings__sep--active {
+  width: auto;
+  height: 3.5rem;
+  border-top: 0;
+  transform: none;
+}
+
+.settings__sep--active .settings__sep-arrow {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .settings__start {
@@ -466,7 +504,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     flex-wrap: wrap;
   }
 
-  .settings__breadcrumb span {
+  .settings__breadcrumb-labels {
+    flex-wrap: wrap;
+  }
+
+  .settings__breadcrumb-label {
     white-space: normal;
   }
 }
