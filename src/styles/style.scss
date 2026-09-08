@@ -432,6 +432,26 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   flex-shrink: 0;
 }
 
+// The button's own hover transform:scale() only repaints it larger — it
+// never pushes layout siblings (that's what transforms are for). To make
+// the preceding labels actually shift left in sync, the wrapper below
+// carries a real `width` transition (126px -> 138.6px, same growth as
+// scale(1.1) on a 126px button) that participates in the flex layout.
+// The button stays pinned to the wrapper's right edge (justify-content:
+// flex-end + transform-origin: right) so both grow toward the same fixed
+// right edge, matching the panel's own right edge.
+.settings__start-wrapper {
+  display: inline-flex;
+  justify-content: flex-end;
+  width: 126px;
+  flex-shrink: 0;
+  transition: width 200ms ease-in-out;
+}
+
+.settings__start-wrapper:has(.settings__start:not(:disabled):hover) {
+  width: 138.6px;
+}
+
 .settings__start {
   display: inline-flex;
   align-items: center;
@@ -439,7 +459,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   gap: 8px;
   width: 126px;
   height: 53px;
-  margin-left: auto;
   padding: 14px 20px;
   box-sizing: border-box;
   border: none;

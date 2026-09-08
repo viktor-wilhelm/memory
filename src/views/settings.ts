@@ -82,15 +82,17 @@ export function renderSettings(): HTMLElement {
           </span>
           <span class="settings__breadcrumb-label">${boardSizeText}</span>
         </div>
-        <button type="button" class="settings__start" ${isReadyToStart ? '' : 'disabled'}>
-          <span class="settings__start-icon">
-            <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="1" y="1" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.5" />
-              <path d="M8 4L14 8L8 12V4Z" fill="currentColor" />
-            </svg>
-          </span>
-          Start
-        </button>
+        <span class="settings__start-wrapper">
+          <button type="button" class="settings__start" ${isReadyToStart ? '' : 'disabled'}>
+            <span class="settings__start-icon">
+              <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.5" />
+                <path d="M8 4L14 8L8 12V4Z" fill="currentColor" />
+              </svg>
+            </span>
+            Start
+          </button>
+        </span>
       </div>
     </div>
   `;
