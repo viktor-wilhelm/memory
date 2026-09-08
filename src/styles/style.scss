@@ -80,6 +80,7 @@ body {
 $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .play-button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -89,17 +90,28 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding: 0;
   border: none;
   border-radius: 1px;
-  background-color: var(--color-play-button-bg);
+  background: none;
   cursor: pointer;
-  transform: scale(1);
-  transition: transform 200ms $ease-portfolio;
 
-  &:hover,
-  &:focus-visible {
-    transform: scale(1.08, 1.0408);
+  // The colored background lives on its own layer, separate from the text/
+  // icon content. Only this flat-color layer gets scaled on hover — scaling
+  // a solid fill doesn't blur, unlike scaling the PNG/text content would.
+  // inset: 0 matches the button's own box exactly at rest, so normal-state
+  // appearance and layout are unchanged; transform-origin: center means it
+  // grows left and right (and slightly up/down) while staying centered.
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: var(--color-play-button-bg);
+    transform: scale(1);
+    transition: transform 200ms $ease-portfolio;
   }
 
   &__controller {
+    position: relative;
+    z-index: 1;
     display: inline-block;
     width: 44px;
     height: 32px;
@@ -109,6 +121,8 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   &__label {
+    position: relative;
+    z-index: 1;
     display: inline-block;
     width: 83px;
     height: 39px;
@@ -118,9 +132,12 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   &__arrow {
     position: relative;
+    z-index: 1;
     display: inline-block;
     width: 40px;
     height: 30px;
+    transform: translateX(-3px);
+    transition: transform 200ms $ease-portfolio;
 
     &::before,
     &::after {
@@ -149,14 +166,30 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
   }
 
-  &:hover &__controller,
-  &:focus-visible &__controller {
-    transform: translateY(-4px) rotate(-20deg) scale(1.08);
+  &:hover,
+  &:focus-visible {
+    &::before {
+      transform: scale(1.08, 1.0408);
+    }
   }
 
+  &:hover &__controller,
+  &:focus-visible &__controller {
+    transform: translateY(-4px) rotate(-20deg) scale(1.03);
+  }
+
+  // Label and arrow move together as one group: the arrow's rest position
+  // is already offset -3px from the label's, and its hover target keeps
+  // that exact same -3px offset from the label's hover target, so the gap
+  // between them never changes mid-transition.
   &:hover &__label,
   &:focus-visible &__label {
-    transform: translate(8px, 3px);
+    transform: translate(8px, 2px);
+  }
+
+  &:hover &__arrow,
+  &:focus-visible &__arrow {
+    transform: translateX(5px);
   }
 
   &:hover &__arrow::before,
