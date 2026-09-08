@@ -348,63 +348,32 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .settings__preview-board {
   position: relative;
+  align-self: flex-end;
+  width: 457px;
+  max-width: 100%;
   height: 412px;
   border-radius: var(--radius-md);
-  background-color: var(--color-bg);
   overflow: hidden;
-  padding: var(--space-3);
-  box-sizing: border-box;
-}
-
-.settings__preview-header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-size: 0.8rem;
-  color: var(--color-text);
-}
-
-.settings__score {
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-
-  &--blue {
-    color: #4a9eff;
-  }
-
-  &--orange {
-    color: #ff9a4a;
-  }
-}
-
-.settings__preview-current {
-  margin-left: auto;
-}
-
-.settings__preview-exit {
-  padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--color-text);
-  border-radius: var(--radius-sm);
 }
 
 .settings__preview-cards {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 220px;
+  width: 100%;
+  height: 100%;
 }
 
 .settings__preview-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .settings__breadcrumb {
   display: flex;
   align-items: center;
-  gap: 16px;
+  align-self: flex-end;
+  gap: 1rem;
+  width: max-content;
   height: 81px;
   padding: 14px 20px;
   background-color: rgba(246, 246, 246, 1);
@@ -412,8 +381,75 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
 }
 
+.settings__breadcrumb-labels {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings__breadcrumb-label {
+  font-family: var(--font-family-eyebrow);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+// Two mutually exclusive states, per Figma:
+// - not selected: a plain thick stick (56x0, 8px border, rotated -70.67deg
+//   — CSS rotation is measured from the element's own axis, not Figma's
+//   layer angle (-109.33deg), so -70.67deg is the equivalent "/" tilt).
+// - selected: swaps to the ready-made line-5.svg (line + diamond tip already
+//   drawn at the correct angle inside the file) — no extra CSS rotate, no
+//   extra line/diamond on top of it.
 .settings__sep {
-   width: auto;
+  display: inline-block;
+  width: 3.5rem;
+  height: 0;
+  border-top: 0.5rem solid var(--color-play-button-bg);
+  opacity: 1;
+  transform: rotate(-70.67deg);
+  flex-shrink: 0;
+}
+
+.settings__sep-arrow {
+  display: none;
+}
+
+.settings__sep--active {
+  width: auto;
+  height: 3.5rem;
+  border-top: 0;
+  transform: none;
+}
+
+.settings__sep--active .settings__sep-arrow {
+  display: block;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+// The button's own hover transform:scale() only repaints it larger — it
+// never pushes layout siblings (that's what transforms are for). To make
+// the preceding labels actually shift left in sync, the wrapper below
+// carries a real `width` transition (126px -> 138.6px, same growth as
+// scale(1.1) on a 126px button) that participates in the flex layout.
+// The button stays pinned to the wrapper's right edge (justify-content:
+// flex-end + transform-origin: right) so both grow toward the same fixed
+// right edge, matching the panel's own right edge.
+.settings__start-wrapper {
+  display: inline-flex;
+  justify-content: flex-end;
+  width: 126px;
+  flex-shrink: 0;
+  transition: width 200ms ease-in-out;
+}
+
+.settings__start-wrapper:has(.settings__start:not(:disabled):hover) {
+  width: 138.6px;
 }
 
 .settings__start {
@@ -423,7 +459,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   gap: 8px;
   width: 126px;
   height: 53px;
-  margin-left: auto;
   padding: 14px 20px;
   box-sizing: border-box;
   border: none;
@@ -477,6 +512,23 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   .settings__panel {
     max-width: var(--settings-panel-width);
+  }
+
+  .settings__breadcrumb {
+    align-self: stretch;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    min-height: 81px;
+    flex-wrap: wrap;
+  }
+
+  .settings__breadcrumb-labels {
+    flex-wrap: wrap;
+  }
+
+  .settings__breadcrumb-label {
+    white-space: normal;
   }
 }
 

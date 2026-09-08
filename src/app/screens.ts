@@ -15,7 +15,7 @@ const screenRenderers: Record<Screen, () => HTMLElement> = {
 export function mountApp(root: HTMLElement): void {
   const render = () => {
     const state = getState();
-    document.documentElement.dataset.theme = state.theme;
+    document.documentElement.dataset.theme = state.theme ?? 'code-vibes';
     root.replaceChildren(screenRenderers[state.screen]());
   };
 

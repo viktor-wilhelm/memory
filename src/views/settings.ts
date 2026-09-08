@@ -32,6 +32,15 @@ export function renderSettings(): HTMLElement {
     .map((id) => radioRow('boardSize', id, BOARD_SIZES[id].label, state.boardSizeSelected && state.boardSize === id))
     .join('');
 
+  const previewThemeId: ThemeId = state.theme ?? 'code-vibes';
+  const themeText = state.theme ? THEMES[state.theme].label : 'Theme';
+  const playerText = state.playerSelected ? `${PLAYERS[state.playerColor].label} Player` : 'Player';
+  const boardSizeText = state.boardSizeSelected
+    ? `Board-${BOARD_SIZES[state.boardSize].pairCount * 2} Cards`
+    : 'Board size';
+  const isReadyToStart = Boolean(state.theme) && state.playerSelected && state.boardSizeSelected;
+  const isThemeSelected = Boolean(state.theme);
+
   section.innerHTML = `
     <div class="settings__panel">
       <h1 class="settings__title">Settings</h1>
@@ -56,32 +65,34 @@ export function renderSettings(): HTMLElement {
 
     <div class="settings__preview">
       <div class="settings__preview-board">
-        <div class="settings__preview-header">
-          <span class="settings__score settings__score--blue">Blue&nbsp;0</span>
-          <span class="settings__score settings__score--orange">Orange&nbsp;0</span>
-          <span class="settings__preview-current">Current player</span>
-          <span class="settings__preview-exit">Exit game</span>
-        </div>
         <div class="settings__preview-cards">
-          <img class="settings__preview-image" src="${THEMES[state.theme].previewImage}" alt="${THEMES[state.theme].label}" />
+          <img class="settings__preview-image" src="${THEMES[previewThemeId].previewImage}" alt="${THEMES[previewThemeId].label}" />
         </div>
       </div>
 
       <div class="settings__breadcrumb">
-        <span>Game theme</span>
-        <img class="settings__sep" src="/assets/settings-page/line-6.png" alt="" />
-        <span>Player</span>
-        <img class="settings__sep" src="/assets/settings-page/line-6.png" alt="" />
-        <span>Board size</span>
-        <button type="button" class="settings__start" ${state.boardSizeSelected ? '' : 'disabled'}>
-          <span class="settings__start-icon">
-            <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="1" y="1" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.5" />
-              <path d="M8 4L14 8L8 12V4Z" fill="currentColor" />
-            </svg>
+        <div class="settings__breadcrumb-labels">
+          <span class="settings__breadcrumb-label">${themeText}</span>
+          <span class="settings__sep${isThemeSelected ? ' settings__sep--active' : ''}">
+            <img class="settings__sep-arrow" src="/assets/start-page/line-5.svg" alt="" />
           </span>
-          Start
-        </button>
+          <span class="settings__breadcrumb-label">${playerText}</span>
+          <span class="settings__sep${state.playerSelected ? ' settings__sep--active' : ''}">
+            <img class="settings__sep-arrow" src="/assets/start-page/line-5.svg" alt="" />
+          </span>
+          <span class="settings__breadcrumb-label">${boardSizeText}</span>
+        </div>
+        <span class="settings__start-wrapper">
+          <button type="button" class="settings__start" ${isReadyToStart ? '' : 'disabled'}>
+            <span class="settings__start-icon">
+              <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="1" y="1" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.5" />
+                <path d="M8 4L14 8L8 12V4Z" fill="currentColor" />
+              </svg>
+            </span>
+            Start
+          </button>
+        </span>
       </div>
     </div>
   `;
@@ -99,7 +110,7 @@ export function renderSettings(): HTMLElement {
       if (previewImage) previewImage.src = THEMES[input.value as ThemeId].previewImage;
     });
     row.addEventListener('mouseleave', () => {
-      if (previewImage) previewImage.src = THEMES[getState().theme].previewImage;
+      if (previewImage) previewImage.src = THEMES[getState().theme ?? 'code-vibes'].previewImage;
     });
   });
 

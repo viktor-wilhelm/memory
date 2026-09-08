@@ -4,7 +4,7 @@ export type PlayerColor = 'blue' | 'orange';
 export type Screen = 'home' | 'settings' | 'board' | 'gameOver';
 
 export interface GameState {
-  theme: ThemeId;
+  theme: ThemeId | null;
   playerColor: PlayerColor;
   playerSelected: boolean;
   boardSize: BoardSizeId;
