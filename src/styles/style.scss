@@ -348,57 +348,24 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .settings__preview-board {
   position: relative;
+  align-self: flex-end;
+  width: 457px;
+  max-width: 100%;
   height: 412px;
   border-radius: var(--radius-md);
-  background-color: var(--color-bg);
   overflow: hidden;
-  padding: var(--space-3);
-  box-sizing: border-box;
-}
-
-.settings__preview-header {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-size: 0.8rem;
-  color: var(--color-text);
-}
-
-.settings__score {
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  background-color: var(--color-surface);
-
-  &--blue {
-    color: #4a9eff;
-  }
-
-  &--orange {
-    color: #ff9a4a;
-  }
-}
-
-.settings__preview-current {
-  margin-left: auto;
-}
-
-.settings__preview-exit {
-  padding: var(--space-1) var(--space-2);
-  border: 1px solid var(--color-text);
-  border-radius: var(--radius-sm);
 }
 
 .settings__preview-cards {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 220px;
+  width: 100%;
+  height: 100%;
 }
 
 .settings__preview-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .settings__breadcrumb {

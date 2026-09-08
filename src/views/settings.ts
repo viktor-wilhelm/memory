@@ -56,12 +56,6 @@ export function renderSettings(): HTMLElement {
 
     <div class="settings__preview">
       <div class="settings__preview-board">
-        <div class="settings__preview-header">
-          <span class="settings__score settings__score--blue">Blue&nbsp;0</span>
-          <span class="settings__score settings__score--orange">Orange&nbsp;0</span>
-          <span class="settings__preview-current">Current player</span>
-          <span class="settings__preview-exit">Exit game</span>
-        </div>
         <div class="settings__preview-cards">
           <img class="settings__preview-image" src="${THEMES[state.theme].previewImage}" alt="${THEMES[state.theme].label}" />
         </div>
