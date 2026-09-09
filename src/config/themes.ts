@@ -4,7 +4,7 @@ export const THEMES: Record<ThemeId, { label: string; previewImage: string; card
   'code-vibes': {
     label: 'Code vibes theme',
     previewImage: '/assets/settings-page/frame-629.svg',
-    cardBackImage: '/assets/code-vibes-theme/code-vibes-theme-frond.png',
+    cardBackImage: '/assets/code-vibes-theme/code-vibes-frond.png',
   },
   games: {
     label: 'Gaming theme',
@@ -14,7 +14,7 @@ export const THEMES: Record<ThemeId, { label: string; previewImage: string; card
   'da-projects': {
     label: 'DA Projects theme',
     previewImage: '/assets/settings-page/theme-visual.svg',
-    cardBackImage: '/assets/da-projects/da-projects-frond.png',
+    cardBackImage: '/assets/da-projects-theme/da-projects-frond.png',
   },
   food: {
     label: 'Foods theme',
