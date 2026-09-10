@@ -30,10 +30,11 @@
   --color-board-score-bg: #ffffff;
   --color-popup-bg: #eef3fb;
   --color-popup-text: #2b3a55;
-  --color-popup-cancel-bg: var(--color-accent);
+  --color-popup-cancel-bg: rgba(237, 27, 118, 1);
   --color-popup-cancel-text: #ffffff;
-  --color-popup-confirm-bg: var(--color-accent);
-  --color-popup-confirm-text: var(--color-accent);
+  --color-popup-confirm-bg: rgba(231, 28, 79, 1);
+  --color-popup-confirm-text: rgba(231, 28, 79, 1);
+  --color-popup-confirm-outline-bg: rgba(237, 27, 118, 0.08);
 }
 
 [data-theme="da-projects"] {

@@ -751,6 +751,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 0;
   }
 
+  [data-theme='games'] & {
+    width: 481px;
+    height: 254px;
+    gap: 54px;
+    padding: 40px;
+    border-radius: 20px;
+  }
+
   &--from-top {
     animation: board-exit-confirm-from-top 400ms ease-out;
   }
@@ -807,6 +815,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     line-height: 40px;
     letter-spacing: 0;
   }
+
+  [data-theme='games'] & {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: 0.56px;
+  }
 }
 
 .board__exit-confirm-actions {
@@ -815,6 +831,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   [data-theme='code-vibes'] & {
     gap: var(--space-4);
+  }
+
+  [data-theme='games'] & {
+    gap: 24px;
   }
 }
 
@@ -838,6 +858,15 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     letter-spacing: 0;
     white-space: nowrap;
   }
+
+  [data-theme='games'] & {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0.64px;
+    white-space: nowrap;
+  }
 }
 
 [data-theme='code-vibes'] .board__exit-confirm-cancel {
@@ -846,15 +875,31 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding: 16px 24px;
 }
 
+[data-theme='games'] .board__exit-confirm-cancel {
+  width: 201px;
+  height: 44px;
+  padding: 12px 20px;
+  border-width: 2px;
+  border-radius: 10px;
+}
+
 [data-theme='code-vibes'] .board__exit-confirm-confirm {
   width: 151px;
   height: 57px;
 }
 
+[data-theme='games'] .board__exit-confirm-confirm {
+  width: 176px;
+  height: 44px;
+  padding: 12px 20px;
+  border-width: 2px;
+  border-radius: 10px;
+}
+
 .board__exit-confirm-cancel {
   background-color: var(--color-popup-cancel-bg);
   color: var(--color-popup-cancel-text);
-  transition: background-color 150ms ease, border-color 150ms ease;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
 
   [data-theme='code-vibes'] & {
     border-width: 3px;
@@ -863,6 +908,13 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='code-vibes'] &:hover {
     background-color: color-mix(in srgb, var(--color-popup-cancel-bg) 50%, white 50%);
     border-color: var(--color-popup-cancel-bg);
+  }
+
+  [data-theme='games'] &:hover {
+    background-color: var(--color-popup-confirm-outline-bg);
+    border-color: var(--color-popup-confirm-bg);
+    color: var(--color-popup-confirm-bg);
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -882,6 +934,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       background-color: color-mix(in srgb, var(--color-popup-confirm-outline-bg) 99%, black 1%);
       box-shadow: inset 0 0 0 1px var(--color-popup-confirm-bg),
         3px 3px 10px color-mix(in srgb, var(--color-popup-confirm-bg) 50%, white 50%);
+    }
+
+    [data-theme='games'] &:hover {
+      box-shadow: inset 0 0 0 1px var(--color-popup-confirm-bg),
+        6px 6px 6px rgba(0, 0, 0, 0.15);
     }
   }
 
