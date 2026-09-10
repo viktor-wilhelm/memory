@@ -83,7 +83,7 @@ export function renderBoard(): HTMLElement {
       state.boardExitConfirmOpen
         ? `
       <div class="board__exit-confirm-overlay">
-        <div class="board__exit-confirm-card">
+        <div class="board__exit-confirm-card board__exit-confirm-card--${theme.exitConfirmAnimation}">
           <p class="board__exit-confirm-title">Are you sure you want to quit the game?</p>
           <div class="board__exit-confirm-actions">
             <button type="button" class="board__exit-confirm-cancel">${confirmCancelLabel}</button>

@@ -17,6 +17,7 @@ interface ThemeConfig {
   exitConfirmConfirmLabel: string;
   exitConfirmUppercase: boolean;
   exitConfirmStyle: 'outline' | 'filled';
+  exitConfirmAnimation: 'from-top' | 'from-bottom' | 'none';
 }
 
 export const THEMES: Record<ThemeId, ThemeConfig> = {
@@ -32,6 +33,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     exitConfirmConfirmLabel: 'Exit game',
     exitConfirmUppercase: false,
     exitConfirmStyle: 'outline',
+    exitConfirmAnimation: 'from-top',
   },
   games: {
     label: 'Gaming theme',
@@ -45,6 +47,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     exitConfirmConfirmLabel: 'Yes, quit game',
     exitConfirmUppercase: false,
     exitConfirmStyle: 'outline',
+    exitConfirmAnimation: 'from-bottom',
   },
   'da-projects': {
     label: 'DA Projects theme',
@@ -58,6 +61,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     exitConfirmConfirmLabel: 'Exit game',
     exitConfirmUppercase: false,
     exitConfirmStyle: 'filled',
+    exitConfirmAnimation: 'none',
   },
   food: {
     label: 'Foods theme',
@@ -71,5 +75,6 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     exitConfirmConfirmLabel: 'Exit game',
     exitConfirmUppercase: true,
     exitConfirmStyle: 'outline',
+    exitConfirmAnimation: 'from-bottom',
   },
 };
