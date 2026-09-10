@@ -870,6 +870,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 .board__exit-confirm-actions {
   display: flex;
   gap: var(--space-3);
+
+  [data-theme='code-vibes'] & {
+    // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
+    gap: var(--space-4);
+  }
 }
 
 .board__exit-confirm-cancel,
