@@ -913,9 +913,17 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 .board__exit-confirm-cancel {
   background-color: var(--color-popup-cancel-bg);
   color: var(--color-popup-cancel-text);
+  transition: background-color 150ms ease, border-color 150ms ease, border-width 150ms ease;
+
+  [data-theme='code-vibes'] &:hover {
+    background-color: color-mix(in srgb, var(--color-popup-cancel-bg) 80%, white 20%);
+    border: 3px solid color-mix(in srgb, var(--color-popup-cancel-bg) 60%, black 40%);
+  }
 }
 
 .board__exit-confirm-confirm {
+  transition: background-color 150ms ease, border-color 150ms ease, border-width 150ms ease;
+
   &--outline {
     background-color: var(--color-popup-confirm-outline-bg, transparent);
     border-color: var(--color-popup-confirm-bg);
@@ -924,6 +932,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     [data-theme='code-vibes'] & {
       // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
       border-width: 2px;
+    }
+
+    [data-theme='code-vibes'] &:hover {
+      border-width: 3px;
+      background-color: color-mix(in srgb, var(--color-popup-confirm-outline-bg) 80%, black 20%);
     }
   }
 
