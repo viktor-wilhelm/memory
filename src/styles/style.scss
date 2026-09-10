@@ -931,15 +931,15 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   [data-theme='code-vibes'] &:hover {
-    background-color: color-mix(in srgb, var(--color-popup-cancel-bg) 65%, white 35%);
+    background-color: color-mix(in srgb, var(--color-popup-cancel-bg) 50%, white 50%);
     border-color: var(--color-popup-cancel-bg);
   }
 }
 
 .board__exit-confirm-confirm {
-  // box-shadow is intentionally excluded from the transition here: the
-  // code-vibes border/shadow reveal on hover must snap instantly, not
-  // fade in (see below).
+  // border-width and box-shadow are intentionally excluded from the
+  // transition here: the code-vibes hover reveal must snap instantly,
+  // not fade in.
   transition: background-color 150ms ease, border-color 150ms ease;
 
   &--outline {
@@ -948,21 +948,22 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     color: var(--color-popup-confirm-text);
 
     [data-theme='code-vibes'] & {
-      // Border is a constant 3px at all times — never animated, and never
-      // a different number at rest vs. hover — because even a purely
-      // instant (non-transitioned) 2px->3px change still shifts the
-      // centered label by ~1px: browsers round asymmetric border insets
-      // to whole device pixels differently at each width. The "2px at
-      // rest" look instead comes from an inset box-shadow masking 1px of
-      // it in the card's own background; hover swaps that mask for a
-      // subtle drop shadow, both instantly (no transition).
-      border-width: 3px;
-      box-shadow: inset 0 0 0 1px var(--color-popup-bg);
+      // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
+      // border-width itself never changes on hover (see below) — the
+      // 2px->3px thickening is painted instead, so the label truly can't
+      // move: box-shadow never affects layout, unlike border-width.
+      border-width: 2px;
     }
 
     [data-theme='code-vibes'] &:hover {
       background-color: color-mix(in srgb, var(--color-popup-confirm-outline-bg) 99%, black 1%);
-      box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.02);
+      // An inset 1px ring right inside the existing 2px border reads as
+      // the border growing to 3px inward (the outer edge never moves),
+      // layered with the diffused drop shadow outside — both are pure
+      // paint, so the button box (and the centered label inside it)
+      // never moves either.
+      box-shadow: inset 0 0 0 1px var(--color-popup-confirm-bg),
+        3px 3px 10px color-mix(in srgb, var(--color-popup-confirm-bg) 50%, white 50%);
     }
   }
 
