@@ -917,7 +917,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .board__exit-confirm-confirm {
   &--outline {
-    background-color: transparent;
+    background-color: var(--color-popup-confirm-outline-bg, transparent);
     border-color: var(--color-popup-confirm-bg);
     color: var(--color-popup-confirm-text);
   }

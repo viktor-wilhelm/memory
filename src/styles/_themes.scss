@@ -12,10 +12,11 @@
   --color-board-score-bg: #405450;
   --color-popup-bg: #ffffff;
   --color-popup-text: #1a1a1a;
-  --color-popup-cancel-bg: var(--color-accent);
+  --color-popup-cancel-bg: rgba(102, 207, 188, 1);
   --color-popup-cancel-text: #ffffff;
   --color-popup-confirm-bg: var(--color-accent);
   --color-popup-confirm-text: var(--color-accent);
+  --color-popup-confirm-outline-bg: rgba(134, 233, 214, 0.14);
 }
 
 [data-theme="games"] {
