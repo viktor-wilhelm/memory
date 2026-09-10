@@ -655,21 +655,35 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   white-space: nowrap;
 }
 
+// Two presentations, per theme (see config/themes.ts boardCurrentPlayerFilled):
+// games/da-projects/food show a filled colored square with a white icon;
+// code-vibes shows just the icon in the player's color, no fill.
 .board__current-player-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: var(--radius-sm);
-  color: #ffffff;
 
   &--blue {
-    background-color: var(--color-player-blue);
+    color: var(--color-player-blue);
   }
 
   &--orange {
-    background-color: var(--color-player-orange);
+    color: var(--color-player-orange);
+  }
+
+  &--filled {
+    width: 24px;
+    height: 24px;
+    border-radius: var(--radius-sm);
+    color: #ffffff;
+
+    &.board__current-player-badge--blue {
+      background-color: var(--color-player-blue);
+    }
+
+    &.board__current-player-badge--orange {
+      background-color: var(--color-player-orange);
+    }
   }
 }
 
@@ -681,11 +695,18 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding: var(--space-2) var(--space-3);
   border: 1.5px solid var(--color-accent);
   border-radius: var(--radius-md);
-  background-color: var(--color-bg);
+  background-color: transparent;
   color: var(--color-accent);
   font: inherit;
   font-weight: 700;
   cursor: pointer;
+}
+
+// Code vibes has no full-width header panel behind the header row (unlike
+// the other 3 themes), so its Exit button needs its own fill to read as a
+// distinct control instead of blending into the page background.
+[data-theme='code-vibes'] .board__exit {
+  background-color: var(--color-board-score-bg);
 }
 
 // Fits an N-cols x M-rows square-cell grid into whatever space is left below

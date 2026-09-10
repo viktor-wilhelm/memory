@@ -1,11 +1,20 @@
 import { getState, setState } from '../app/state';
 import { BOARD_SIZES } from '../config/boardSizes';
 import { THEMES } from '../config/themes';
+import { PLAYERS } from '../config/players';
 
-const PERSON_ICON = `
+// Games / DA Projects / Food all use this pawn-shaped icon (confirmed
+// against their Figma board references); only Code vibes uses FLAG_ICON.
+const PAWN_ICON = `
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z" fill="currentColor" />
     <path d="M8 9.5C5.23858 9.5 3 11.5147 3 14H13C13 11.5147 10.7614 9.5 8 9.5Z" fill="currentColor" />
+  </svg>
+`;
+
+const FLAG_ICON = `
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2.75C2 2.33579 2.33579 2 2.75 2H9.5L14 8L9.5 14H2.75C2.33579 14 2 13.6642 2 13.25V2.75Z" fill="currentColor" />
   </svg>
 `;
 
@@ -20,23 +29,32 @@ const EXIT_ICON = `
 export function renderBoard(): HTMLElement {
   const state = getState();
   const boardSize = BOARD_SIZES[state.boardSize];
-  const cardBackImage = THEMES[state.theme ?? 'code-vibes'].cardBackImage;
+  const theme = THEMES[state.theme ?? 'code-vibes'];
+  const cardBackImage = theme.cardBackImage;
   const cardCount = boardSize.pairCount * 2;
   const placeholderCards = Array.from({ length: cardCount })
     .map(() => `<div class="board-card"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`)
     .join('');
+
+  const scoreIcon = theme.boardScoreIcon === 'flag' ? FLAG_ICON : PAWN_ICON;
+  const scoreItems = theme.boardScoreOrder
+    .map((color) => {
+      const label = theme.boardScoreShowLabel ? `${PLAYERS[color].label} ` : '';
+      return `<span class="board__score-item board__score-item--${color}">${scoreIcon}<span>${label}0</span></span>`;
+    })
+    .join('');
+  const currentPlayerModifier = theme.boardCurrentPlayerFilled ? ' board__current-player-badge--filled' : '';
 
   const section = document.createElement('section');
   section.className = 'screen screen--board';
   section.innerHTML = `
     <div class="board__header">
       <div class="board__score">
-        <span class="board__score-item board__score-item--orange">${PERSON_ICON}<span>0</span></span>
-        <span class="board__score-item board__score-item--blue">${PERSON_ICON}<span>0</span></span>
+        ${scoreItems}
       </div>
       <div class="board__current-player">
         Current player:
-        <span class="board__current-player-badge board__current-player-badge--${state.playerColor}">${PERSON_ICON}</span>
+        <span class="board__current-player-badge board__current-player-badge--${state.playerColor}${currentPlayerModifier}">${scoreIcon}</span>
       </div>
       <button type="button" class="board__exit">${EXIT_ICON}Exit game</button>
     </div>
