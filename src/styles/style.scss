@@ -913,11 +913,17 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 .board__exit-confirm-cancel {
   background-color: var(--color-popup-cancel-bg);
   color: var(--color-popup-cancel-text);
-  transition: background-color 150ms ease, border-color 150ms ease, border-width 150ms ease;
+  transition: background-color 150ms ease, border-color 150ms ease;
+
+  [data-theme='code-vibes'] & {
+    // Border stays 3px at all times (transparent at rest) so hover never
+    // resizes the content box and the label doesn't shift.
+    border-width: 3px;
+  }
 
   [data-theme='code-vibes'] &:hover {
     background-color: color-mix(in srgb, var(--color-popup-cancel-bg) 80%, white 20%);
-    border: 3px solid color-mix(in srgb, var(--color-popup-cancel-bg) 60%, black 40%);
+    border-color: var(--color-popup-cancel-bg);
   }
 }
 
