@@ -93,12 +93,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background: none;
   cursor: pointer;
 
-  // The colored background lives on its own layer, separate from the text/
-  // icon content. Only this flat-color layer gets scaled on hover — scaling
-  // a solid fill doesn't blur, unlike scaling the PNG/text content would.
-  // inset: 0 matches the button's own box exactly at rest, so normal-state
-  // appearance and layout are unchanged; transform-origin: center means it
-  // grows left and right (and slightly up/down) while staying centered.
   &::before {
     content: '';
     position: absolute;
@@ -178,10 +172,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateY(-4px) rotate(-20deg) scale(1.03);
   }
 
-  // Label and arrow move together as one group: the arrow's rest position
-  // is already offset -3px from the label's, and its hover target keeps
-  // that exact same -3px offset from the label's hover target, so the gap
-  // between them never changes mid-transition.
   &:hover &__label,
   &:focus-visible &__label {
     transform: translate(8px, 2px);
@@ -354,11 +344,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Game themes: hovering a still-unselected option previews the selected look
-// (bold text, filled dot, arrow). Choose player / Board size intentionally do
-// NOT get this hover preview — they only show cursor:pointer until actually
-// chosen (see reference design). The actually selected option (.is-checked)
-// keeps its selected look regardless of what else is being hovered.
 .radio-list--theme .radio-row:hover {
   font-weight: 700;
 
@@ -429,13 +414,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   white-space: nowrap;
 }
 
-// Two mutually exclusive states, per Figma:
-// - not selected: a plain thick stick (56x0, 8px border, rotated -70.67deg
-//   — CSS rotation is measured from the element's own axis, not Figma's
-//   layer angle (-109.33deg), so -70.67deg is the equivalent "/" tilt).
-// - selected: swaps to the ready-made line-5.svg (line + diamond tip already
-//   drawn at the correct angle inside the file) — no extra CSS rotate, no
-//   extra line/diamond on top of it.
 .settings__sep {
   display: inline-block;
   width: 3.5rem;
@@ -465,14 +443,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   flex-shrink: 0;
 }
 
-// The button's own hover transform:scale() only repaints it larger — it
-// never pushes layout siblings (that's what transforms are for). To make
-// the preceding labels actually shift left in sync, the wrapper below
-// carries a real `width` transition (126px -> 138.6px, same growth as
-// scale(1.1) on a 126px button) that participates in the flex layout.
-// The button stays pinned to the wrapper's right edge (justify-content:
-// flex-end + transform-origin: right) so both grow toward the same fixed
-// right edge, matching the panel's own right edge.
 .settings__start-wrapper {
   display: inline-flex;
   justify-content: flex-end;
@@ -657,9 +627,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   white-space: nowrap;
 }
 
-// Two presentations, per theme (see config/themes.ts boardCurrentPlayerFilled):
-// games/da-projects/food show a filled colored square with a white icon;
-// code-vibes shows just the icon in the player's color, no fill.
 .board__current-player-badge {
   display: inline-flex;
   align-items: center;
@@ -705,23 +672,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
 }
 
-// Code vibes has no full-width header panel behind the header row (unlike
-// the other 3 themes), so its Exit button needs its own fill to read as a
-// distinct control instead of blending into the page background.
 [data-theme='code-vibes'] .board__exit {
   background-color: var(--color-board-score-bg);
 }
 
-// Fits an N-cols x M-rows square-cell grid into whatever space is left below
-// the header, without ever forcing the page to scroll: the wrapper is a
-// flex child that grows to fill the remaining height (min-height: 0 lets it
-// shrink below its content size instead of overflowing), and becomes a size
-// container so the grid itself can size in "container query" units — cqw/cqh
-// let the same rule reference both the wrapper's width AND height at once,
-// which plain % units can't do across two different axes. The grid takes
-// whichever of (full width, height scaled by cols/rows) or (full height,
-// width scaled by rows/cols) is smaller, so it's always fully visible and
-// its cells stay square regardless of how many rows/cols are requested.
 .board__grid-wrap {
   flex: 1 1 auto;
   min-height: 0;
@@ -732,10 +686,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .board__grid {
-  // Figma's own card size (120px) is the ceiling: smaller boards (e.g. 4x4)
-  // should not balloon to fill all the leftover space just because it's
-  // there — they only shrink below 120px when a bigger board genuinely
-  // doesn't fit (handled by the two cqw/cqh terms above).
   --board-card-max: 120px;
 
   display: grid;
@@ -788,16 +738,12 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
   gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
-  // Square corners in Code vibes, softly rounded everywhere else — matches
-  // the *-pop-up.png Figma references (code-vibes-pop-up.png has an opaque
-  // square corner where the other 3 themes' corners are cut transparent).
   border-radius: var(--radius-lg);
   background-color: var(--color-popup-bg);
   color: var(--color-popup-text);
   text-align: center;
 
   [data-theme='code-vibes'] & {
-    // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
     width: 539px;
     height: 270px;
     gap: 54px;
@@ -805,9 +751,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 0;
   }
 
-  // Entrance direction per theme (config/themes.ts exitConfirmAnimation):
-  // code-vibes slides down from fully off-screen above, games/food slide
-  // up from fully off-screen below, da-projects fades in in place.
   &--from-top {
     animation: board-exit-confirm-from-top 400ms ease-out;
   }
@@ -858,7 +801,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   font-weight: 700;
 
   [data-theme='code-vibes'] & {
-    // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
     font-family: var(--font-family-display);
     font-weight: 700;
     font-size: 32px;
@@ -872,7 +814,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   gap: var(--space-3);
 
   [data-theme='code-vibes'] & {
-    // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
     gap: var(--space-4);
   }
 }
@@ -882,8 +823,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
   padding: var(--space-3) var(--space-4);
   border: 1.5px solid transparent;
-  // Games/DA Projects/Food buttons are noticeably more rounded than Code
-  // vibes' in the Figma pop-up references.
   border-radius: var(--radius-lg);
   font: inherit;
   font-size: 1rem;
@@ -891,8 +830,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
 
   [data-theme='code-vibes'] & {
-    // Exact Figma dev-mode spec for the code-vibes-theme pop-up: no
-    // rounding at all on these buttons.
     border-radius: 0;
     font-family: var(--font-family-display);
     font-weight: 700;
@@ -904,17 +841,12 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 [data-theme='code-vibes'] .board__exit-confirm-cancel {
-  // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
   width: 182px;
   height: 57px;
   padding: 16px 24px;
 }
 
 [data-theme='code-vibes'] .board__exit-confirm-confirm {
-  // Fixed box so the 2px→3px hover border grows inward (eating into the
-  // padding) instead of growing the button outward — an outward grow
-  // widened the whole actions row and re-centered it, shifting Back to
-  // game sideways.
   width: 151px;
   height: 57px;
 }
@@ -925,8 +857,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transition: background-color 150ms ease, border-color 150ms ease;
 
   [data-theme='code-vibes'] & {
-    // Border stays 3px at all times (transparent at rest) so hover never
-    // resizes the content box and the label doesn't shift.
     border-width: 3px;
   }
 
@@ -937,9 +867,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .board__exit-confirm-confirm {
-  // border-width and box-shadow are intentionally excluded from the
-  // transition here: the code-vibes hover reveal must snap instantly,
-  // not fade in.
   transition: background-color 150ms ease, border-color 150ms ease;
 
   &--outline {
@@ -948,20 +875,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     color: var(--color-popup-confirm-text);
 
     [data-theme='code-vibes'] & {
-      // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
-      // border-width itself never changes on hover (see below) — the
-      // 2px->3px thickening is painted instead, so the label truly can't
-      // move: box-shadow never affects layout, unlike border-width.
       border-width: 2px;
     }
 
     [data-theme='code-vibes'] &:hover {
       background-color: color-mix(in srgb, var(--color-popup-confirm-outline-bg) 99%, black 1%);
-      // An inset 1px ring right inside the existing 2px border reads as
-      // the border growing to 3px inward (the outer edge never moves),
-      // layered with the diffused drop shadow outside — both are pure
-      // paint, so the button box (and the centered label inside it)
-      // never moves either.
       box-shadow: inset 0 0 0 1px var(--color-popup-confirm-bg),
         3px 3px 10px color-mix(in srgb, var(--color-popup-confirm-bg) 50%, white 50%);
     }
