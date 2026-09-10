@@ -686,22 +686,25 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .board__grid {
-  --board-card-max: 120px;
+  --board-card-max-w: 120px;
+  --board-card-max-h: 120px;
+  --board-content-w: calc(
+    var(--board-cols) * var(--board-card-max-w) + (var(--board-cols) - 1) * var(--board-gap, var(--space-3))
+  );
+  --board-content-h: calc(
+    var(--board-rows) * var(--board-card-max-h) + (var(--board-rows) - 1) * var(--board-gap, var(--space-3))
+  );
 
   display: grid;
   grid-template-columns: repeat(var(--board-cols), 1fr);
   grid-template-rows: repeat(var(--board-rows), 1fr);
   gap: var(--board-gap, var(--space-3));
-  width: min(
-    100cqw,
-    calc(100cqh * var(--board-cols) / var(--board-rows)),
-    calc(var(--board-cols) * var(--board-card-max) + (var(--board-cols) - 1) * var(--board-gap, var(--space-3)))
-  );
-  height: min(
-    100cqh,
-    calc(100cqw * var(--board-rows) / var(--board-cols)),
-    calc(var(--board-rows) * var(--board-card-max) + (var(--board-rows) - 1) * var(--board-gap, var(--space-3)))
-  );
+  width: min(100cqw, calc(100cqh * var(--board-content-w) / var(--board-content-h)), var(--board-content-w));
+  height: min(100cqh, calc(100cqw * var(--board-content-h) / var(--board-content-w)), var(--board-content-h));
+
+  [data-theme='games'] & {
+    --board-card-max-w: 105px;
+  }
 }
 
 .board-card {
@@ -710,6 +713,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: var(--radius-sm);
   background: transparent;
   overflow: hidden;
+
+  [data-theme='games'] & {
+    aspect-ratio: 105 / 120;
+  }
 }
 
 .board-card__back {
