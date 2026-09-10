@@ -937,7 +937,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .board__exit-confirm-confirm {
-  transition: background-color 150ms ease, border-color 150ms ease, border-width 150ms ease;
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 
   &--outline {
     background-color: var(--color-popup-confirm-outline-bg, transparent);
@@ -945,12 +945,16 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     color: var(--color-popup-confirm-text);
 
     [data-theme='code-vibes'] & {
-      // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
-      border-width: 2px;
+      // Border is always 3px (never animated) to rule out any sub-pixel
+      // box/edge shift on hover; the 2px "rest" look comes from masking
+      // 1px of it with an inset box-shadow in the card's own background,
+      // which hover simply removes to reveal the full 3px.
+      border-width: 3px;
+      box-shadow: inset 0 0 0 1px var(--color-popup-bg);
     }
 
     [data-theme='code-vibes'] &:hover {
-      border-width: 3px;
+      box-shadow: none;
     }
   }
 
