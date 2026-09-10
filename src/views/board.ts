@@ -105,7 +105,7 @@ export function renderBoard(): HTMLElement {
   });
 
   section.querySelector('.board__exit-confirm-confirm')?.addEventListener('click', () => {
-    setState({ screen: 'gameOver', boardExitConfirmOpen: false });
+    setState({ screen: 'settings', boardExitConfirmOpen: false });
   });
 
   return section;
