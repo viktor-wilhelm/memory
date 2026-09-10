@@ -45,6 +45,13 @@ export function renderBoard(): HTMLElement {
     .join('');
   const currentPlayerModifier = theme.boardCurrentPlayerFilled ? ' board__current-player-badge--filled' : '';
 
+  // Card gap shrinks on the bigger boards (24/36 cards) so more cards fit
+  // without shrinking the cards themselves too much; DA Projects keeps a
+  // slightly wider gap than the other 3 themes there. Confirmed per-theme
+  // against the Figma references (Issue #11).
+  const isSixteenCards = state.boardSize === '4x4';
+  const cardGap = isSixteenCards ? 16 : state.theme === 'da-projects' ? 8 : 6;
+
   const section = document.createElement('section');
   section.className = 'screen screen--board';
   section.innerHTML = `
@@ -60,7 +67,7 @@ export function renderBoard(): HTMLElement {
     </div>
 
     <div class="board__grid-wrap">
-      <div class="board__grid" style="--board-cols: ${boardSize.cols}; --board-rows: ${boardSize.rows};">
+      <div class="board__grid" style="--board-cols: ${boardSize.cols}; --board-rows: ${boardSize.rows}; --board-gap: ${cardGap}px;">
         ${placeholderCards}
       </div>
     </div>
