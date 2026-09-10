@@ -874,6 +874,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .board__exit-confirm-cancel,
 .board__exit-confirm-confirm {
+  box-sizing: border-box;
   padding: var(--space-3) var(--space-4);
   border: 1.5px solid transparent;
   // Games/DA Projects/Food buttons are noticeably more rounded than Code
@@ -885,8 +886,23 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
 
   [data-theme='code-vibes'] & {
-    border-radius: var(--radius-md);
+    // Exact Figma dev-mode spec for the code-vibes-theme pop-up: no
+    // rounding at all on these buttons.
+    border-radius: 0;
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
   }
+}
+
+[data-theme='code-vibes'] .board__exit-confirm-cancel {
+  // Exact Figma dev-mode spec for the code-vibes-theme pop-up.
+  width: 182px;
+  height: 57px;
+  padding: 16px 24px;
 }
 
 .board__exit-confirm-cancel {
