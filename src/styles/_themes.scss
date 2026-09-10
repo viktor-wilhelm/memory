@@ -10,6 +10,12 @@
   --color-board-bg: #303131;
   --color-board-panel: #303131;
   --color-board-score-bg: #405450;
+  --color-popup-bg: #ffffff;
+  --color-popup-text: #1a1a1a;
+  --color-popup-cancel-bg: var(--color-accent);
+  --color-popup-cancel-text: #ffffff;
+  --color-popup-confirm-bg: var(--color-accent);
+  --color-popup-confirm-text: var(--color-accent);
 }
 
 [data-theme="games"] {
@@ -21,6 +27,12 @@
   --color-board-bg: #16323a;
   --color-board-panel: #555d74;
   --color-board-score-bg: #ffffff;
+  --color-popup-bg: #eef3fb;
+  --color-popup-text: #2b3a55;
+  --color-popup-cancel-bg: var(--color-accent);
+  --color-popup-cancel-text: #ffffff;
+  --color-popup-confirm-bg: var(--color-accent);
+  --color-popup-confirm-text: var(--color-accent);
 }
 
 [data-theme="da-projects"] {
@@ -32,6 +44,12 @@
   --color-board-bg: #ffffff;
   --color-board-panel: #eef2f3;
   --color-board-score-bg: #ffffff;
+  --color-popup-bg: #eef3fb;
+  --color-popup-text: var(--color-text);
+  --color-popup-cancel-bg: #a8d4e8;
+  --color-popup-cancel-text: var(--color-text);
+  --color-popup-confirm-bg: #fd8b82;
+  --color-popup-confirm-text: #ffffff;
 }
 
 [data-theme="food"] {
@@ -43,4 +61,10 @@
   --color-board-bg: #ffffff;
   --color-board-panel: #efe4d8;
   --color-board-score-bg: #ffffff;
+  --color-popup-bg: #ffffff;
+  --color-popup-text: var(--color-text);
+  --color-popup-cancel-bg: var(--color-accent);
+  --color-popup-cancel-text: #ffffff;
+  --color-popup-confirm-bg: var(--color-accent);
+  --color-popup-confirm-text: var(--color-accent);
 }

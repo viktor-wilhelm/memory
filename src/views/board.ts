@@ -52,6 +52,13 @@ export function renderBoard(): HTMLElement {
   const isSixteenCards = state.boardSize === '4x4';
   const cardGap = isSixteenCards ? 16 : state.theme === 'da-projects' ? 8 : 6;
 
+  const confirmCancelLabel = theme.exitConfirmUppercase
+    ? theme.exitConfirmCancelLabel.toUpperCase()
+    : theme.exitConfirmCancelLabel;
+  const confirmConfirmLabel = theme.exitConfirmUppercase
+    ? theme.exitConfirmConfirmLabel.toUpperCase()
+    : theme.exitConfirmConfirmLabel;
+
   const section = document.createElement('section');
   section.className = 'screen screen--board';
   section.innerHTML = `
@@ -71,10 +78,34 @@ export function renderBoard(): HTMLElement {
         ${placeholderCards}
       </div>
     </div>
+
+    ${
+      state.boardExitConfirmOpen
+        ? `
+      <div class="board__exit-confirm-overlay">
+        <div class="board__exit-confirm-card">
+          <p class="board__exit-confirm-title">Are you sure you want to quit the game?</p>
+          <div class="board__exit-confirm-actions">
+            <button type="button" class="board__exit-confirm-cancel">${confirmCancelLabel}</button>
+            <button type="button" class="board__exit-confirm-confirm board__exit-confirm-confirm--${theme.exitConfirmStyle}">${confirmConfirmLabel}</button>
+          </div>
+        </div>
+      </div>
+    `
+        : ''
+    }
   `;
 
   section.querySelector('.board__exit')?.addEventListener('click', () => {
-    setState({ screen: 'gameOver' });
+    setState({ boardExitConfirmOpen: true });
+  });
+
+  section.querySelector('.board__exit-confirm-cancel')?.addEventListener('click', () => {
+    setState({ boardExitConfirmOpen: false });
+  });
+
+  section.querySelector('.board__exit-confirm-confirm')?.addEventListener('click', () => {
+    setState({ screen: 'gameOver', boardExitConfirmOpen: false });
   });
 
   return section;

@@ -10,4 +10,5 @@ export interface GameState {
   boardSize: BoardSizeId;
   boardSizeSelected: boolean;
   screen: Screen;
+  boardExitConfirmOpen: boolean;
 }

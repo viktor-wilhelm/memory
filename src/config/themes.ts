@@ -11,6 +11,12 @@ interface ThemeConfig {
   boardScoreOrder: [PlayerColor, PlayerColor];
   boardScoreShowLabel: boolean;
   boardCurrentPlayerFilled: boolean;
+  // Exit-confirm popup copy/style — also confirmed to differ per theme
+  // from the *-pop-up.png Figma references, not just colors.
+  exitConfirmCancelLabel: string;
+  exitConfirmConfirmLabel: string;
+  exitConfirmUppercase: boolean;
+  exitConfirmStyle: 'outline' | 'filled';
 }
 
 export const THEMES: Record<ThemeId, ThemeConfig> = {
@@ -22,6 +28,10 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     boardScoreOrder: ['blue', 'orange'],
     boardScoreShowLabel: true,
     boardCurrentPlayerFilled: false,
+    exitConfirmCancelLabel: 'Back to game',
+    exitConfirmConfirmLabel: 'Exit game',
+    exitConfirmUppercase: false,
+    exitConfirmStyle: 'outline',
   },
   games: {
     label: 'Gaming theme',
@@ -31,6 +41,10 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,
     boardCurrentPlayerFilled: true,
+    exitConfirmCancelLabel: 'No, back to game',
+    exitConfirmConfirmLabel: 'Yes, quit game',
+    exitConfirmUppercase: false,
+    exitConfirmStyle: 'outline',
   },
   'da-projects': {
     label: 'DA Projects theme',
@@ -40,6 +54,10 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,
     boardCurrentPlayerFilled: true,
+    exitConfirmCancelLabel: 'Back to game',
+    exitConfirmConfirmLabel: 'Exit game',
+    exitConfirmUppercase: false,
+    exitConfirmStyle: 'filled',
   },
   food: {
     label: 'Foods theme',
@@ -49,5 +67,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,
     boardCurrentPlayerFilled: true,
+    exitConfirmCancelLabel: 'No, back to game',
+    exitConfirmConfirmLabel: 'Exit game',
+    exitConfirmUppercase: true,
+    exitConfirmStyle: 'outline',
   },
 };

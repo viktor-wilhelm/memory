@@ -7,6 +7,7 @@ const state: GameState = {
   boardSize: '4x4',
   boardSizeSelected: false,
   screen: 'home',
+  boardExitConfirmOpen: false,
 };
 
 type Listener = (state: GameState) => void;
