@@ -922,7 +922,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   [data-theme='code-vibes'] &:hover {
-    background-color: color-mix(in srgb, var(--color-popup-cancel-bg) 80%, white 20%);
+    background-color: color-mix(in srgb, var(--color-popup-cancel-bg) 65%, white 35%);
     border-color: var(--color-popup-cancel-bg);
   }
 }
