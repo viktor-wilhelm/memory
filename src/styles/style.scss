@@ -766,6 +766,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 20px;
   }
 
+  [data-theme='da-projects'] & {
+    width: 456px;
+    height: 253px;
+    gap: 54px;
+    padding: 40px;
+    border-radius: 20px;
+  }
+
   &--from-top {
     animation: board-exit-confirm-from-top 400ms ease-out;
   }
@@ -830,6 +838,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     line-height: 40px;
     letter-spacing: 0.56px;
   }
+
+  [data-theme='da-projects'] & {
+    font-family: var(--font-family-da-projects);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: 0;
+  }
 }
 
 .board__exit-confirm-actions {
@@ -843,17 +859,25 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='games'] & {
     gap: 24px;
   }
+
+  [data-theme='da-projects'] & {
+    gap: 24px;
+  }
 }
 
 .board__exit-confirm-cancel,
 .board__exit-confirm-confirm {
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: var(--space-3) var(--space-4);
   border: 1.5px solid transparent;
   border-radius: var(--radius-lg);
   font: inherit;
   font-size: 1rem;
   font-weight: 700;
+  text-align: center;
   cursor: pointer;
 
   [data-theme='code-vibes'] & {
@@ -873,6 +897,16 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     line-height: 1;
     letter-spacing: 0.64px;
     white-space: nowrap;
+  }
+
+  [data-theme='da-projects'] & {
+    font-family: var(--font-family-da-projects);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+    border-radius: 10px;
   }
 }
 
@@ -903,10 +937,20 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: 10px;
 }
 
+[data-theme='da-projects'] .board__exit-confirm-cancel {
+  width: 140px;
+  height: 43px;
+}
+
+[data-theme='da-projects'] .board__exit-confirm-confirm {
+  width: 114px;
+  height: 43px;
+}
+
 .board__exit-confirm-cancel {
   background-color: var(--color-popup-cancel-bg);
   color: var(--color-popup-cancel-text);
-  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 
   [data-theme='code-vibes'] & {
     border-width: 3px;
@@ -923,10 +967,20 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     color: var(--color-popup-confirm-bg);
     box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.15);
   }
+
+  [data-theme='da-projects'] & {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15);
+  }
+
+  [data-theme='da-projects'] &:hover {
+    background-color: rgba(30, 117, 148, 1);
+    color: #ffffff;
+    box-shadow: none;
+  }
 }
 
 .board__exit-confirm-confirm {
-  transition: background-color 150ms ease, border-color 150ms ease;
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
 
   &--outline {
     background-color: var(--color-popup-confirm-outline-bg, transparent);
@@ -952,5 +1006,15 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   &--filled {
     background-color: var(--color-popup-confirm-bg);
     color: var(--color-popup-confirm-text);
+
+    [data-theme='da-projects'] & {
+      background-color: rgba(253, 138, 129, 1);
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    [data-theme='da-projects'] &:hover {
+      background-color: rgb(236, 91, 81);
+      box-shadow: none;
+    }
   }
 }
