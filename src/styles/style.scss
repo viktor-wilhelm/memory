@@ -777,7 +777,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='food'] & {
     width: 456px;
     height: 256px;
-    gap: 54px;
+    gap: 45px;
     padding: 40px;
     border-radius: 20px;
   }
@@ -880,6 +880,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='da-projects'] & {
     gap: 24px;
   }
+
+  [data-theme='food'] & {
+    gap: 15px;
+  }
 }
 
 .board__exit-confirm-cancel,
@@ -974,16 +978,16 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 [data-theme='food'] .board__exit-confirm-cancel {
-  width: 211px;
-  height: 45px;
+  width: 220px;
+  height: 54px;
   padding: 12px 20px;
   border-width: 3px;
   border-radius: 10px;
 }
 
 [data-theme='food'] .board__exit-confirm-confirm {
-  width: 141px;
-  height: 46px;
+  width: 150px;
+  height: 54px;
   padding: 12px 20px;
   border-width: 3px;
   border-radius: 10px;
@@ -1025,14 +1029,17 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     background-image: url('/assets/foods-theme/button-pop-up_04.svg');
     background-size: 100% 100%;
     background-repeat: no-repeat;
+    background-origin: border-box;
     border-color: transparent;
     color: transparent;
+    box-shadow: none;
   }
 
   [data-theme='food'] &:hover {
-    background-image: none;
-    background-color: rgba(243, 131, 45, 1);
-    color: #ffffff;
+    background-image: url('/assets/foods-theme/button-pop-up_04-hover.svg');
+    border-color: transparent;
+    color: transparent;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
   }
 }
 
@@ -1064,14 +1071,17 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       background-image: url('/assets/foods-theme/button-exit_04.svg');
       background-size: 100% 100%;
       background-repeat: no-repeat;
+      background-origin: border-box;
       border-color: transparent;
       color: transparent;
+      box-shadow: none;
     }
 
     [data-theme='food'] &:hover {
-      background-image: none;
-      background-color: rgba(243, 131, 45, 1);
-      color: #ffffff;
+      background-image: url('/assets/foods-theme/button-exit_04-hover.svg');
+      border-color: transparent;
+      color: transparent;
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
     }
   }
 
