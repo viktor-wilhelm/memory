@@ -65,8 +65,9 @@
   --color-board-score-bg: #ffffff;
   --color-popup-bg: #ffffff;
   --color-popup-text: var(--color-text);
-  --color-popup-cancel-bg: var(--color-accent);
+  --color-popup-cancel-bg: rgba(255, 171, 62, 1);
   --color-popup-cancel-text: #ffffff;
-  --color-popup-confirm-bg: var(--color-accent);
-  --color-popup-confirm-text: var(--color-accent);
+  --color-popup-confirm-bg: rgba(243, 131, 45, 1);
+  --color-popup-confirm-text: rgba(243, 131, 45, 1);
+  --color-popup-confirm-outline-bg: rgba(255, 249, 242, 1);
 }
