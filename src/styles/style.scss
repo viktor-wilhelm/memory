@@ -978,8 +978,8 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 [data-theme='food'] .board__exit-confirm-cancel {
-  width: 220px;
-  height: 54px;
+  width: 211px;
+  height: 45px;
   padding: 12px 20px;
   border-width: 3px;
   border-radius: 10px;
@@ -1026,9 +1026,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   [data-theme='food'] & {
     background-color: transparent;
-    background-image: url('/assets/foods-theme/button-pop-up_04.svg');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
+    background-image: url('/assets/foods-theme/button-pop-up_04-text.svg'),
+      url('/assets/foods-theme/button-pop-up_04-shape.svg');
+    background-size: 100% 100%, 100% 100%;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
     background-origin: border-box;
     border-color: transparent;
     color: transparent;
@@ -1036,7 +1038,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   [data-theme='food'] &:hover {
-    background-image: url('/assets/foods-theme/button-pop-up_04-hover.svg');
+    background-image: url('/assets/foods-theme/button-pop-up_04-text.svg'),
+      url('/assets/foods-theme/button-pop-up_04-shape-hover.svg');
+    background-size: 100% 100%, 100% 100%;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
     border-color: transparent;
     color: transparent;
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
