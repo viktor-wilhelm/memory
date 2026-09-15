@@ -71,7 +71,7 @@ export function renderBoard(): HTMLElement {
     .map((color) => {
       const label = theme.boardScoreShowLabel ? `${PLAYERS[color].label} ` : '';
       const icon = isCodeVibes ? CODE_VIBES_LABEL_ICON[color] : isGames ? GAMES_PAWN_ICON : PAWN_ICON;
-      return `<span class="board__score-item board__score-item--${color}">${icon}<span>${label}0</span></span>`;
+      return `<span class="board__score-item board__score-item--${color}">${icon}<span class="board__score-value">${label}0</span></span>`;
     })
     .join('');
   const currentPlayerModifier = theme.boardCurrentPlayerFilled ? ' board__current-player-badge--filled' : '';
