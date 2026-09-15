@@ -4,9 +4,9 @@ import { BOARD_SIZES } from '../config/boardSizes';
 import { THEMES } from '../config/themes';
 import { PLAYERS } from '../config/players';
 
-// Games / DA Projects / Food all use this pawn-shaped icon (confirmed
-// against their Figma board references); only Code vibes uses the
-// CODE_VIBES_LABEL_ICON PNGs below.
+// DA Projects / Food use this small pawn-shaped icon (confirmed against
+// their Figma board references); Code vibes uses the CODE_VIBES_LABEL_ICON
+// PNGs and Games uses the chess-pawn outline icon below.
 const PAWN_ICON = `
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z" fill="currentColor" />
@@ -21,6 +21,17 @@ const CODE_VIBES_LABEL_ICON: Record<PlayerColor, string> = {
   blue: '<img src="/assets/code-vibes-theme/label-blue.png" alt="" />',
   orange: '<img src="/assets/code-vibes-theme/label-orange.png" alt="" />',
 };
+
+// Games-only chess-pawn icon. The Figma export has one identical SVG per
+// player color (chess_pawn-blue.svg / chess_pawn-orange.svg in
+// public/assets/gaming-theme/) that differ only by a hardcoded fill; since
+// the geometry is byte-identical, this recolors a single shared path via
+// currentColor instead of shipping two near-duplicate assets.
+const GAMES_PAWN_ICON = `
+  <svg width="22" height="28" viewBox="0 0 22 28" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2.75 28C1.99375 28 1.34635 27.7258 0.807813 27.1775C0.269271 26.6292 0 25.97 0 25.2V22.435C0 21.9683 0.103125 21.5367 0.309375 21.14C0.515625 20.7433 0.790625 20.405 1.13437 20.125C2.71563 18.8183 3.90156 17.5 4.69219 16.17C5.48281 14.84 6.03854 13.65 6.35938 12.6H4.125C3.73542 12.6 3.40885 12.4658 3.14531 12.1975C2.88177 11.9292 2.75 11.5967 2.75 11.2C2.75 10.8033 2.88177 10.4708 3.14531 10.2025C3.40885 9.93417 3.73542 9.8 4.125 9.8H5.84375C5.52292 9.28667 5.27083 8.73833 5.0875 8.155C4.90417 7.57167 4.8125 6.95333 4.8125 6.3C4.8125 4.55 5.41406 3.0625 6.61719 1.8375C7.82031 0.6125 9.28125 0 11 0C12.7188 0 14.1797 0.6125 15.3828 1.8375C16.5859 3.0625 17.1875 4.55 17.1875 6.3C17.1875 6.95333 17.0958 7.57167 16.9125 8.155C16.7292 8.73833 16.4771 9.28667 16.1562 9.8H17.875C18.2646 9.8 18.5911 9.93417 18.8547 10.2025C19.1182 10.4708 19.25 10.8033 19.25 11.2C19.25 11.5967 19.1182 11.9292 18.8547 12.1975C18.5911 12.4658 18.2646 12.6 17.875 12.6H15.6406C15.9615 13.65 16.5172 14.84 17.3078 16.17C18.0984 17.5 19.2844 18.8183 20.8656 20.125C21.2094 20.405 21.4844 20.7433 21.6906 21.14C21.8969 21.5367 22 21.9683 22 22.435V25.2C22 25.97 21.7307 26.6292 21.1922 27.1775C20.6536 27.7258 20.0063 28 19.25 28H2.75ZM2.75 25.2H19.25V22.4C17.1417 20.72 15.6177 18.9875 14.6781 17.2025C13.7385 15.4175 13.1083 13.8833 12.7875 12.6H9.2125C8.89167 13.8833 8.26146 15.4175 7.32188 17.2025C6.38229 18.9875 4.85833 20.72 2.75 22.4V25.2ZM11 9.8C11.9625 9.8 12.776 9.46167 13.4406 8.785C14.1052 8.10833 14.4375 7.28 14.4375 6.3C14.4375 5.32 14.1052 4.49167 13.4406 3.815C12.776 3.13833 11.9625 2.8 11 2.8C10.0375 2.8 9.22396 3.13833 8.55937 3.815C7.89479 4.49167 7.5625 5.32 7.5625 6.3C7.5625 7.28 7.89479 8.10833 8.55937 8.785C9.22396 9.46167 10.0375 9.8 11 9.8Z" fill="currentColor" />
+  </svg>
+`;
 
 const EXIT_ICON = `
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -49,12 +60,17 @@ export function renderBoard(): HTMLElement {
     .join('');
 
   const isCodeVibes = theme.boardScoreIcon === 'flag';
-  const currentPlayerIcon = isCodeVibes ? CODE_VIBES_LABEL_ICON[state.playerColor] : PAWN_ICON;
-  const exitIcon = state.theme === 'code-vibes' ? CODE_VIBES_EXIT_ICON : EXIT_ICON;
+  const isGames = state.theme === 'games';
+  const currentPlayerIcon = isCodeVibes
+    ? CODE_VIBES_LABEL_ICON[state.playerColor]
+    : isGames
+      ? GAMES_PAWN_ICON
+      : PAWN_ICON;
+  const exitIcon = isCodeVibes || isGames ? CODE_VIBES_EXIT_ICON : EXIT_ICON;
   const scoreItems = theme.boardScoreOrder
     .map((color) => {
       const label = theme.boardScoreShowLabel ? `${PLAYERS[color].label} ` : '';
-      const icon = isCodeVibes ? CODE_VIBES_LABEL_ICON[color] : PAWN_ICON;
+      const icon = isCodeVibes ? CODE_VIBES_LABEL_ICON[color] : isGames ? GAMES_PAWN_ICON : PAWN_ICON;
       return `<span class="board__score-item board__score-item--${color}">${icon}<span>${label}0</span></span>`;
     })
     .join('');
