@@ -735,6 +735,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: 10px;
   padding: 12px 20px;
   border: none;
+  background-color: transparent;
   color: #ffffff;
   font-family: var(--font-family-games);
   font-weight: 700;
@@ -742,6 +743,12 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   line-height: 1;
   letter-spacing: 0.04em;
   white-space: nowrap;
+  transition: background-color 80ms ease-out;
+  transition-delay: 0ms;
+}
+
+[data-theme='games'] .board__exit:hover {
+  background-color: #695574;
 }
 
 [data-theme='games'] .board__exit::before {
