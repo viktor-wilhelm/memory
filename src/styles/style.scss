@@ -721,6 +721,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   inset: 0;
   pointer-events: none;
   border: 1px solid rgba(77, 213, 188, 1);
+  transition: border-color 120ms ease-out, box-shadow 120ms ease-out;
 }
 
 [data-theme='code-vibes'] .board__exit:hover::before {
