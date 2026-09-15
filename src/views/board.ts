@@ -1,10 +1,12 @@
+import type { PlayerColor } from '../app/types';
 import { getState, setState } from '../app/state';
 import { BOARD_SIZES } from '../config/boardSizes';
 import { THEMES } from '../config/themes';
 import { PLAYERS } from '../config/players';
 
 // Games / DA Projects / Food all use this pawn-shaped icon (confirmed
-// against their Figma board references); only Code vibes uses FLAG_ICON.
+// against their Figma board references); only Code vibes uses the
+// CODE_VIBES_LABEL_ICON PNGs below.
 const PAWN_ICON = `
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8 8C9.65685 8 11 6.65685 11 5C11 3.34315 9.65685 2 8 2C6.34315 2 5 3.34315 5 5C5 6.65685 6.34315 8 8 8Z" fill="currentColor" />
@@ -12,11 +14,13 @@ const PAWN_ICON = `
   </svg>
 `;
 
-const FLAG_ICON = `
-  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M2 2.75C2 2.33579 2.33579 2 2.75 2H9.5L14 8L9.5 14H2.75C2.33579 14 2 13.6642 2 13.25V2.75Z" fill="currentColor" />
-  </svg>
-`;
+// Code vibes-only flag/label icons, exported straight from Figma (one PNG
+// per player color, since the source art isn't a single-color glyph that
+// currentColor could recolor).
+const CODE_VIBES_LABEL_ICON: Record<PlayerColor, string> = {
+  blue: '<img src="/assets/code-vibes-theme/label-blue.png" alt="" />',
+  orange: '<img src="/assets/code-vibes-theme/label-orange.png" alt="" />',
+};
 
 const EXIT_ICON = `
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -44,12 +48,14 @@ export function renderBoard(): HTMLElement {
     .map(() => `<div class="board-card"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`)
     .join('');
 
-  const scoreIcon = theme.boardScoreIcon === 'flag' ? FLAG_ICON : PAWN_ICON;
+  const isCodeVibes = theme.boardScoreIcon === 'flag';
+  const currentPlayerIcon = isCodeVibes ? CODE_VIBES_LABEL_ICON[state.playerColor] : PAWN_ICON;
   const exitIcon = state.theme === 'code-vibes' ? CODE_VIBES_EXIT_ICON : EXIT_ICON;
   const scoreItems = theme.boardScoreOrder
     .map((color) => {
       const label = theme.boardScoreShowLabel ? `${PLAYERS[color].label} ` : '';
-      return `<span class="board__score-item board__score-item--${color}">${scoreIcon}<span>${label}0</span></span>`;
+      const icon = isCodeVibes ? CODE_VIBES_LABEL_ICON[color] : PAWN_ICON;
+      return `<span class="board__score-item board__score-item--${color}">${icon}<span>${label}0</span></span>`;
     })
     .join('');
   const currentPlayerModifier = theme.boardCurrentPlayerFilled ? ' board__current-player-badge--filled' : '';
@@ -77,7 +83,7 @@ export function renderBoard(): HTMLElement {
       </div>
       <div class="board__current-player">
         Current player:
-        <span class="board__current-player-badge board__current-player-badge--${state.playerColor}${currentPlayerModifier}">${scoreIcon}</span>
+        <span class="board__current-player-badge board__current-player-badge--${state.playerColor}${currentPlayerModifier}">${currentPlayerIcon}</span>
       </div>
       <button type="button" class="board__exit">${exitIcon}Exit game</button>
     </div>

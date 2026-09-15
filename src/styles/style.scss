@@ -729,14 +729,27 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 4px 4px 10px rgba(205, 225, 215, 0.35);
 }
 
-[data-theme='code-vibes'] .board__score-item svg {
+[data-theme='code-vibes'] .board__exit svg {
+  width: 25.75px;
+  height: 22.5px;
+}
+
+[data-theme='code-vibes'] .board__score-item img {
   width: 24px;
   height: 20px;
 }
 
-[data-theme='code-vibes'] .board__exit svg {
-  width: 25.75px;
-  height: 22.5px;
+[data-theme='code-vibes'] .board__current-player-badge img {
+  width: 29px;
+  height: 24px;
+}
+
+[data-theme='code-vibes'] .board__current-player {
+  font-family: var(--font-family-display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1;
+  letter-spacing: 0;
 }
 
 .board__grid-wrap {
