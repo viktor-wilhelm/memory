@@ -676,6 +676,68 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background-color: var(--color-board-score-bg);
 }
 
+[data-theme='code-vibes'] .board__score {
+  box-sizing: border-box;
+  width: 292px;
+  height: 62px;
+  padding: 17px 20px;
+  gap: 20px;
+  border-radius: 0;
+  background-color: rgba(134, 233, 214, 0.2);
+}
+
+[data-theme='code-vibes'] .board__score-item {
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+[data-theme='code-vibes'] .board__exit {
+  position: relative;
+  box-sizing: border-box;
+  width: 207px;
+  height: 62px;
+  padding: 16px 24px;
+  gap: 10px;
+  justify-content: center;
+  border-radius: 0;
+  border: none;
+  background-color: rgba(134, 233, 214, 0.14);
+  color: var(--color-text);
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0;
+  white-space: nowrap;
+}
+
+[data-theme='code-vibes'] .board__exit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid rgba(77, 213, 188, 1);
+}
+
+[data-theme='code-vibes'] .board__exit:hover::before {
+  border-width: 3px;
+  box-shadow: 4px 4px 10px rgba(205, 225, 215, 0.35);
+}
+
+[data-theme='code-vibes'] .board__score-item svg {
+  width: 24px;
+  height: 20px;
+}
+
+[data-theme='code-vibes'] .board__exit svg {
+  width: 25.75px;
+  height: 22.5px;
+}
+
 .board__grid-wrap {
   flex: 1 1 auto;
   min-height: 0;
