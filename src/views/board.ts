@@ -61,16 +61,21 @@ export function renderBoard(): HTMLElement {
 
   const isCodeVibes = theme.boardScoreIcon === 'flag';
   const isGames = state.theme === 'games';
+  const isDaProjects = state.theme === 'da-projects';
   const currentPlayerIcon = isCodeVibes
     ? CODE_VIBES_LABEL_ICON[state.playerColor]
-    : isGames
+    : isGames || isDaProjects
       ? GAMES_PAWN_ICON
       : PAWN_ICON;
-  const exitIcon = isCodeVibes || isGames ? CODE_VIBES_EXIT_ICON : EXIT_ICON;
+  const exitIcon = isCodeVibes || isGames || isDaProjects ? CODE_VIBES_EXIT_ICON : EXIT_ICON;
   const scoreItems = theme.boardScoreOrder
     .map((color) => {
       const label = theme.boardScoreShowLabel ? `${PLAYERS[color].label} ` : '';
-      const icon = isCodeVibes ? CODE_VIBES_LABEL_ICON[color] : isGames ? GAMES_PAWN_ICON : PAWN_ICON;
+      const icon = isCodeVibes
+        ? CODE_VIBES_LABEL_ICON[color]
+        : isGames || isDaProjects
+          ? GAMES_PAWN_ICON
+          : PAWN_ICON;
       return `<span class="board__score-item board__score-item--${color}">${icon}<span class="board__score-value">${label}0</span></span>`;
     })
     .join('');
