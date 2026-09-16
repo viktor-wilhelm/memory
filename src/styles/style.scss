@@ -767,6 +767,117 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   height: 26px;
 }
 
+[data-theme='food'] .board__score {
+  box-sizing: border-box;
+  width: 159px;
+  height: 54px;
+  padding-left: 16px;
+  padding-right: 16px;
+  gap: 40px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+[data-theme='food'] .board__score-item svg {
+  width: 20px;
+  height: 25px;
+}
+
+[data-theme='food'] .board__score-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: var(--font-family-food-button);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+[data-theme='food'] .board__current-player {
+  color: rgba(164, 82, 18, 1);
+  font-family: var(--font-family-food);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+[data-theme='food'] .board__current-player-badge--filled {
+  box-sizing: border-box;
+  width: 41px;
+  height: 40px;
+  padding: 4px 8px;
+  gap: 10px;
+  border-radius: 8px;
+}
+
+[data-theme='food'] .board__current-player-badge--filled.board__current-player-badge--blue {
+  background-color: rgba(9, 127, 197, 1);
+}
+
+[data-theme='food'] .board__current-player-badge img,
+[data-theme='food'] .board__current-player-badge svg {
+  width: 25px;
+  height: 32px;
+  color: #ffffff;
+}
+
+[data-theme='food'] .board__header {
+  height: 102px;
+}
+
+[data-theme='food'] .board__exit {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 173px;
+  height: 50px;
+  gap: 10px;
+  padding: 12px 20px;
+  border-width: 3px;
+  border-radius: 10px;
+  background-color: transparent;
+  background-image: url('/assets/foods-theme/button-exit_04-shape.svg');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  border-color: transparent;
+  color: rgba(243, 131, 45, 1);
+  box-shadow: none;
+  transition: background-image 150ms ease, box-shadow 150ms ease, color 150ms ease;
+}
+
+[data-theme='food'] .board__exit-icon,
+[data-theme='food'] .board__exit-label {
+  display: flex;
+  align-items: center;
+}
+
+[data-theme='food'] .board__exit-icon svg {
+  width: 18.883333206176758px;
+  height: 16.5px;
+}
+
+[data-theme='food'] .board__exit-icon svg path {
+  stroke: currentColor;
+  stroke-width: 1px;
+}
+
+[data-theme='food'] .board__exit-label svg {
+  width: 98.75px;
+  height: 12.5px;
+}
+
+[data-theme='food'] .board__exit:hover {
+  background-image: url('/assets/foods-theme/button-exit_04-shape-hover.svg');
+  color: #ffffff;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 [data-theme='games'] .board__header {
   height: 94px;
 }
@@ -776,6 +887,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 [data-theme='da-projects'] .screen--board {
+  gap: 54px;
+}
+
+[data-theme='food'] .screen--board {
   gap: 54px;
 }
 
@@ -1010,6 +1125,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='da-projects'] & {
     --board-card-max-h: 100px;
   }
+
+  [data-theme='food'] & {
+    --board-card-max-w: 122px;
+    --board-card-max-h: 122px;
+  }
 }
 
 .board-card {
@@ -1031,6 +1151,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='da-projects'] & {
     aspect-ratio: 120 / 100;
     border-radius: 13px;
+  }
+
+  [data-theme='food'] & {
+    border-radius: 0;
   }
 }
 
