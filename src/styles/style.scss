@@ -676,12 +676,115 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background-color: var(--color-board-score-bg);
 }
 
+[data-theme='da-projects'] .board__score {
+  box-sizing: border-box;
+  width: 156px;
+  height: 54px;
+  padding-left: 16px;
+  padding-right: 16px;
+  gap: 40px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+[data-theme='da-projects'] .board__score-item svg {
+  width: 20px;
+  height: 25px;
+}
+
+[data-theme='da-projects'] .board__score-value {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-width: 18px;
+  height: 36px;
+  font-family: var(--font-family-da-projects);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1;
+  letter-spacing: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+[data-theme='da-projects'] .board__current-player-badge--filled {
+  box-sizing: border-box;
+  width: 41px;
+  height: 40px;
+  padding: 4px 8px;
+  gap: 10px;
+  border-radius: 8px;
+}
+
+[data-theme='da-projects'] .board__current-player-badge--filled.board__current-player-badge--blue {
+  background-color: rgba(9, 127, 197, 1);
+}
+
+[data-theme='da-projects'] .board__current-player-badge img,
+[data-theme='da-projects'] .board__current-player-badge svg {
+  width: 25px;
+  height: 32px;
+  color: #ffffff;
+  opacity: 1;
+}
+
+[data-theme='da-projects'] .board__current-player {
+  color: rgba(30, 117, 148, 1);
+  font-family: var(--font-family-da-projects);
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+[data-theme='da-projects'] .board__exit {
+  box-sizing: border-box;
+  width: 172px;
+  height: 54px;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 12px 20px;
+  border: none;
+  background-color: rgba(191, 229, 242, 1);
+  color: rgba(30, 117, 148, 1);
+  font-family: var(--font-family-da-projects);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0);
+  transition: background-color 80ms ease-out, color 80ms ease-out, box-shadow 80ms ease-out;
+  transition-delay: 0ms;
+}
+
+[data-theme='da-projects'] .board__exit:hover {
+  background-color: #237492;
+  color: #ffffff;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme='da-projects'] .board__exit svg {
+  width: 26px;
+  height: 26px;
+}
+
 [data-theme='games'] .board__header {
   height: 94px;
 }
 
 [data-theme='games'] .screen--board {
   gap: 54px;
+}
+
+[data-theme='da-projects'] .screen--board {
+  gap: 54px;
+}
+
+[data-theme='da-projects'] .board__header {
+  height: 102px;
+  padding: 24px;
+  border-radius: 10px;
+  background-color: rgba(240, 243, 244, 1);
+  justify-content: space-between;
 }
 
 [data-theme='games'] .board__score {
@@ -903,6 +1006,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='games'] & {
     --board-card-max-w: 105px;
   }
+
+  [data-theme='da-projects'] & {
+    --board-card-max-h: 100px;
+  }
 }
 
 .board-card {
@@ -919,6 +1026,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   [data-theme='code-vibes'] & {
     border-radius: 0;
+  }
+
+  [data-theme='da-projects'] & {
+    aspect-ratio: 120 / 100;
+    border-radius: 13px;
   }
 }
 
