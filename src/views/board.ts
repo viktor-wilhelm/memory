@@ -111,6 +111,7 @@ export function renderBoard(): HTMLElement {
 
   const section = document.createElement('section');
   section.className = 'screen screen--board';
+  section.dataset.boardSize = state.boardSize;
   section.innerHTML = `
     <div class="board__header">
       <div class="board__score">
