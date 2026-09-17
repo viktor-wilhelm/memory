@@ -878,6 +878,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+[data-theme='code-vibes'] .screen--board {
+  padding-top: 41px;
+  gap: 54px;
+}
+
 [data-theme='games'] .board__header {
   height: 94px;
 }
