@@ -704,6 +704,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   line-height: 1;
   letter-spacing: 0;
   font-variant-numeric: tabular-nums;
+  transform: translateY(2px);
 }
 
 [data-theme='da-projects'] .board__current-player-badge--filled {
@@ -906,6 +907,19 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 [data-theme='da-projects'] .screen--board {
   gap: 54px;
+}
+
+[data-theme='da-projects'] .screen--board[data-board-size='4x4'] {
+  padding-top: 10px;
+}
+
+[data-theme='da-projects'] .screen--board[data-board-size='4x6'] {
+  padding-top: 39px;
+}
+
+[data-theme='da-projects'] .screen--board[data-board-size='6x6'] {
+  padding-top: 10px;
+  gap: 20px;
 }
 
 [data-theme='food'] .screen--board {
