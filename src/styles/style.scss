@@ -794,6 +794,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   line-height: 1;
   letter-spacing: 0;
   font-variant-numeric: tabular-nums;
+  transform: translateY(1px);
 }
 
 [data-theme='food'] .board__current-player {
@@ -924,6 +925,34 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 [data-theme='food'] .screen--board {
   gap: 54px;
+}
+
+[data-theme='food'] .screen--board[data-board-size='4x4'] {
+  padding-top: 10px;
+}
+
+[data-theme='food'] .screen--board[data-board-size='4x6'] {
+  padding-top: 39px;
+}
+
+[data-theme='food'] .screen--board[data-board-size='6x6'] {
+  padding-top: 10px;
+  gap: 20px;
+}
+
+[data-theme='food'] .screen--board[data-board-size='4x4'] .board__grid {
+  --board-row-gap: 16px;
+  --board-column-gap: 14px;
+}
+
+[data-theme='food'] .screen--board[data-board-size='4x6'] .board__grid {
+  --board-row-gap: 8px;
+  --board-column-gap: 6px;
+}
+
+[data-theme='food'] .screen--board[data-board-size='6x6'] .board__grid {
+  --board-row-gap: 6px;
+  --board-column-gap: 4px;
 }
 
 [data-theme='da-projects'] .board__header {
@@ -1138,17 +1167,20 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 .board__grid {
   --board-card-max-w: 120px;
   --board-card-max-h: 120px;
+  --board-row-gap: var(--board-gap, var(--space-3));
+  --board-column-gap: var(--board-gap, var(--space-3));
   --board-content-w: calc(
-    var(--board-cols) * var(--board-card-max-w) + (var(--board-cols) - 1) * var(--board-gap, var(--space-3))
+    var(--board-cols) * var(--board-card-max-w) + (var(--board-cols) - 1) * var(--board-column-gap)
   );
   --board-content-h: calc(
-    var(--board-rows) * var(--board-card-max-h) + (var(--board-rows) - 1) * var(--board-gap, var(--space-3))
+    var(--board-rows) * var(--board-card-max-h) + (var(--board-rows) - 1) * var(--board-row-gap)
   );
 
   display: grid;
   grid-template-columns: repeat(var(--board-cols), 1fr);
   grid-template-rows: repeat(var(--board-rows), 1fr);
-  gap: var(--board-gap, var(--space-3));
+  row-gap: var(--board-row-gap);
+  column-gap: var(--board-column-gap);
   width: min(100cqw, calc(100cqh * var(--board-content-w) / var(--board-content-h)), var(--board-content-w));
   height: min(100cqh, calc(100cqw * var(--board-content-h) / var(--board-content-w)), var(--board-content-h));
 
