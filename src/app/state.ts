@@ -8,6 +8,13 @@ const state: GameState = {
   boardSizeSelected: false,
   screen: 'home',
   boardExitConfirmOpen: false,
+  deck: [],
+  scores: { blue: 0, orange: 0 },
+  currentPlayer: 'blue',
+  firstPickId: null,
+  secondPickId: null,
+  isBoardLocked: false,
+  result: null,
 };
 
 type Listener = (state: GameState) => void;

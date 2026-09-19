@@ -1,3 +1,4 @@
+import { startGame } from '../app/game';
 import { getState, setState } from '../app/state';
 import { THEMES } from '../config/themes';
 import { BOARD_SIZES } from '../config/boardSizes';
@@ -127,7 +128,7 @@ export function renderSettings(): HTMLElement {
   });
 
   section.querySelector('.settings__start')?.addEventListener('click', () => {
-    setState({ screen: 'board' });
+    startGame();
   });
 
   return section;
