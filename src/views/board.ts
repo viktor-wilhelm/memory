@@ -67,9 +67,8 @@ export function renderBoard(): HTMLElement {
   const boardSize = BOARD_SIZES[state.boardSize];
   const theme = THEMES[state.theme ?? 'code-vibes'];
   const cardBackImage = theme.cardBackImage;
-  const cardCount = boardSize.pairCount * 2;
-  const placeholderCards = Array.from({ length: cardCount })
-    .map(() => `<div class="board-card"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`)
+  const placeholderCards = state.deck
+    .map((card) => `<div class="board-card" data-card-id="${card.id}"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`)
     .join('');
 
   const isCodeVibes = theme.boardScoreIcon === 'flag';
@@ -77,7 +76,7 @@ export function renderBoard(): HTMLElement {
   const isDaProjects = state.theme === 'da-projects';
   const isFood = state.theme === 'food';
   const currentPlayerIcon = isCodeVibes
-    ? CODE_VIBES_LABEL_ICON[state.playerColor]
+    ? CODE_VIBES_LABEL_ICON[state.currentPlayer]
     : isGames || isDaProjects || isFood
       ? GAMES_PAWN_ICON
       : PAWN_ICON;
@@ -90,7 +89,7 @@ export function renderBoard(): HTMLElement {
         : isGames || isDaProjects || isFood
           ? GAMES_PAWN_ICON
           : PAWN_ICON;
-      return `<span class="board__score-item board__score-item--${color}">${icon}<span class="board__score-value">${label}0</span></span>`;
+      return `<span class="board__score-item board__score-item--${color}">${icon}<span class="board__score-value">${label}${state.scores[color]}</span></span>`;
     })
     .join('');
   const currentPlayerModifier = theme.boardCurrentPlayerFilled ? ' board__current-player-badge--filled' : '';
@@ -119,7 +118,7 @@ export function renderBoard(): HTMLElement {
       </div>
       <div class="board__current-player">
         Current player:
-        <span class="board__current-player-badge board__current-player-badge--${state.playerColor}${currentPlayerModifier}">${currentPlayerIcon}</span>
+        <span class="board__current-player-badge board__current-player-badge--${state.currentPlayer}${currentPlayerModifier}">${currentPlayerIcon}</span>
       </div>
       <button type="button" class="board__exit"${isFood ? ' aria-label="Exit game"' : ''}>${
     isFood
