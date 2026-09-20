@@ -1,4 +1,5 @@
 import type { PlayerColor } from '../app/types';
+import { exitGame, selectCard } from '../app/game';
 import { getState, setState } from '../app/state';
 import { BOARD_SIZES } from '../config/boardSizes';
 import { THEMES } from '../config/themes';
@@ -68,7 +69,10 @@ export function renderBoard(): HTMLElement {
   const theme = THEMES[state.theme ?? 'code-vibes'];
   const cardBackImage = theme.cardBackImage;
   const placeholderCards = state.deck
-    .map((card) => `<div class="board-card" data-card-id="${card.id}"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`)
+    .map((card) => {
+      const stateClasses = `${card.isFlipped ? ' is-flipped' : ''}${card.isMatched ? ' is-matched' : ''}`;
+      return `<div class="board-card${stateClasses}" data-card-id="${card.id}"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`;
+    })
     .join('');
 
   const isCodeVibes = theme.boardScoreIcon === 'flag';
@@ -158,8 +162,11 @@ export function renderBoard(): HTMLElement {
     setState({ boardExitConfirmOpen: false });
   });
 
-  section.querySelector('.board__exit-confirm-confirm')?.addEventListener('click', () => {
-    setState({ screen: 'settings', boardExitConfirmOpen: false });
+  section.querySelector('.board__exit-confirm-confirm')?.addEventListener('click', exitGame);
+
+  section.querySelector('.board__grid')?.addEventListener('click', (event) => {
+    const cardElement = (event.target as Element).closest<HTMLElement>('.board-card');
+    if (cardElement) selectCard(Number(cardElement.dataset.cardId));
   });
 
   return section;
