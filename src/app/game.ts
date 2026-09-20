@@ -1,7 +1,7 @@
 import { BOARD_SIZES } from '../config/boardSizes';
 import { createDeck } from './deck';
 import { getState, setState } from './state';
-import type { GameState, PlayerColor } from './types';
+import type { GameResult, GameState, PlayerColor, Screen } from './types';
 
 export const MISMATCH_DELAY_MS = 1000;
 
@@ -16,6 +16,12 @@ function cancelPendingMismatch(): void {
 
 function otherPlayer(player: PlayerColor): PlayerColor {
   return player === 'blue' ? 'orange' : 'blue';
+}
+
+export function determineResult(scores: Record<PlayerColor, number>): Exclude<GameResult, null> {
+  if (scores.orange > scores.blue) return 'orange';
+  if (scores.blue > scores.orange) return 'blue';
+  return 'draw';
 }
 
 type GameSession = Pick<
@@ -46,9 +52,17 @@ export function startGame(): void {
   });
 }
 
-export function exitGame(): void {
+function leaveGame(screen: Screen): void {
   cancelPendingMismatch();
-  setState({ screen: 'settings', boardExitConfirmOpen: false, ...emptySession() });
+  setState({ screen, boardExitConfirmOpen: false, ...emptySession() });
+}
+
+export function exitGame(): void {
+  leaveGame('settings');
+}
+
+export function returnToStart(): void {
+  leaveGame('home');
 }
 
 function resolveMismatch(firstId: number, secondId: number): void {
@@ -84,11 +98,16 @@ export function selectCard(cardId: number): void {
   const first = state.deck.find((c) => c.id === firstId);
 
   if (first?.pairId === card.pairId) {
+    const matchedDeck = deck.map((c) => (c.pairId === card.pairId ? { ...c, isMatched: true } : c));
+    const scores = { ...state.scores, [state.currentPlayer]: state.scores[state.currentPlayer] + 1 };
+    const isGameFinished = matchedDeck.every((c) => c.isMatched);
     setState({
-      deck: deck.map((c) => (c.pairId === card.pairId ? { ...c, isMatched: true } : c)),
-      scores: { ...state.scores, [state.currentPlayer]: state.scores[state.currentPlayer] + 1 },
+      deck: matchedDeck,
+      scores,
       firstPickId: null,
       secondPickId: null,
+      isBoardLocked: false,
+      ...(isGameFinished ? { result: determineResult(scores), screen: 'gameOver' as const } : {}),
     });
     return;
   }
