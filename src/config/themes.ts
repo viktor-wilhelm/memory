@@ -23,6 +23,8 @@ interface ThemeConfig {
   exitConfirmAnimation: 'from-top' | 'from-bottom' | 'none';
 }
 
+export const DEFAULT_THEME: ThemeId = 'code-vibes';
+
 export const THEMES: Record<ThemeId, ThemeConfig> = {
   'code-vibes': {
     label: 'Code vibes theme',

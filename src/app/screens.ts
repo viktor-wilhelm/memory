@@ -1,3 +1,4 @@
+import { DEFAULT_THEME } from '../config/themes';
 import { getState, subscribe } from './state';
 import { renderHome } from '../views/home';
 import { renderSettings } from '../views/settings';
@@ -15,7 +16,9 @@ const screenRenderers: Record<Screen, () => HTMLElement> = {
 export function mountApp(root: HTMLElement): void {
   const render = () => {
     const state = getState();
-    document.documentElement.dataset.theme = state.theme ?? 'code-vibes';
+    // Home always uses the default theme; the chosen theme stays in state for the other screens.
+    document.documentElement.dataset.theme =
+      state.screen === 'home' ? DEFAULT_THEME : (state.theme ?? DEFAULT_THEME);
     root.replaceChildren(screenRenderers[state.screen]());
   };
 
