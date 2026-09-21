@@ -64,6 +64,12 @@
   --color-popup-cancel-text: rgba(30, 117, 148, 1);
   --color-popup-confirm-bg: rgba(253, 138, 129, 1);
   --color-popup-confirm-text: #ffffff;
+  --color-card-face-bg: #eaf2f4;
+  --color-card-match-bg: #f0fbff;
+  --color-card-match-border: #1e7594;
+  --color-card-match-shadow: transparent;
+  --card-face-radius: 13px;
+  --card-match-border-width: 2px;
 }
 
 [data-theme="food"] {
