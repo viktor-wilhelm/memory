@@ -919,8 +919,8 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 [data-theme='food'] .screen--board[data-board-size='6x6'] .board__grid {
-  --board-row-gap: 6px;
-  --board-column-gap: 4px;
+  --board-row-gap: 4px;
+  --board-column-gap: 6px;
 }
 
 [data-theme='da-projects'] .board__header {

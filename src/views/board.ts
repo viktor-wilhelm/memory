@@ -2,7 +2,7 @@ import type { PlayerColor } from '../app/types';
 import { exitGame, selectCard } from '../app/game';
 import { getState, setState } from '../app/state';
 import { BOARD_SIZES } from '../config/boardSizes';
-import { THEMES } from '../config/themes';
+import { DEFAULT_THEME, THEMES } from '../config/themes';
 import { PLAYERS } from '../config/players';
 
 // DA Projects / Food use this small pawn-shaped icon (confirmed against
@@ -66,7 +66,7 @@ const FOOD_EXIT_TEXT_ICON = `
 export function renderBoard(): HTMLElement {
   const state = getState();
   const boardSize = BOARD_SIZES[state.boardSize];
-  const theme = THEMES[state.theme ?? 'code-vibes'];
+  const theme = THEMES[state.theme ?? DEFAULT_THEME];
   const cardBackImage = theme.cardBackImage;
   // The board is rebuilt on every state change, so a flip can only animate if the
   // new card starts in the state the previous DOM showed and switches afterwards.
