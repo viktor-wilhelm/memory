@@ -4,6 +4,9 @@ interface ThemeConfig {
   label: string;
   previewImage: string;
   cardBackImage: string;
+  // Face images picked by pairId (faces[pairId]); an empty list means the
+  // theme has no faces yet and its cards stay visually unchanged.
+  cardFaces: string[];
   // Board header presentation — confirmed to differ per theme by comparing
   // all 4 Figma board references (docs/figma-reference/board/), not just
   // code-vibes. See Issue #11 for the per-theme comparison table.
@@ -25,6 +28,26 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     label: 'Code vibes theme',
     previewImage: '/assets/settings-page/frame-629.svg',
     cardBackImage: '/assets/code-vibes-theme/code-vibes-frond.png',
+    cardFaces: [
+      '/assets/code-vibes-theme/faces/git.svg',
+      '/assets/code-vibes-theme/faces/typescript.svg',
+      '/assets/code-vibes-theme/faces/javascript.svg',
+      '/assets/code-vibes-theme/faces/html.svg',
+      '/assets/code-vibes-theme/faces/vscode.svg',
+      '/assets/code-vibes-theme/faces/css.svg',
+      '/assets/code-vibes-theme/faces/django.svg',
+      '/assets/code-vibes-theme/faces/angular.svg',
+      '/assets/code-vibes-theme/faces/terminal.svg',
+      '/assets/code-vibes-theme/faces/python.svg',
+      '/assets/code-vibes-theme/faces/github.svg',
+      '/assets/code-vibes-theme/faces/nodejs.svg',
+      '/assets/code-vibes-theme/faces/bootstrap.svg',
+      '/assets/code-vibes-theme/faces/vue.svg',
+      '/assets/code-vibes-theme/faces/react.svg',
+      '/assets/code-vibes-theme/faces/sass.svg',
+      '/assets/code-vibes-theme/faces/database.svg',
+      '/assets/code-vibes-theme/faces/firebase.svg',
+    ],
     boardScoreIcon: 'flag',
     boardScoreOrder: ['blue', 'orange'],
     boardScoreShowLabel: true,
@@ -39,6 +62,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     label: 'Gaming theme',
     previewImage: '/assets/settings-page/theme-visual-1.svg',
     cardBackImage: '/assets/gaming-theme/gaming-theme-frond.png',
+    cardFaces: [],
     boardScoreIcon: 'pawn',
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,
@@ -53,6 +77,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     label: 'DA Projects theme',
     previewImage: '/assets/settings-page/theme-visual.svg',
     cardBackImage: '/assets/da-projects-theme/da-projects-frond.png',
+    cardFaces: [],
     boardScoreIcon: 'pawn',
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,
@@ -67,6 +92,7 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     label: 'Foods theme',
     previewImage: '/assets/settings-page/theme-visual-2.svg',
     cardBackImage: '/assets/foods-theme/foods-frond.png',
+    cardFaces: [],
     boardScoreIcon: 'pawn',
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,

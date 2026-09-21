@@ -68,10 +68,23 @@ export function renderBoard(): HTMLElement {
   const boardSize = BOARD_SIZES[state.boardSize];
   const theme = THEMES[state.theme ?? 'code-vibes'];
   const cardBackImage = theme.cardBackImage;
+  // The board is rebuilt on every state change, so a flip can only animate if the
+  // new card starts in the state the previous DOM showed and switches afterwards.
+  const previouslyFlipped = new Map<number, boolean>();
+  document.querySelectorAll<HTMLElement>('.board-card').forEach((element) => {
+    previouslyFlipped.set(Number(element.dataset.cardId), element.classList.contains('is-flipped'));
+  });
+  const pendingFlips: { id: number; isFlipped: boolean }[] = [];
   const placeholderCards = state.deck
     .map((card) => {
-      const stateClasses = `${card.isFlipped ? ' is-flipped' : ''}${card.isMatched ? ' is-matched' : ''}`;
-      return `<div class="board-card${stateClasses}" data-card-id="${card.id}"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`;
+      const matchedClass = card.isMatched ? ' is-matched' : '';
+      const face = theme.cardFaces[card.pairId];
+      if (!face) {
+        return `<div class="board-card${card.isFlipped ? ' is-flipped' : ''}${matchedClass}" data-card-id="${card.id}"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`;
+      }
+      const startsFlipped = previouslyFlipped.get(card.id) ?? card.isFlipped;
+      if (startsFlipped !== card.isFlipped) pendingFlips.push({ id: card.id, isFlipped: card.isFlipped });
+      return `<div class="board-card board-card--faced${startsFlipped ? ' is-flipped' : ''}${matchedClass}" data-card-id="${card.id}"><div class="board-card__inner"><img class="board-card__back" src="${cardBackImage}" alt="" /><img class="board-card__face" src="${face}" alt="" /></div></div>`;
     })
     .join('');
 
@@ -168,6 +181,15 @@ export function renderBoard(): HTMLElement {
     const cardElement = (event.target as Element).closest<HTMLElement>('.board-card');
     if (cardElement) selectCard(Number(cardElement.dataset.cardId));
   });
+
+  if (pendingFlips.length > 0) {
+    requestAnimationFrame(() => {
+      void section.offsetWidth;
+      pendingFlips.forEach(({ id, isFlipped }) => {
+        section.querySelector(`.board-card[data-card-id="${id}"]`)?.classList.toggle('is-flipped', isFlipped);
+      });
+    });
+  }
 
   return section;
 }

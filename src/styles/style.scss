@@ -535,38 +535,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-.card {
-  height: 100px;
-  aspect-ratio: 1/1;
-  background-color: transparent;
-  border: none;
-
-  &__inner {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    transform-style: preserve-3d;
-    transition: all 300ms ease-in-out;
-  }
-
-  &__face {
-    position: absolute;
-    inset: 0;
-    background-color: var(--color-card-back);
-    backface-visibility: hidden;
-    border-radius: var(--radius-sm);
-
-    &--back {
-      transform: rotateY(180deg);
-      background-color: var(--color-accent);
-    }
-  }
-
-  &.is-flipped .card__inner {
-    transform: rotateY(180deg);
-  }
-}
-
 .screen--board {
   width: 100%;
   max-width: var(--breakpoint-wide);
@@ -1230,6 +1198,62 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   height: 100%;
   object-fit: cover;
   border-radius: inherit;
+}
+
+.board-card--faced {
+  perspective: 600px;
+
+  .board-card__inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    transform-style: preserve-3d;
+    transition: transform 400ms ease-in-out;
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  .board-card__back,
+  .board-card__face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+  }
+
+  .board-card__face {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: inherit;
+    transform: rotateY(180deg);
+  }
+
+  &.is-flipped .board-card__inner {
+    transform: rotateY(180deg);
+  }
+}
+
+// Code vibes face background lives in CSS (the face SVGs are transparent) so the
+// found-pair state can swap it; sizes and offsets follow the Figma match status
+// (5px inset border, 6px/6px shadow with 4px Gaussian sigma = 8px CSS blur).
+[data-theme='code-vibes'] .board-card--faced {
+  .board-card__face {
+    background-color: var(--color-card-face-bg);
+  }
+
+  &.is-matched {
+    box-shadow: 6px 6px 8px var(--color-card-match-shadow);
+
+    .board-card__face {
+      background-color: var(--color-card-match-bg);
+      outline: 5px solid var(--color-card-match-border);
+      outline-offset: -5px;
+    }
+  }
 }
 
 .board__exit-confirm-overlay {
