@@ -1,6 +1,6 @@
 import { startGame } from '../app/game';
 import { getState, setState } from '../app/state';
-import { THEMES } from '../config/themes';
+import { DEFAULT_THEME, THEMES } from '../config/themes';
 import { BOARD_SIZES } from '../config/boardSizes';
 import { PLAYERS } from '../config/players';
 import type { ThemeId, PlayerColor, BoardSizeId } from '../app/types';
@@ -33,7 +33,7 @@ export function renderSettings(): HTMLElement {
     .map((id) => radioRow('boardSize', id, BOARD_SIZES[id].label, state.boardSizeSelected && state.boardSize === id))
     .join('');
 
-  const previewThemeId: ThemeId = state.theme ?? 'code-vibes';
+  const previewThemeId: ThemeId = state.theme ?? DEFAULT_THEME;
   const themeText = state.theme ? THEMES[state.theme].label : 'Theme';
   const playerText = state.playerSelected ? `${PLAYERS[state.playerColor].label} Player` : 'Player';
   const boardSizeText = state.boardSizeSelected
@@ -111,7 +111,7 @@ export function renderSettings(): HTMLElement {
       if (previewImage) previewImage.src = THEMES[input.value as ThemeId].previewImage;
     });
     row.addEventListener('mouseleave', () => {
-      if (previewImage) previewImage.src = THEMES[getState().theme ?? 'code-vibes'].previewImage;
+      if (previewImage) previewImage.src = THEMES[getState().theme ?? DEFAULT_THEME].previewImage;
     });
   });
 
