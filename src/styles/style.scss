@@ -1223,26 +1223,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     backface-visibility: hidden;
   }
 
+  // Face colors, corner radius and the found-pair border come from per-theme
+  // tokens in _themes.scss. The found-pair shadow (6px/6px, 4px Gaussian sigma =
+  // 8px CSS blur) is the Figma "match status" component shared by the themes.
   .board-card__face {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: contain;
-    border-radius: inherit;
+    background-color: var(--color-card-face-bg);
+    border-radius: var(--card-face-radius);
     transform: rotateY(180deg);
   }
 
   &.is-flipped .board-card__inner {
     transform: rotateY(180deg);
-  }
-}
-
-// Code vibes face background lives in CSS (the face SVGs are transparent) so the
-// found-pair state can swap it; sizes and offsets follow the Figma match status
-// (5px inset border, 6px/6px shadow with 4px Gaussian sigma = 8px CSS blur).
-[data-theme='code-vibes'] .board-card--faced {
-  .board-card__face {
-    background-color: var(--color-card-face-bg);
   }
 
   &.is-matched {
@@ -1250,8 +1245,8 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     .board-card__face {
       background-color: var(--color-card-match-bg);
-      outline: 5px solid var(--color-card-match-border);
-      outline-offset: -5px;
+      outline: var(--card-match-border-width) solid var(--color-card-match-border);
+      outline-offset: calc(-1 * var(--card-match-border-width));
     }
   }
 }
