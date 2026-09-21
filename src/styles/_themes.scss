@@ -6,7 +6,6 @@
   --color-surface: #16211f;
   --color-accent: #2bcfa0;
   --color-text: #ffffff;
-  --color-card-back: #0f1a18;
   --color-board-bg: #303131;
   --color-board-panel: #303131;
   --color-board-score-bg: #405450;
@@ -23,6 +22,8 @@
   --color-card-match-bg: #ffffff;
   --color-card-match-border: #4dd5bc;
   --color-card-match-shadow: rgba(77, 213, 188, 0.3);
+  --card-face-radius: 0;
+  --card-match-border-width: 5px;
 }
 
 [data-theme="games"] {
@@ -30,7 +31,6 @@
   --color-surface: #102730;
   --color-accent: #e8397e;
   --color-text: #eef7fb;
-  --color-card-back: #0c1e24;
   --color-board-bg: rgba(41, 79, 96, 1);
   --color-board-panel: #555d74;
   --color-board-score-bg: #ffffff;
@@ -42,6 +42,12 @@
   --color-popup-confirm-text: rgba(231, 28, 79, 1);
   --color-popup-confirm-outline-bg: rgba(237, 27, 118, 0.08);
   --color-player-orange: #ea6900;
+  --color-card-face-bg: #f6f1f3;
+  --color-card-match-bg: #f6f1f3;
+  --color-card-match-border: #ed1b76;
+  --color-card-match-shadow: rgba(237, 27, 118, 0.3);
+  --card-face-radius: 12px;
+  --card-match-border-width: 3px;
 }
 
 [data-theme="da-projects"] {
@@ -49,7 +55,6 @@
   --color-surface: #ffffff;
   --color-accent: #2f6fed;
   --color-text: #14213d;
-  --color-card-back: #d7e3fb;
   --color-board-bg: #ffffff;
   --color-board-panel: #eef2f3;
   --color-board-score-bg: #ffffff;
@@ -66,7 +71,6 @@
   --color-surface: #ffffff;
   --color-accent: #f0793a;
   --color-text: #3a2415;
-  --color-card-back: #ffe3cc;
   --color-board-bg: #ffffff;
   --color-board-panel: #efe4d8;
   --color-board-score-bg: #ffffff;
