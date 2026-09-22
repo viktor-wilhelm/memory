@@ -4,7 +4,8 @@ import { getState, setState } from './state';
 import type { GameResult, GameState, PlayerColor, Screen } from './types';
 
 export const MISMATCH_DELAY_MS = 1000;
-// 400ms flip + 300ms of the final pair shown as matched before the result screen.
+// Lets the flip finish and keeps the final pair visible as matched for a moment
+// before switching to the result screen.
 export const GAME_OVER_DELAY_MS = 700;
 
 let mismatchTimer: ReturnType<typeof setTimeout> | null = null;
