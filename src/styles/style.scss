@@ -1217,7 +1217,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   .board-card__back,
-  .board-card__face {
+  .board-card__front {
     position: absolute;
     inset: 0;
     backface-visibility: hidden;
@@ -1226,14 +1226,18 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   // Face colors, corner radius and the found-pair border come from per-theme
   // tokens in _themes.scss. The found-pair shadow (6px/6px, 4px Gaussian sigma =
   // 8px CSS blur) is the Figma "match status" component shared by the themes.
+  .board-card__front {
+    overflow: hidden;
+    background-color: var(--color-card-face-bg);
+    border-radius: var(--card-face-radius);
+    transform: rotateY(180deg);
+  }
+
   .board-card__face {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: contain;
-    background-color: var(--color-card-face-bg);
-    border-radius: var(--card-face-radius);
-    transform: rotateY(180deg);
   }
 
   &.is-flipped .board-card__inner {
@@ -1243,10 +1247,36 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   &.is-matched {
     box-shadow: 6px 6px 8px var(--color-card-match-shadow);
 
-    .board-card__face {
+    .board-card__front {
       background-color: var(--color-card-match-bg);
+    }
+
+    // Found-pair border, drawn above the image inside the face plane.
+    .board-card__front::after {
+      content: '';
+      position: absolute;
+      inset: 0;
       outline: var(--card-match-border-width) solid var(--color-card-match-border);
       outline-offset: calc(-1 * var(--card-match-border-width));
+      border-radius: inherit;
+      pointer-events: none;
+    }
+
+    // Only the image is enlarged; the 3D face plane keeps its flip transform.
+    .board-card__face {
+      transform: scale(var(--card-match-image-scale));
+    }
+
+    // Optional theme-provided frame drawn over the face; it flips with the face
+    // and never takes part in layout or hit testing.
+    .board-card__inner::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--card-match-frame) center / 100% 100% no-repeat;
+      backface-visibility: hidden;
+      pointer-events: none;
+      transform: rotateY(180deg) translateZ(1px);
     }
   }
 }
