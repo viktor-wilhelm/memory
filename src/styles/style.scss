@@ -1171,11 +1171,9 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding: 0;
   border-radius: var(--radius-sm);
   background: transparent;
-  overflow: hidden;
 
   [data-theme='games'] & {
     aspect-ratio: 105 / 120;
-    box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.55);
   }
 
   [data-theme='code-vibes'] & {
@@ -1200,6 +1198,17 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: inherit;
 }
 
+// The card shadow is drawn by the currently visible face (back while closed,
+// front while open), not by the outer, unanimated .board-card box: that way
+// it turns and foreshortens with the flip instead of staying behind as a
+// static full-size rectangle. .board-card__back is an <img>; box-shadow on a
+// replaced element doesn't blend cleanly with its own border-radius clip
+// (a visible seam at the rounded corners), so this uses filter: drop-shadow,
+// which follows the image's actual rendered (already-clipped) shape instead.
+[data-theme='games'] .board-card__back {
+  filter: drop-shadow(7px 7px 10px rgba(0, 0, 0, 0.55));
+}
+
 .board-card--faced {
   perspective: 600px;
 
@@ -1209,7 +1218,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     height: 100%;
     border-radius: inherit;
     transform-style: preserve-3d;
-    transition: transform 400ms ease-in-out;
+    transition: transform 200ms ease-out;
 
     @media (prefers-reduced-motion: reduce) {
       transition: none;
@@ -1231,6 +1240,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     background-color: var(--color-card-face-bg);
     border-radius: var(--card-face-radius);
     transform: rotateY(180deg);
+
+    [data-theme='games'] & {
+      box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.55);
+    }
   }
 
   .board-card__face {
@@ -1245,10 +1258,9 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   &.is-matched {
-    box-shadow: 6px 6px 8px var(--color-card-match-shadow);
-
     .board-card__front {
       background-color: var(--color-card-match-bg);
+      box-shadow: 6px 6px 8px var(--color-card-match-shadow);
     }
 
     // Found-pair border, drawn above the image inside the face plane.
