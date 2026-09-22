@@ -84,7 +84,7 @@ export function renderBoard(): HTMLElement {
       }
       const startsFlipped = previouslyFlipped.get(card.id) ?? card.isFlipped;
       if (startsFlipped !== card.isFlipped) pendingFlips.push({ id: card.id, isFlipped: card.isFlipped });
-      return `<div class="board-card board-card--faced${startsFlipped ? ' is-flipped' : ''}${matchedClass}" data-card-id="${card.id}"><div class="board-card__inner"><img class="board-card__back" src="${cardBackImage}" alt="" /><img class="board-card__face" src="${face}" alt="" /></div></div>`;
+      return `<div class="board-card board-card--faced${startsFlipped ? ' is-flipped' : ''}${matchedClass}" data-card-id="${card.id}"><div class="board-card__inner"><img class="board-card__back" src="${cardBackImage}" alt="" /><div class="board-card__front"><img class="board-card__face" src="${face}" alt="" /></div></div></div>`;
     })
     .join('');
 
