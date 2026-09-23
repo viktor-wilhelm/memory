@@ -279,10 +279,20 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     height: 0;
   }
 
+  // Focus ring for keyboard navigation only (native :focus-visible), drawn
+  // around the visible dot rather than the input itself (which is visually
+  // hidden at 0x0). box-shadow (not outline) so it follows the dot's own
+  // border-radius as a round ring; it paints outside the box and never
+  // affects layout.
+  input:focus-visible + .radio-row__dot {
+    box-shadow: 0 0 0 3px var(--color-accent);
+  }
+
   &__dot {
     display: inline-block;
     width: 20px;
     height: 20px;
+    border-radius: 50%;
     position: relative;
     flex-shrink: 0;
 
@@ -293,8 +303,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       inset: 0;
       background-repeat: no-repeat;
       background-size: contain;
+      transition: opacity 150ms ease-in-out;
     }
 
+    // Unchecked: the thicker ring alone. Checked: it fades out so only
+    // mode_standby's thinner ring + centered dot (below) shows through.
     &::before {
       background-image: url('/assets/settings-page/fiber_manual_record.svg');
     }
@@ -302,7 +315,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     &::after {
       background-image: url('/assets/settings-page/mode_standby.svg');
       opacity: 0;
-      transition: opacity 150ms ease-in-out;
     }
   }
 
@@ -334,6 +346,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   &.is-checked {
     font-weight: 700;
 
+    .radio-row__dot::before {
+      opacity: 0;
+    }
+
     .radio-row__dot::after {
       opacity: 1;
     }
@@ -346,6 +362,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
 .radio-list--theme .radio-row:hover {
   font-weight: 700;
+
+  .radio-row__dot::before {
+    opacity: 0;
+  }
 
   .radio-row__dot::after {
     opacity: 1;
