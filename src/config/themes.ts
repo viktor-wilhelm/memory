@@ -21,6 +21,16 @@ interface ThemeConfig {
   exitConfirmUppercase: boolean;
   exitConfirmStyle: 'outline' | 'filled';
   exitConfirmAnimation: 'from-top' | 'from-bottom' | 'none';
+  // Game Over — the intermediate result screen shown right after the final
+  // matched pair (before the not-yet-implemented Winner/Draw screen). The
+  // title is either a pre-composited SVG image (Code vibes) or literal text
+  // styled per theme in CSS; everything else (layout, typography, colors) is
+  // theme tokens/CSS, not per-theme markup.
+  gameOverTitle: { type: 'image'; src: string } | { type: 'text' };
+  // 'label': player name + a per-color label icon, no pawn (Code vibes).
+  // 'pawn': the shared chess-pawn icon + score, no player name (the rest).
+  gameOverScoreStyle: 'label' | 'pawn';
+  gameOverScoreOrder: [PlayerColor, PlayerColor];
 }
 
 export const DEFAULT_THEME: ThemeId = 'code-vibes';
@@ -59,6 +69,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     exitConfirmUppercase: false,
     exitConfirmStyle: 'outline',
     exitConfirmAnimation: 'from-top',
+    gameOverTitle: { type: 'image', src: '/assets/code-vibes-theme/game-over/game-over.svg' },
+    gameOverScoreStyle: 'label',
+    gameOverScoreOrder: ['blue', 'orange'],
   },
   games: {
     label: 'Gaming theme',
@@ -93,6 +106,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     exitConfirmUppercase: false,
     exitConfirmStyle: 'outline',
     exitConfirmAnimation: 'from-bottom',
+    gameOverTitle: { type: 'text' },
+    gameOverScoreStyle: 'pawn',
+    gameOverScoreOrder: ['orange', 'blue'],
   },
   'da-projects': {
     label: 'DA Projects theme',
@@ -127,6 +143,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     exitConfirmUppercase: false,
     exitConfirmStyle: 'filled',
     exitConfirmAnimation: 'none',
+    gameOverTitle: { type: 'text' },
+    gameOverScoreStyle: 'pawn',
+    gameOverScoreOrder: ['orange', 'blue'],
   },
   food: {
     label: 'Foods theme',
@@ -161,5 +180,8 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     exitConfirmUppercase: true,
     exitConfirmStyle: 'outline',
     exitConfirmAnimation: 'from-bottom',
+    gameOverTitle: { type: 'text' },
+    gameOverScoreStyle: 'pawn',
+    gameOverScoreOrder: ['orange', 'blue'],
   },
 };
