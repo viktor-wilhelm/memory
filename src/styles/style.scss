@@ -1381,6 +1381,390 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
+// Game Over — shared markup/logic lives in one place (src/views/gameOver.ts);
+// only layout, typography, colors and the score row's presentation differ per
+// theme, via [data-theme='...'] rules below and the shared player-color
+// tokens (never a new literal for a color that already has a token).
+//
+// Geometry: below the reference desktop viewport (1440x1024, see the media
+// query at the end of this section) everything is fluid/centered so nothing
+// overflows or clips on small screens. At the reference viewport, Content is
+// switched to an exact absolute position (--game-over-content-top per theme,
+// horizontal centering via left: 50%) and every text block gets the exact
+// px font-size/line-height Figma gives, reproducing the Figma bounding boxes
+// to the pixel — line-height: 100% alone doesn't do this, since a font's own
+// natural leading isn't necessarily equal to its font-size.
+.screen--game-over {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  background-color: var(--color-game-over-bg);
+  color: var(--color-text);
+}
+
+.game-over__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.game-over__title {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-inline: auto;
+  }
+}
+
+.game-over__score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.game-over__score-title {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.game-over__score-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.game-over__player {
+  display: inline-flex;
+  align-items: center;
+
+  img,
+  svg {
+    display: block;
+    flex-shrink: 0;
+  }
+
+  &--blue {
+    color: var(--color-player-blue);
+  }
+
+  &--orange {
+    color: var(--color-player-orange);
+  }
+}
+
+.game-over__player-score {
+  display: inline-block;
+}
+
+[data-theme='code-vibes'] {
+  .game-over__content {
+    width: min(990.5px, 100%);
+    gap: 124px;
+  }
+
+  .game-over__title img {
+    max-width: 990.5px;
+  }
+
+  .game-over__score {
+    width: 323px;
+    max-width: 100%;
+    // Derived from the given totals: 367.2 (Content) - 125.2 (title) - 124
+    // (Content gap) = 118, and 118 - 32 (Final score text) - 62 (panel) = 24.
+    gap: 24px;
+  }
+
+  .game-over__score-title {
+    font-family: var(--font-family-display);
+    font-weight: 400;
+    font-size: clamp(1.125rem, 5vw, 26px);
+    line-height: 1.2;
+    color: #ffffff;
+  }
+
+  .game-over__score-panel {
+    box-sizing: border-box;
+    width: 100%;
+    height: 62px;
+    padding: 17px 20px;
+    gap: 32px;
+    background-color: rgba(134, 233, 214, 0.2);
+  }
+
+  .game-over__player {
+    gap: var(--space-1);
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 100%;
+    color: #ffffff;
+
+    img {
+      width: 24px;
+      height: 20px;
+    }
+  }
+}
+
+[data-theme='games'] {
+  .game-over__content {
+    width: min(969px, 100%);
+    gap: 104px;
+  }
+
+  .game-over__title {
+    font-family: var(--font-family-games);
+    font-weight: 900;
+    font-size: clamp(2.25rem, 14vw, 124px);
+    line-height: 1.1;
+    letter-spacing: 0.07em;
+    color: #ed1b76;
+  }
+
+  .game-over__score {
+    width: 222px;
+    max-width: 100%;
+    gap: 24px;
+  }
+
+  .game-over__score-title {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: clamp(1.125rem, 5vw, 28px);
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    color: #ffffff;
+  }
+
+  .game-over__score-panel {
+    box-sizing: border-box;
+    width: 100%;
+    height: 66px;
+    padding: 8px 16px;
+    gap: 40px;
+    border-radius: 10px;
+    background-color: #ffffff;
+  }
+
+  .game-over__player {
+    gap: var(--space-1);
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 100%;
+
+    svg {
+      width: 26px;
+      height: 32px;
+    }
+  }
+}
+
+[data-theme='da-projects'] {
+  .game-over__content {
+    width: min(969px, 100%);
+    gap: 104px;
+  }
+
+  .game-over__title {
+    font-family: var(--font-family-da-projects);
+    font-weight: 800;
+    font-size: clamp(2.25rem, 14vw, 130px);
+    line-height: 1.15;
+    color: #fd5b4f;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .game-over__score {
+    width: 222px;
+    max-width: 100%;
+    gap: 24px;
+  }
+
+  .game-over__score-title {
+    font-family: var(--font-family-da-projects);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 6vw, 40px);
+    line-height: 1;
+    color: #ffffff;
+  }
+
+  .game-over__score-panel {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 220px;
+    height: 76px;
+    padding-inline: 16px;
+    gap: 40px;
+    border-radius: 10px;
+    background-color: #ffffff;
+  }
+
+  .game-over__player {
+    gap: var(--space-1);
+    font-family: var(--font-family-da-projects);
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 100%;
+
+    svg {
+      width: 24px;
+      height: 30px;
+    }
+  }
+}
+
+[data-theme='food'] {
+  .game-over__content {
+    width: min(969px, 100%);
+    gap: 104px;
+  }
+
+  .game-over__title {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: clamp(2.25rem, 14vw, 130px);
+    line-height: 1.45;
+    color: #ffffff;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .game-over__score {
+    width: 223px;
+    max-width: 100%;
+    gap: 24px;
+  }
+
+  .game-over__score-title {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 6vw, 42px);
+    line-height: 1.15;
+    color: #ffffff;
+  }
+
+  .game-over__score-panel {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 220px;
+    height: 76px;
+    padding-inline: 16px;
+    gap: 40px;
+    border-radius: 0;
+    background-color: #ffffff;
+  }
+
+  .game-over__player {
+    gap: var(--space-1);
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 100%;
+
+    svg {
+      width: 24px;
+      height: 30px;
+    }
+  }
+}
+
+// Exact desktop geometry, reproducing the Figma bounding boxes to the pixel.
+// Only active at (or above) the reference viewport; every smaller viewport
+// keeps the fluid/centered rules above instead.
+@media (min-width: 1440px) and (min-height: 1024px) {
+  .game-over__content {
+    position: absolute;
+    left: 50%;
+    top: var(--game-over-content-top);
+    transform: translateX(-50%);
+  }
+
+  // The Figma title boxes are single-line; force it here so a sub-pixel
+  // rounding difference between Figma's and the browser's text engines
+  // (e.g. Food's "GAME OVER" measures ~771px vs. its 770px box) can't
+  // silently wrap the line and double the block's height.
+  .game-over__title {
+    white-space: nowrap;
+  }
+
+  [data-theme='code-vibes'] {
+    // The merged asset's own aspect ratio (998x138) doesn't match Figma's
+    // final grouped size (990.5x125.2); per the confirmed exception, the
+    // title box is sized exactly and the image fills it (non-uniform scale)
+    // rather than preserving the source aspect ratio.
+    .game-over__title {
+      width: 990.5px;
+      height: 125.2px;
+    }
+
+    .game-over__title img {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: fill;
+    }
+
+    .game-over__score-title {
+      font-size: 26px;
+      line-height: 32px;
+    }
+  }
+
+  [data-theme='games'] {
+    .game-over__title {
+      font-size: 124px;
+      line-height: 155px;
+    }
+
+    .game-over__score-title {
+      font-size: 28px;
+      line-height: 30px;
+    }
+  }
+
+  [data-theme='da-projects'] {
+    .game-over__title {
+      width: 763px;
+      max-width: 763px;
+      margin-inline: auto;
+      font-size: 130px;
+      line-height: 156px;
+    }
+
+    .game-over__score-title {
+      font-size: 40px;
+      line-height: 37px;
+    }
+  }
+
+  [data-theme='food'] {
+    .game-over__title {
+      width: 770px;
+      max-width: 770px;
+      margin-inline: auto;
+      font-size: 130px;
+      line-height: 188px;
+    }
+
+    .game-over__score-title {
+      font-size: 42px;
+      line-height: 48px;
+    }
+  }
+}
+
 @keyframes board-exit-confirm-from-top {
   from {
     transform: translateY(-120vh);

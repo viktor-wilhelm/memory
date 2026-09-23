@@ -24,6 +24,8 @@
   --color-card-match-shadow: rgba(77, 213, 188, 0.3);
   --card-face-radius: 0;
   --card-match-border-width: 5px;
+  --color-game-over-bg: #303131;
+  --game-over-content-top: 303px;
 }
 
 [data-theme="games"] {
@@ -41,7 +43,13 @@
   --color-popup-confirm-bg: rgba(231, 28, 79, 1);
   --color-popup-confirm-text: rgba(231, 28, 79, 1);
   --color-popup-confirm-outline-bg: rgba(237, 27, 118, 0.08);
+  // #117ec3 (the :root default) was never actually correct for Games — the
+  // Game Over Figma reference gives the true value; Board reuses this same
+  // token, so this fixes Board's blue pawn/score color too, not just Game Over.
+  --color-player-blue: #097fc5;
   --color-player-orange: #ea6900;
+  --color-game-over-bg: #294f60;
+  --game-over-content-top: 291px;
   --color-card-face-bg: #f6f1f3;
   --color-card-match-bg: #f6f1f3;
   --color-card-match-border: #ed1b76;
@@ -70,6 +78,13 @@
   --color-card-match-shadow: transparent;
   --card-face-radius: 13px;
   --card-match-border-width: 2px;
+  // DA Projects never overrode these and fell back to the :root defaults
+  // (#e96900/#117ec3), which are close but not exact. The Game Over Figma
+  // reference gives the true values; this also corrects Board's pawn colors.
+  --color-player-orange: #ea6900;
+  --color-player-blue: #097fc5;
+  --color-game-over-bg: #1e7594;
+  --game-over-content-top: 292px;
 }
 
 [data-theme="food"] {
@@ -97,4 +112,6 @@
   --card-match-border-width: 0;
   --card-match-frame: url('/assets/foods-theme/food-match-frame.png');
   --card-match-image-scale: 1.3;
+  --color-game-over-bg: #f3832d;
+  --game-over-content-top: 292px;
 }
