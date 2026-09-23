@@ -1509,7 +1509,8 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     font-weight: 700;
     font-size: 24px;
     line-height: 100%;
-    color: #ffffff;
+    // Color comes from the shared &--blue/&--orange modifiers (player-color
+    // tokens) below, not a literal here — only "Final score" itself is white.
 
     img {
       width: 24px;
