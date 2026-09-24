@@ -31,6 +31,14 @@ interface ThemeConfig {
   // 'pawn': the shared chess-pawn icon + score, no player name (the rest).
   gameOverScoreStyle: 'label' | 'pawn';
   gameOverScoreOrder: [PlayerColor, PlayerColor];
+  // Result — the themed Winner/Draw screen shown after Game Over. Draw
+  // always uses the shared scale icon (colors/backing in CSS); Winner's
+  // graphic differs by theme: the shared pawn icon (solid, or on a cream
+  // backing for Food), the same icon with a white outline (DA Projects), or
+  // the trophy image (Games).
+  resultWinnerGraphic: 'pawn' | 'pawn-backed' | 'pawn-outline' | 'trophy';
+  resultButtonLabel: string;
+  resultRevealAnimation: 'from-top' | 'from-bottom' | 'none';
 }
 
 export const DEFAULT_THEME: ThemeId = 'code-vibes';
@@ -72,6 +80,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     gameOverTitle: { type: 'image', src: '/assets/code-vibes-theme/game-over/game-over.svg' },
     gameOverScoreStyle: 'label',
     gameOverScoreOrder: ['blue', 'orange'],
+    resultWinnerGraphic: 'pawn',
+    resultButtonLabel: 'Back to start',
+    resultRevealAnimation: 'from-top',
   },
   games: {
     label: 'Gaming theme',
@@ -109,6 +120,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     gameOverTitle: { type: 'text' },
     gameOverScoreStyle: 'pawn',
     gameOverScoreOrder: ['orange', 'blue'],
+    resultWinnerGraphic: 'trophy',
+    resultButtonLabel: 'Home',
+    resultRevealAnimation: 'from-bottom',
   },
   'da-projects': {
     label: 'DA Projects theme',
@@ -146,6 +160,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     gameOverTitle: { type: 'text' },
     gameOverScoreStyle: 'pawn',
     gameOverScoreOrder: ['orange', 'blue'],
+    resultWinnerGraphic: 'pawn-outline',
+    resultButtonLabel: 'Home',
+    resultRevealAnimation: 'none',
   },
   food: {
     label: 'Foods theme',
@@ -183,5 +200,8 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     gameOverTitle: { type: 'text' },
     gameOverScoreStyle: 'pawn',
     gameOverScoreOrder: ['orange', 'blue'],
+    resultWinnerGraphic: 'pawn-backed',
+    resultButtonLabel: 'home',
+    resultRevealAnimation: 'from-bottom',
   },
 };

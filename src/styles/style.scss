@@ -1766,6 +1766,503 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
+// Result — the themed Winner/Draw screen shown after Game Over (shared
+// markup in src/views/result.ts). Same fluid-below/exact-at-1440 approach as
+// Game Over above: below the reference viewport everything is centered and
+// fluid so nothing clips; at 1440x1024 the content box gets Figma's exact
+// x/y/width/height (per theme AND per outcome — winner and draw use
+// different boxes within the same theme). Gaps between the eyebrow/title-or-
+// draw/graphic/button are derived the same way Game Over derives its score
+// gap: (box height - sum of element heights) / (gap count), assuming a
+// 1.2 line-height for body text and 1 for the big DRAW/title word.
+.screen--result {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--color-result-bg);
+  color: var(--color-text);
+}
+
+.result__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// Separate from .result__content so the reveal animation's transform never
+// fights the content box's own centering transform (translateX(-50%) at the
+// 1440px breakpoint below).
+.result__reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.result__eyebrow {
+  margin: 0;
+}
+
+.result__title {
+  margin: 0;
+
+  &--blue {
+    color: var(--color-result-winner-blue, var(--color-result-title));
+  }
+
+  &--orange {
+    color: var(--color-result-winner-orange, var(--color-result-title));
+  }
+}
+
+.result__draw-title {
+  position: relative;
+  margin: 0;
+  color: var(--color-result-draw-title);
+}
+
+.result__draw-backing {
+  position: absolute;
+  inset: 0;
+  color: #ffffff;
+  z-index: 0;
+}
+
+.result__draw-word {
+  position: relative;
+  z-index: 1;
+}
+
+.result__graphic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result__pawn {
+  display: flex;
+
+  svg {
+    display: block;
+  }
+
+  &--blue {
+    color: var(--color-player-blue);
+  }
+
+  &--orange {
+    color: var(--color-player-orange);
+  }
+}
+
+.result__pawn-backing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7e6d5;
+}
+
+.result__trophy {
+  display: block;
+}
+
+.result__scale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-result-draw-title);
+
+  svg {
+    display: block;
+  }
+}
+
+.result__confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 245px;
+  background-image: url('/assets/code-vibes-theme/result/confetti.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 1440px auto;
+  pointer-events: none;
+}
+
+.result__button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+
+// Code vibes — "Back to start" reuses the Exit Game outline chrome, but with
+// its own exact numbers per spec (not the shared --color-popup-confirm-*
+// tokens, so the existing Exit Game button stays untouched).
+[data-theme='code-vibes'] .result__button {
+  width: 204px;
+  height: 62px;
+  border: 1px solid #4dd5bc;
+  border-radius: 0;
+  background-color: rgba(134, 233, 214, 0.2);
+  color: #ffffff;
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: 24px;
+
+  &:hover {
+    background-color: color-mix(in srgb, rgba(134, 233, 214, 0.2) 99%, black 1%);
+    box-shadow: inset 0 0 0 1px #4dd5bc, 3px 3px 10px rgba(77, 213, 188, 0.5);
+  }
+}
+
+// Games — "Home" reuses button exit/game theme's outline chrome and hover.
+[data-theme='games'] .result__button {
+  width: 107px;
+  height: 49px;
+  border: 2px solid #e71c4f;
+  border-radius: 10px;
+  background-color: rgba(237, 27, 118, 0.08);
+  color: #ffffff;
+  font-family: var(--font-family-games);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+
+  &:hover {
+    box-shadow: inset 0 0 0 1px #e71c4f, 6px 6px 6px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// DA Projects — "Home" reuses Back to game's fill/hover, without its shadow.
+[data-theme='da-projects'] .result__button {
+  width: 96px;
+  height: 48px;
+  border-radius: 10px;
+  background-color: rgba(191, 229, 242, 1);
+  color: rgba(30, 117, 148, 1);
+  font-family: var(--font-family-da-projects);
+  font-weight: 700;
+  font-size: 16px;
+
+  &:hover {
+    background-color: rgba(30, 117, 148, 1);
+    color: #ffffff;
+  }
+}
+
+// Food — reuses the Pop up component's shape/hover images as-is, but with
+// real HTML text on top instead of a baked text image (per instruction).
+// Confirmed against the source SVGs: the resting shape fill is #FFAB3E, not
+// the #F3832D given in the task, which is specifically the hover color.
+[data-theme='food'] .result__button {
+  width: 211px;
+  height: 45px;
+  border: none;
+  border-radius: 10px;
+  background-color: transparent;
+  background-image: url('/assets/foods-theme/button-pop-up_04-shape.svg');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #ffffff;
+  font-family: var(--font-family-food-button);
+  font-weight: 700;
+  font-size: 16px;
+
+  &:hover {
+    background-image: url('/assets/foods-theme/button-pop-up_04-shape-hover.svg');
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  }
+}
+
+[data-theme='code-vibes'] {
+  .result__eyebrow {
+    font-family: var(--font-family-display);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 5vw, 40px);
+    line-height: 1.2;
+    color: #ffffff;
+  }
+
+  .result__title {
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 10vw, 60px);
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .result__draw-title {
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    // Not given explicitly in the task text; measured off the DRAW glyph
+    // paths in Memory/Draw_01.svg (~77px cap height at Red Rose Bold).
+    font-size: 112px;
+    line-height: 1;
+  }
+
+  .result__draw-backing {
+    transform: translate(-4px, -2px);
+  }
+
+  .result__pawn svg {
+    width: 200px;
+    height: 250px;
+  }
+
+  .result__scale svg {
+    width: 346px;
+    height: 276px;
+  }
+}
+
+[data-theme='games'] {
+  .result__eyebrow {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: clamp(1rem, 4vw, 28px);
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    color: #ffffff;
+  }
+
+  .result__title {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: clamp(2rem, 11vw, 64px);
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .result__draw-title {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 14vw, 128px);
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .result__trophy {
+    width: 288px;
+    height: 344px;
+    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
+  }
+
+  .result__scale svg {
+    width: 346px;
+    height: 276px;
+  }
+}
+
+[data-theme='da-projects'] {
+  .result__eyebrow {
+    font-family: var(--font-family-da-projects);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 5vw, 40px);
+    line-height: 1.2;
+    color: #ffffff;
+  }
+
+  .result__title {
+    font-family: var(--font-family-da-projects);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 12vw, 80px);
+    line-height: 1.2;
+    color: var(--color-result-title);
+  }
+
+  .result__draw-title {
+    font-family: var(--font-family-da-projects);
+    font-weight: 800;
+    font-size: clamp(2.25rem, 14vw, 128px);
+    line-height: 1.2;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .result__pawn svg {
+    width: 212px;
+    height: 262px;
+  }
+
+  .result__scale svg {
+    width: 339px;
+    height: 272px;
+    // SCALE_ICON has no baked outline (unlike the winner pawn), so the white
+    // contour from the mockup is approximated with 8 offset copies —
+    // a standard CSS-only outline technique for a currentColor icon.
+    filter: drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff)
+      drop-shadow(0 -3px 0 #fff) drop-shadow(3px 3px 0 #fff) drop-shadow(-3px -3px 0 #fff)
+      drop-shadow(3px -3px 0 #fff) drop-shadow(-3px 3px 0 #fff);
+  }
+}
+
+[data-theme='food'] {
+  .result__eyebrow {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 5vw, 40px);
+    line-height: 1.2;
+    color: var(--color-result-title);
+  }
+
+  .result__title {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: clamp(2.25rem, 12vw, 80px);
+    line-height: 1.2;
+    color: var(--color-result-title);
+  }
+
+  .result__draw-title {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: clamp(2.25rem, 14vw, 128px);
+    line-height: 1.2;
+  }
+
+  .result__pawn svg {
+    width: 200px;
+    height: 250px;
+  }
+
+  .result__pawn-backing {
+    width: 260px;
+    height: 298px;
+  }
+
+  .result__scale svg {
+    width: 311px;
+    height: 249px;
+  }
+
+  .result__scale {
+    width: 311px;
+    height: 285px;
+    background-color: #f7e6d5;
+  }
+}
+
+// Exact desktop geometry, reproducing the Figma bounding boxes to the pixel.
+// Winner and Draw use different content boxes (see the per-theme comments),
+// so both are keyed by [data-outcome] in addition to [data-theme].
+@media (min-width: 1440px) and (min-height: 1024px) {
+  .result__content {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .result__title,
+  .result__draw-title {
+    white-space: nowrap;
+  }
+
+  // From 1440px the confetti swaps to the long widescreen strip so it keeps
+  // spanning the full (now wider) window, matching Memory/widescreen-design.svg.
+  .result__confetti {
+    background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
+    background-size: 3440px auto;
+  }
+
+  [data-theme='code-vibes'][data-outcome='winner'] {
+    .result__content { width: 522px; top: 318px; }
+    .result__reveal { gap: 47px; }
+  }
+
+  [data-theme='code-vibes'][data-outcome='draw'] {
+    .result__content { width: 420px; top: 222px; }
+    .result__reveal { gap: 35px; }
+  }
+
+  [data-theme='games'][data-outcome='winner'] {
+    .result__content { width: 468px; top: 192.5px; }
+    .result__reveal { gap: 45px; }
+  }
+
+  [data-theme='games'][data-outcome='draw'] {
+    .result__content { width: 578px; top: 216px; }
+    .result__reveal { gap: 27px; }
+  }
+
+  [data-theme='da-projects'][data-outcome='winner'] {
+    .result__content { width: 522px; top: 192px; }
+    .result__reveal { gap: 38px; }
+  }
+
+  [data-theme='da-projects'][data-outcome='draw'] {
+    .result__content { width: 386px; top: 192px; }
+    .result__reveal { gap: 26px; }
+  }
+
+  [data-theme='food'][data-outcome='winner'] {
+    .result__content { width: 540px; top: 192px; }
+    .result__reveal { gap: 48px; }
+  }
+
+  [data-theme='food'][data-outcome='draw'] {
+    .result__content { width: 376px; top: 185px; }
+    .result__reveal { gap: 40px; }
+  }
+}
+
+@keyframes result-reveal-from-top {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes result-reveal-from-bottom {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes result-reveal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.screen--result--from-top .result__reveal {
+  animation: result-reveal-from-top 400ms ease-out;
+}
+
+.screen--result--from-bottom .result__reveal {
+  animation: result-reveal-from-bottom 400ms ease-out;
+}
+
+.screen--result--none .result__reveal {
+  animation: result-reveal-fade 400ms ease-out;
+}
+
 @keyframes board-exit-confirm-from-top {
   from {
     transform: translateY(-120vh);
