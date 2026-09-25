@@ -2027,14 +2027,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     height: 250px;
   }
 
-  // Winner-only spacing: a slightly bigger eyebrow→name gap, and an exact
-  // 64px name→pawn and pawn→button gap (per manual Figma check against
-  // Winner_01), instead of the single uniform .result__reveal gap other
-  // theme/outcome combos use — set as margins so all three gaps can differ.
-  // Space, not &[data-outcome=...]: data-theme lives on <html> and
-  // data-outcome on the <section>, two different elements, so this must be
-  // a descendant selector, not a compound one requiring both attributes on
-  // the same element (that compound form silently never matches).
+  // Per-gap spacing, set as margins (not .result__reveal's flex gap) so
+  // each of the 3 internal gaps can differ, and — critically — so the
+  // graphic→button gap is exactly 64px on its own, never gap + margin
+  // stacked on top of each other. Space, not &[data-outcome=...]:
+  // data-theme lives on <html> and data-outcome on the <section>, two
+  // different elements, so this must be a descendant selector, not a
+  // compound one requiring both attributes on the same element (that
+  // compound form silently never matches).
   & [data-outcome='winner'] {
     .result__title {
       margin-top: 24px;
@@ -2042,6 +2042,20 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     .result__graphic {
       margin-top: 64px;
+    }
+
+    .result__button {
+      margin-top: 64px;
+    }
+  }
+
+  & [data-outcome='draw'] {
+    .result__draw-title {
+      margin-top: 35px;
+    }
+
+    .result__scale {
+      margin-top: 35px;
     }
 
     .result__button {
@@ -2093,6 +2107,22 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     width: 346px;
     height: 276px;
   }
+
+  // See the code-vibes block above for why these are margins, not
+  // .result__reveal's flex gap: the first gap here matches the theme's
+  // original gap: 45px/27px (unchanged, already correct); only the
+  // graphic→button gap is forced to exactly 64px.
+  & [data-outcome='winner'] {
+    .result__title { margin-top: 45px; }
+    .result__graphic { margin-top: 45px; }
+    .result__button { margin-top: 64px; }
+  }
+
+  & [data-outcome='draw'] {
+    .result__draw-title { margin-top: 27px; }
+    .result__scale { margin-top: 27px; }
+    .result__button { margin-top: 64px; }
+  }
 }
 
 [data-theme='da-projects'] {
@@ -2134,6 +2164,22 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     filter: drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff)
       drop-shadow(0 -3px 0 #fff) drop-shadow(3px 3px 0 #fff) drop-shadow(-3px -3px 0 #fff)
       drop-shadow(3px -3px 0 #fff) drop-shadow(-3px 3px 0 #fff);
+  }
+
+  // See the code-vibes block above for why these are margins, not
+  // .result__reveal's flex gap: the first gap here matches the theme's
+  // original gap: 38px/26px (unchanged, already correct); only the
+  // graphic→button gap is forced to exactly 64px.
+  & [data-outcome='winner'] {
+    .result__title { margin-top: 38px; }
+    .result__graphic { margin-top: 38px; }
+    .result__button { margin-top: 64px; }
+  }
+
+  & [data-outcome='draw'] {
+    .result__draw-title { margin-top: 26px; }
+    .result__scale { margin-top: 26px; }
+    .result__button { margin-top: 64px; }
   }
 }
 
@@ -2181,6 +2227,24 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     height: 285px;
     background-color: #f7e6d5;
   }
+
+  // See the code-vibes block above for why these are margins, not
+  // .result__reveal's flex gap: the first gap here matches the theme's
+  // original gap: 48px/40px (unchanged, already correct); only the
+  // graphic→button gap is forced to exactly 64px (measured from the cream
+  // backing's own bottom edge, since it's set directly on .result__graphic's
+  // child / .result__scale itself).
+  & [data-outcome='winner'] {
+    .result__title { margin-top: 48px; }
+    .result__graphic { margin-top: 48px; }
+    .result__button { margin-top: 64px; }
+  }
+
+  & [data-outcome='draw'] {
+    .result__draw-title { margin-top: 40px; }
+    .result__scale { margin-top: 40px; }
+    .result__button { margin-top: 64px; }
+  }
 }
 
 // Exact desktop geometry, reproducing the Figma bounding boxes to the pixel.
@@ -2214,37 +2278,30 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   [data-theme='code-vibes'] [data-outcome='draw'] {
     .result__content { width: 420px; top: 222px; }
-    .result__reveal { gap: 35px; }
   }
 
   [data-theme='games'] [data-outcome='winner'] {
     .result__content { width: 468px; top: 192.5px; }
-    .result__reveal { gap: 45px; }
   }
 
   [data-theme='games'] [data-outcome='draw'] {
     .result__content { width: 578px; top: 216px; }
-    .result__reveal { gap: 27px; }
   }
 
   [data-theme='da-projects'] [data-outcome='winner'] {
     .result__content { width: 522px; top: 192px; }
-    .result__reveal { gap: 38px; }
   }
 
   [data-theme='da-projects'] [data-outcome='draw'] {
     .result__content { width: 386px; top: 192px; }
-    .result__reveal { gap: 26px; }
   }
 
   [data-theme='food'] [data-outcome='winner'] {
     .result__content { width: 540px; top: 192px; }
-    .result__reveal { gap: 48px; }
   }
 
   [data-theme='food'] [data-outcome='draw'] {
     .result__content { width: 376px; top: 185px; }
-    .result__reveal { gap: 40px; }
   }
 }
 
