@@ -1932,7 +1932,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Games — "Home" reuses button exit/game theme's outline chrome and hover.
+// Games — "Home" reuses the Board header's "Exit game" button chrome and
+// hover exactly (not the exit-confirm popup's outline button, which was the
+// wrong source component: its hover doesn't change background at all,
+// unlike .board__exit's #695574 fill + inset ring).
 [data-theme='games'] .result__button {
   width: 107px;
   height: 49px;
@@ -1944,9 +1947,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   font-weight: 700;
   font-size: 20px;
   letter-spacing: 0.04em;
+  transition: background-color 80ms ease-out, box-shadow 80ms ease-out;
 
   &:hover {
-    box-shadow: inset 0 0 0 1px #e71c4f, 6px 6px 6px rgba(0, 0, 0, 0.15);
+    background-color: #695574;
+    box-shadow: inset 0 0 0 1px #e71c4f;
   }
 }
 
