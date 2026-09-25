@@ -1883,6 +1883,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
+// Sized as a percentage of the viewport (not a fixed px) so it keeps
+// spanning almost the full width — small side margins, never stretched out
+// of proportion — at any window width, not just exactly at 1440/3440px.
+// Below 1440px the short strip; from 1440px the long "widescreen" strip
+// (matching Memory/widescreen-design.svg), swapped in the media query below.
 .result__confetti {
   position: absolute;
   top: 0;
@@ -1892,7 +1897,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background-image: url('/assets/code-vibes-theme/result/confetti.png');
   background-repeat: no-repeat;
   background-position: top center;
-  background-size: 1440px auto;
+  background-size: 96% auto;
   pointer-events: none;
 }
 
@@ -2020,6 +2025,24 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   .result__pawn svg {
     width: 200px;
     height: 250px;
+  }
+
+  // Winner-only spacing: a slightly bigger eyebrow→name gap, and an exact
+  // 64px name→pawn and pawn→button gap (per manual Figma check against
+  // Winner_01), instead of the single uniform .result__reveal gap other
+  // theme/outcome combos use — set as margins so all three gaps can differ.
+  &[data-outcome='winner'] {
+    .result__title {
+      margin-top: 24px;
+    }
+
+    .result__graphic {
+      margin-top: 64px;
+    }
+
+    .result__button {
+      margin-top: 64px;
+    }
   }
 
   .result__scale svg {
@@ -2174,14 +2197,15 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   // From 1440px the confetti swaps to the long widescreen strip so it keeps
   // spanning the full (now wider) window, matching Memory/widescreen-design.svg.
+  // Still sized as a percentage (not a fixed px), so it stays proportioned
+  // and nearly edge-to-edge at any width from 1440px up, not just at 3440px.
   .result__confetti {
     background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
-    background-size: 3440px auto;
+    background-size: 96% auto;
   }
 
   [data-theme='code-vibes'][data-outcome='winner'] {
-    .result__content { width: 522px; top: 318px; }
-    .result__reveal { gap: 47px; }
+    .result__content { width: 522px; top: 358px; }
   }
 
   [data-theme='code-vibes'][data-outcome='draw'] {
