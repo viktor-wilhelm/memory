@@ -2278,7 +2278,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   [data-theme='code-vibes'] [data-outcome='winner'] {
-    .result__content { width: 522px; top: 358px; }
+    // Lowered from the previous 358px so "The winner is" starts clear of
+    // the confetti band instead of sitting inside it. The requested ~140px
+    // shift (→498px) pushes the button past y=1024 (content is 584px tall,
+    // so it needs to start at 440px or less to fit the 1440x1024 reference
+    // viewport without scrolling) — capped at 430px, the largest shift that
+    // still fits with a small margin. Internal gaps (title/pawn/button)
+    // are untouched.
+    .result__content { width: 522px; top: 430px; }
   }
 
   [data-theme='code-vibes'] [data-outcome='draw'] {
