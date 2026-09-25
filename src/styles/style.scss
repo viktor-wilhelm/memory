@@ -1888,10 +1888,18 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 // of proportion — at any window width, not just exactly at 1440/3440px.
 // Below 1440px the short strip; from 1440px the long "widescreen" strip
 // (matching Memory/widescreen-design.svg), swapped in the media query below.
+//
+// Deliberately NOT position:absolute: .result__content only gets an exact
+// top offset inside the @media(min-width:1440px)-and-(min-height:1024px)
+// block below. Below that (including width>=1440 with a shorter browser
+// viewport — common with real browser chrome, not just narrow windows) the
+// content is a normal in-flow flex child with no offset at all. An absolute
+// confetti band doesn't reserve any layout space, so the text and the
+// confetti silently ended up on top of each other. Flowing normally instead
+// means the two are always separated by .screen--result's own gap (widened
+// below for this element specifically), at every viewport size, not just
+// the two hand-picked breakpoints.
 .result__confetti {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 245px;
   background-image: url('/assets/code-vibes-theme/result/confetti.png');
@@ -1899,6 +1907,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   background-position: top center;
   background-size: 96% auto;
   pointer-events: none;
+}
+
+// .screen's own gap (16px, shared by every screen) is too tight once the
+// confetti is a real flex item — widen it just for this combo. A single
+// gap value, not gap + margin on the confetti itself, so the two can't
+// stack (see the earlier PR fix for the graphic-to-button gap).
+[data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+  gap: 40px;
 }
 
 .result__button {
@@ -2272,7 +2288,17 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   // spanning the full (now wider) window, matching Memory/widescreen-design.svg.
   // Still sized as a percentage (not a fixed px), so it stays proportioned
   // and nearly edge-to-edge at any width from 1440px up, not just at 3440px.
+  //
+  // Pinned back to the top edge here (unlike the in-flow default below this
+  // breakpoint): .result__content is already position:absolute with its own
+  // exact top offset at this breakpoint, so it no longer depends on flow/gap
+  // for spacing — and leaving confetti in-flow here would let
+  // justify-content:center vertically center it instead of pinning it to
+  // the top (it'd be the only in-flow child once content goes absolute).
   .result__confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
     background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
     background-size: 96% auto;
   }
