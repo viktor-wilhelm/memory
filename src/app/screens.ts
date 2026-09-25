@@ -4,6 +4,7 @@ import { renderHome } from '../views/home';
 import { renderSettings } from '../views/settings';
 import { renderBoard } from '../views/board';
 import { renderGameOver } from '../views/gameOver';
+import { renderResult } from '../views/result';
 import type { Screen } from './types';
 
 const screenRenderers: Record<Screen, () => HTMLElement> = {
@@ -11,6 +12,7 @@ const screenRenderers: Record<Screen, () => HTMLElement> = {
   settings: renderSettings,
   board: renderBoard,
   gameOver: renderGameOver,
+  result: renderResult,
 };
 
 export function mountApp(root: HTMLElement): void {
