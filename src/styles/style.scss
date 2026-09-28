@@ -81,7 +81,17 @@ img {
   align-self: flex-start;
   margin: 0 0 6rem;
   font-family: var(--font-family-display);
-  font-size: clamp(2.5rem, 9.72vw, 8.75rem);
+  // Linear in vw (calc(12.2vw - 35.7px), not calc(9.72vw) alone) so it
+  // still hits exactly 8.75rem (140px) at the 1440px reference width —
+  // preserving that exact, already-approved desktop size — while
+  // shrinking enough below it to never wrap "Ready to play?" onto two
+  // lines; the old single-coefficient formula (9.72vw) wrapped from
+  // 768px up to ~1049px, where the fixed 230px+96px desktop padding eats
+  // an increasingly large share of a shrinking viewport. Verified against
+  // the actual rendered text (binary-searched the largest non-wrapping
+  // size at several widths), with a safety margin below each threshold.
+  // Below 768px this is overridden by the mobile rule further down.
+  font-size: clamp(1rem, calc(12.2vw - 35.7px), 8.75rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
@@ -119,7 +129,12 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: inline-block;
     width: 44px;
     height: 32px;
-    background: url('/assets/start-page/stadia_controller.png') no-repeat center / auto;
+    // contain, not auto: the asset's own native size (44x32) happens to
+    // match this box exactly, so this is a no-op here — but the mobile
+    // override below shrinks the box without a matching native asset,
+    // and auto (draw at native resolution regardless of box size) would
+    // crop/misrepresent it there instead of scaling it down proportionally.
+    background: url('/assets/start-page/stadia_controller.png') no-repeat center / contain;
     transform: translateY(-4px) rotate(0deg) scale(1);
     transition: transform 200ms $ease-portfolio;
   }
@@ -202,6 +217,131 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   &:focus-visible &__arrow::after {
     opacity: 1;
     transition: opacity 0s linear 100ms;
+  }
+}
+
+// Home was built against a single fixed desktop canvas: .screen--home's
+// 230px left padding exists purely to reserve visual space to the right
+// of .home__decor (an absolutely-positioned, non-interactive background
+// graphic that takes up no flow space of its own), so .home__content
+// never actually needed the viewport to be wider than ~480px — anything
+// narrower pushed the Play button off-screen by however much was
+// missing (up to 154px at 320px wide). 768px and up (already verified
+// against the desktop design) are completely untouched below; this only
+// re-centers the content and scales the decor and button down for
+// anything narrower.
+@media (max-width: 767px) {
+  .screen--home {
+    padding: var(--space-4);
+    // .home__decor is bottom-anchored (inherited bottom: 16px) and its
+    // own height already scales with viewport width (min(248px, 68vw));
+    // reserving that same amount (plus a 40px gap) as padding-bottom
+    // keeps .screen's own justify-content: center (inherited) centering
+    // .home__content only within the space ABOVE the decor, instead of
+    // across the full viewport height. That's what actually fixes the
+    // overlap a plain justify-content: center produced on a short
+    // viewport (320x600) — not the centering itself, but centering into
+    // a zone the decor already occupies. It also means a taller viewport
+    // (e.g. 320x860) centers the group further down within its own
+    // (now taller) safe zone, instead of leaving it stranded near the
+    // top — matching the request to lower the group on tall phones
+    // while still never touching the decor. A vertical scroll is
+    // allowed if content still doesn't fit, per the task.
+    padding-bottom: calc(min(248px, 68vw) + 56px);
+    align-items: center;
+  }
+
+  // Left-anchored near the bottom, same as desktop (left: 0; bottom:
+  // 16px, both inherited, untouched) — only scaled down. Still
+  // pointer-events: none, still purely decorative.
+  .home__decor {
+    width: min(220px, 60vw);
+    height: min(248px, 68vw);
+  }
+
+  .home__content {
+    align-items: center;
+  }
+
+  .home__eyebrow {
+    align-self: center;
+    text-align: center;
+    // Bumped from the clamp()'s 16px floor (1rem) to a 20px floor, per
+    // request — still scales up with viewport width above that floor
+    // exactly as before, just starting from a larger minimum.
+    font-size: clamp(1.25rem, 3.33vw, 3rem);
+  }
+
+  .home__title {
+    align-self: center;
+    text-align: center;
+    // Same 9.72vw slope as the desktop rule always had — wrapping was
+    // never caused by that slope (9.72vw is only 31px at 320px, well
+    // inside what fits), only by the old 2.5rem (40px) floor overriding
+    // it. 2.25rem (36px) is the floor now, not the lowest non-wrapping
+    // size (38.4px, binary-searched against the actual rendered text —
+    // that would leave the title touching the side padding) but with a
+    // margin so it stays clearly clear of the edges at 320px (~33px of
+    // side margin beyond the 24px screen padding, confirmed by
+    // measuring the rendered text's own bounding box). Only matters
+    // below ~370px width, where 9.72vw would otherwise be smaller than
+    // this floor; above that this is a no-op and the same proportional
+    // scaling continues exactly as before.
+    font-size: clamp(2.25rem, 9.72vw, 8.75rem);
+  }
+
+  // Scaled to roughly 200x78 (0.8x of the desktop 250x98, same aspect
+  // ratio) per request — the previous size crowded the decor below it.
+  // Every child (controller/label/arrow) and their gap/background sizes
+  // and hover-motion distances are scaled by the same 0.8 factor so the
+  // icon, label and arrow keep the same relative proportions and still
+  // fit with even side margins instead of overflowing the smaller box;
+  // the hover/focus rotate and scale animations (angle- and ratio-based,
+  // not pixel-based) are untouched.
+  .play-button {
+    width: 200px;
+    height: 78px;
+    gap: 16px;
+
+    &__controller {
+      width: 35px;
+      height: 26px;
+      transform: translateY(-3px) rotate(0deg) scale(1);
+    }
+
+    &__label {
+      width: 66px;
+      height: 31px;
+    }
+
+    &__arrow {
+      width: 32px;
+      height: 24px;
+      transform: translateX(-2px);
+
+      &::before {
+        background-size: 26px auto;
+      }
+
+      &::after {
+        background-size: 29px auto;
+      }
+    }
+
+    &:hover &__controller,
+    &:focus-visible &__controller {
+      transform: translateY(-3px) rotate(-20deg) scale(1.03);
+    }
+
+    &:hover &__label,
+    &:focus-visible &__label {
+      transform: translate(6px, 2px);
+    }
+
+    &:hover &__arrow,
+    &:focus-visible &__arrow {
+      transform: translateX(4px);
+    }
   }
 }
 
