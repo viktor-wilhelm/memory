@@ -48,17 +48,17 @@ export function renderSettings(): HTMLElement {
 
       <div class="settings__groups">
         <div class="settings__group">
-          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/palette.svg" alt="" />Game themes</h2>
+          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/palette.svg" alt="" draggable="false" />Game themes</h2>
           <div class="radio-list radio-list--theme">${themeRows}</div>
         </div>
 
         <div class="settings__group">
-          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/chess_pawn.svg" alt="" />Choose player</h2>
+          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/chess_pawn.svg" alt="" draggable="false" />Choose player</h2>
           <div class="radio-list radio-list--player">${playerRows}</div>
         </div>
 
         <div class="settings__group">
-          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/style.svg" alt="" />Board size</h2>
+          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/style.svg" alt="" draggable="false" />Board size</h2>
           <div class="radio-list radio-list--board">${sizeRows}</div>
         </div>
       </div>
@@ -67,7 +67,7 @@ export function renderSettings(): HTMLElement {
     <div class="settings__preview">
       <div class="settings__preview-board">
         <div class="settings__preview-cards">
-          <img class="settings__preview-image" src="${THEMES[previewThemeId].previewImage}" alt="${THEMES[previewThemeId].label}" />
+          <img class="settings__preview-image" src="${THEMES[previewThemeId].previewImage}" alt="${THEMES[previewThemeId].label}" draggable="false" />
         </div>
       </div>
 
@@ -75,11 +75,11 @@ export function renderSettings(): HTMLElement {
         <div class="settings__breadcrumb-labels">
           <span class="settings__breadcrumb-label">${themeText}</span>
           <span class="settings__sep${isThemeSelected ? ' settings__sep--active' : ''}">
-            <img class="settings__sep-arrow" src="/assets/start-page/line-5.svg" alt="" />
+            <img class="settings__sep-arrow" src="/assets/start-page/line-5.svg" alt="" draggable="false" />
           </span>
           <span class="settings__breadcrumb-label">${playerText}</span>
           <span class="settings__sep${state.playerSelected ? ' settings__sep--active' : ''}">
-            <img class="settings__sep-arrow" src="/assets/start-page/line-5.svg" alt="" />
+            <img class="settings__sep-arrow" src="/assets/start-page/line-5.svg" alt="" draggable="false" />
           </span>
           <span class="settings__breadcrumb-label">${boardSizeText}</span>
         </div>

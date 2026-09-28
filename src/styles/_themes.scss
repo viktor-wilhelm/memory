@@ -26,6 +26,10 @@
   --card-match-border-width: 5px;
   --color-game-over-bg: #303131;
   --game-over-content-top: 303px;
+  --color-result-bg: #303131;
+  --color-result-winner-blue: rgba(43, 177, 255, 1);
+  --color-result-winner-orange: rgba(245, 142, 57, 1);
+  --color-result-draw-title: #4dd5bc;
 }
 
 [data-theme="games"] {
@@ -50,6 +54,13 @@
   --color-player-orange: #ea6900;
   --color-game-over-bg: #294f60;
   --game-over-content-top: 291px;
+  --color-result-bg: #294f60;
+  // Blue Player's result-screen name color, confirmed against Winner_02.svg:
+  // deliberately different from --color-player-blue (#097fc5, used by the
+  // board/pawn), which is a separate accent value in that mockup.
+  --color-result-winner-blue: #2298db;
+  --color-result-winner-orange: #ea6900;
+  --color-result-draw-title: #ed1b76;
   --color-card-face-bg: #f6f1f3;
   --color-card-match-bg: #f6f1f3;
   --color-card-match-border: #ed1b76;
@@ -85,6 +96,11 @@
   --color-player-blue: #097fc5;
   --color-game-over-bg: #1e7594;
   --game-over-content-top: 292px;
+  --color-result-bg: #1e7594;
+  // DA Projects' winner name is plain white regardless of player (see
+  // Winner_03.svg); only the pawn icon itself is player-colored.
+  --color-result-title: #ffffff;
+  --color-result-draw-title: #fd5b4f;
 }
 
 [data-theme="food"] {
@@ -114,4 +130,7 @@
   --card-match-image-scale: 1.3;
   --color-game-over-bg: #f3832d;
   --game-over-content-top: 292px;
+  --color-result-bg: #f6f6f6;
+  --color-result-title: #a45212;
+  --color-result-draw-title: #f3832d;
 }

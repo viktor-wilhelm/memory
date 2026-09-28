@@ -7,9 +7,13 @@ export const MISMATCH_DELAY_MS = 1000;
 // Lets the flip finish and keeps the final pair visible as matched for a moment
 // before switching to the result screen.
 export const GAME_OVER_DELAY_MS = 700;
+// Lets the Game Over score panel register before revealing the themed
+// Winner/Draw result screen.
+export const RESULT_REVEAL_DELAY_MS = 1200;
 
 let mismatchTimer: ReturnType<typeof setTimeout> | null = null;
 let gameOverTimer: ReturnType<typeof setTimeout> | null = null;
+let resultTimer: ReturnType<typeof setTimeout> | null = null;
 
 function cancelPendingTimers(): void {
   if (mismatchTimer !== null) {
@@ -19,6 +23,10 @@ function cancelPendingTimers(): void {
   if (gameOverTimer !== null) {
     clearTimeout(gameOverTimer);
     gameOverTimer = null;
+  }
+  if (resultTimer !== null) {
+    clearTimeout(resultTimer);
+    resultTimer = null;
   }
 }
 
@@ -73,11 +81,19 @@ export function returnToStart(): void {
   leaveGame('home');
 }
 
+function showResult(): void {
+  resultTimer = null;
+  const { screen, result } = getState();
+  if (screen !== 'gameOver' || result === null) return;
+  setState({ screen: 'result' });
+}
+
 function showGameOver(): void {
   gameOverTimer = null;
   const { screen, result } = getState();
   if (screen !== 'board' || result === null) return;
   setState({ screen: 'gameOver', boardExitConfirmOpen: false });
+  resultTimer = setTimeout(showResult, RESULT_REVEAL_DELAY_MS);
 }
 
 function resolveMismatch(firstId: number, secondId: number): void {
