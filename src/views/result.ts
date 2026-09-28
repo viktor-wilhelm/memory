@@ -31,7 +31,7 @@ export function renderResult(): HTMLElement {
     const color = state.result === 'blue' ? 'blue' : 'orange';
     const graphic =
       theme.resultWinnerGraphic === 'trophy'
-        ? `<img class="result__trophy" src="/assets/gaming-theme/result/trophy.png" alt="" />`
+        ? `<img class="result__trophy" src="/assets/gaming-theme/result/trophy.png" alt="" draggable="false" />`
         : theme.resultWinnerGraphic === 'pawn-outline'
           ? `<div class="result__pawn result__pawn--${color}">${RESULT_PAWN_OUTLINE_ICON}</div>`
           : `<div class="result__pawn result__pawn--${color}">${RESULT_PAWN_ICON}</div>`;

@@ -7,8 +7,8 @@ import type { PlayerColor } from '../app/types';
 // player color, since the source art isn't a single-color glyph that
 // currentColor could recolor).
 export const CODE_VIBES_LABEL_ICON: Record<PlayerColor, string> = {
-  blue: '<img src="/assets/code-vibes-theme/label-blue.png" alt="" />',
-  orange: '<img src="/assets/code-vibes-theme/label-orange.png" alt="" />',
+  blue: '<img src="/assets/code-vibes-theme/label-blue.png" alt="" draggable="false" />',
+  orange: '<img src="/assets/code-vibes-theme/label-orange.png" alt="" draggable="false" />',
 };
 
 // Chess-pawn outline icon used by Games/DA Projects/Food wherever a player

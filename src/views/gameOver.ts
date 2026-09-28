@@ -14,7 +14,7 @@ export function renderGameOver(): HTMLElement {
 
   const title =
     theme.gameOverTitle.type === 'image'
-      ? `<h1 class="game-over__title"><img src="${theme.gameOverTitle.src}" alt="Game over" /></h1>`
+      ? `<h1 class="game-over__title"><img src="${theme.gameOverTitle.src}" alt="Game over" draggable="false" /></h1>`
       : `<h1 class="game-over__title">GAME OVER</h1>`;
 
   const showLabel = theme.gameOverScoreStyle === 'label';

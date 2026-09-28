@@ -61,11 +61,11 @@ export function renderBoard(): HTMLElement {
       const matchedClass = card.isMatched ? ' is-matched' : '';
       const face = theme.cardFaces[card.pairId];
       if (!face) {
-        return `<div class="board-card${card.isFlipped ? ' is-flipped' : ''}${matchedClass}" data-card-id="${card.id}"><img class="board-card__back" src="${cardBackImage}" alt="" /></div>`;
+        return `<div class="board-card${card.isFlipped ? ' is-flipped' : ''}${matchedClass}" data-card-id="${card.id}"><img class="board-card__back" src="${cardBackImage}" alt="" draggable="false" /></div>`;
       }
       const startsFlipped = previouslyFlipped.get(card.id) ?? card.isFlipped;
       if (startsFlipped !== card.isFlipped) pendingFlips.push({ id: card.id, isFlipped: card.isFlipped });
-      return `<div class="board-card board-card--faced${startsFlipped ? ' is-flipped' : ''}${matchedClass}" data-card-id="${card.id}"><div class="board-card__inner"><img class="board-card__back" src="${cardBackImage}" alt="" /><div class="board-card__front"><img class="board-card__face" src="${face}" alt="" /></div></div></div>`;
+      return `<div class="board-card board-card--faced${startsFlipped ? ' is-flipped' : ''}${matchedClass}" data-card-id="${card.id}"><div class="board-card__inner"><img class="board-card__back" src="${cardBackImage}" alt="" draggable="false" /><div class="board-card__front"><img class="board-card__face" src="${face}" alt="" draggable="false" /></div></div></div>`;
     })
     .join('');
 

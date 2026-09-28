@@ -9,6 +9,16 @@ body {
   font-family: var(--font-family-base);
 }
 
+// Every <img> in this app is a UI graphic (icons, card faces, theme
+// previews, etc.), never user content someone would want to select or
+// drag out — so this is safe app-wide, unlike a blanket rule on text
+// elements would be. draggable="false" (set on each <img> in the
+// markup) covers Firefox, which doesn't honor -webkit-user-drag.
+img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 .screen {
   display: flex;
   flex-direction: column;
@@ -1186,11 +1196,16 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
+// Belt-and-suspenders alongside the global img rule above: the card
+// container itself (not just its <img> children) is unselectable, since a
+// click-drag anchored just outside an image but still inside the card
+// could otherwise start a selection there.
 .board-card {
   aspect-ratio: 1/1;
   padding: 0;
   border-radius: var(--radius-sm);
   background: transparent;
+  user-select: none;
 
   [data-theme='games'] & {
     aspect-ratio: 105 / 120;
