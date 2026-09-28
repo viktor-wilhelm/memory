@@ -205,6 +205,48 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
+// Home was built against a single fixed desktop canvas: .screen--home's
+// 230px left padding exists purely to reserve visual space to the right
+// of .home__decor (an absolutely-positioned, non-interactive background
+// graphic that takes up no flow space of its own), so .home__content
+// never actually needed the viewport to be wider than ~480px — anything
+// narrower pushed the Play button off-screen by however much was
+// missing (up to 154px at 320px wide). 768px and up (already verified
+// against the desktop design) are completely untouched below; this only
+// re-centers the content and scales the decor down for anything
+// narrower, without touching .play-button's own size, hover/focus
+// transforms or transitions.
+@media (max-width: 767px) {
+  .screen--home {
+    padding: var(--space-4);
+    align-items: center;
+  }
+
+  // Scaled down and re-centered, same bottom anchoring as desktop
+  // (still pointer-events: none, still purely decorative) — only its
+  // size and horizontal position change here.
+  .home__decor {
+    left: 50%;
+    width: min(220px, 60vw);
+    height: min(248px, 68vw);
+    transform: translateX(-50%);
+  }
+
+  .home__content {
+    align-items: center;
+  }
+
+  .home__eyebrow,
+  .home__title {
+    align-self: center;
+    text-align: center;
+  }
+
+  .play-button {
+    width: min(250px, 100%);
+  }
+}
+
 .screen--settings {
   width: 100%;
   align-items: center;
