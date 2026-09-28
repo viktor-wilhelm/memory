@@ -1909,6 +1909,29 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   pointer-events: none;
 }
 
+// From 1440px, independent of height (unlike the exact-geometry breakpoint
+// below, which additionally requires min-height: 1024px): a wide-but-short
+// browser window (e.g. 1920x951 — width alone already past 1440px, but
+// short of the height threshold) was still getting the regular strip
+// above, stretched wide enough that its background-size: 96% auto render
+// grew taller than the fixed 245px box and got clipped along a flat
+// bottom edge. Swapping to the widescreen strip here (matching this
+// selector's original intent, see the comment above the base rule) fixes
+// that; aspect-ratio instead of a fixed height keeps the box exactly as
+// tall as this asset actually renders at any width, so it can't clip at
+// any width from 1440px up, including well past 3440px. (11 is the
+// widescreen asset's own visible-content aspect ratio, measured by
+// rendering it uncropped and checking the last non-transparent pixel row
+// — not its full canvas ratio, which includes empty margin above/below
+// the motif.)
+@media (min-width: 1440px) {
+  .result__confetti {
+    background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
+    height: auto;
+    aspect-ratio: 11;
+  }
+}
+
 // .screen's own gap (16px, shared by every screen) is too tight once the
 // confetti is a real flex item — widen it just for this combo. A single
 // gap value, not gap + margin on the confetti itself, so the two can't
@@ -2317,34 +2340,31 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: nowrap;
   }
 
-  // From 1440px the confetti swaps to the long widescreen strip so it keeps
-  // spanning the full (now wider) window, matching Memory/widescreen-design.svg.
-  // Still sized as a percentage (not a fixed px), so it stays proportioned
-  // and nearly edge-to-edge at any width from 1440px up, not just at 3440px.
-  //
-  // Pinned back to the top edge here (unlike the in-flow default below this
-  // breakpoint): .result__content is already position:absolute with its own
-  // exact top offset at this breakpoint, so it no longer depends on flow/gap
-  // for spacing — and leaving confetti in-flow here would let
+  // The widescreen asset swap and its aspect-ratio-based height live in the
+  // width-only @media (min-width: 1440px) rule above (they apply here too,
+  // since both conditions hold whenever this compound breakpoint matches).
+  // This block only adds the absolute positioning: pinned back to the top
+  // edge here (unlike the in-flow default below this breakpoint) because
+  // .result__content is already position:absolute with its own exact top
+  // offset at this breakpoint, so it no longer depends on flow/gap for
+  // spacing — and leaving confetti in-flow here would let
   // justify-content:center vertically center it instead of pinning it to
   // the top (it'd be the only in-flow child once content goes absolute).
   .result__confetti {
     position: absolute;
     top: 0;
     left: 0;
-    background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
-    background-size: 96% auto;
   }
 
   [data-theme='code-vibes'] [data-outcome='winner'] {
-    // Lowered from the previous 358px so "The winner is" starts clear of
-    // the confetti band instead of sitting inside it. The requested ~140px
-    // shift (→498px) pushes the button past y=1024 (content is 584px tall,
-    // so it needs to start at 440px or less to fit the 1440x1024 reference
-    // viewport without scrolling) — capped at 430px, the largest shift that
-    // still fits with a small margin. Internal gaps (title/pawn/button)
-    // are untouched.
-    .result__content { width: 522px; top: 430px; }
+    // Re-measured against the Figma flat export (Winner_01-1.svg,
+    // rendered and compared pixel-for-pixel): "The winner is" starts at
+    // y=329 there, ~110px above where the previous 430px offset placed it
+    // live, pushing the whole block (title/pawn/button) well below its
+    // intended position. 320px reproduces the Figma position (accounting
+    // for this text's own ~9px line-height leading above the glyph).
+    // Internal gaps (title/pawn/button) are untouched.
+    .result__content { width: 522px; top: 320px; }
   }
 
   [data-theme='code-vibes'] [data-outcome='draw'] {
