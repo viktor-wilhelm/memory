@@ -1924,6 +1924,22 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 // rendering it uncropped and checking the last non-transparent pixel row
 // — not its full canvas ratio, which includes empty margin above/below
 // the motif.)
+//
+// A flat fixed height (360px, generous enough for 3440px+) was tried
+// instead of aspect-ratio, on the theory that a two-pass aspect-ratio
+// layout might be the source of a disappearance reported while dragging
+// a window border continuously through ~1440px (no version of this ever
+// showed a 0-size or missing background in a discrete width sweep, so
+// the exact cause couldn't be confirmed directly). That flat height
+// caused a real regression instead: at short heights below the compound
+// breakpoint (e.g. 1920x951), .screen--result's own overflow: hidden
+// clipped the button off the bottom of the screen, because 360px is far
+// taller than this layout needs at that width. Reverted to aspect-ratio,
+// which scales down with width the same way the content needs to and
+// never pushed content past the viewport; the likelier cause of the
+// reported flash is instead the browser decoding this ~600KB image for
+// the first time as the breakpoint is crossed, addressed below by
+// warming it into the image cache as soon as the screen mounts.
 @media (min-width: 1440px) {
   .result__confetti {
     background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
