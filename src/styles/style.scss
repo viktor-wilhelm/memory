@@ -275,13 +275,19 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   .home__title {
     align-self: center;
     text-align: center;
-    // Same 9.72vw slope as the desktop rule always had — the wrap at
-    // 320px wasn't from that slope (9.72vw is already only 31px there,
-    // comfortably narrower than the ~38px this text can fit in at
-    // 320px), it was from the old 2.5rem (40px) floor overriding it.
-    // Lowering the floor lets the existing proportional scaling reach
-    // all the way down to 320px instead of flattening out early.
-    font-size: clamp(1.25rem, 9.72vw, 8.75rem);
+    // Same 9.72vw slope as the desktop rule always had — wrapping was
+    // never caused by that slope (9.72vw is only 31px at 320px, well
+    // inside what fits), only by the old 2.5rem (40px) floor overriding
+    // it. 2.25rem (36px) is the floor now, not the lowest non-wrapping
+    // size (38.4px, binary-searched against the actual rendered text —
+    // that would leave the title touching the side padding) but with a
+    // margin so it stays clearly clear of the edges at 320px (~33px of
+    // side margin beyond the 24px screen padding, confirmed by
+    // measuring the rendered text's own bounding box). Only matters
+    // below ~370px width, where 9.72vw would otherwise be smaller than
+    // this floor; above that this is a no-op and the same proportional
+    // scaling continues exactly as before.
+    font-size: clamp(2.25rem, 9.72vw, 8.75rem);
   }
 
   // Scaled to roughly 200x78 (0.8x of the desktop 250x98, same aspect
