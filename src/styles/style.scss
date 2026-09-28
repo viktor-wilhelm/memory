@@ -213,37 +213,102 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 // narrower pushed the Play button off-screen by however much was
 // missing (up to 154px at 320px wide). 768px and up (already verified
 // against the desktop design) are completely untouched below; this only
-// re-centers the content and scales the decor down for anything
-// narrower, without touching .play-button's own size, hover/focus
-// transforms or transitions.
+// re-centers the content and scales the decor and button down for
+// anything narrower.
 @media (max-width: 767px) {
   .screen--home {
     padding: var(--space-4);
     align-items: center;
+    // .screen's own justify-content: center (inherited by .screen--home)
+    // vertically centers .home__content into the same lower portion of
+    // the screen .home__decor is bottom-anchored in, and on a short
+    // viewport (320x600) the two collided. Flowing from the top instead
+    // keeps them clear of each other at both 320x600 and 390x844
+    // (verified) without depending on exact height math between the
+    // two independently-sized elements; the task explicitly allows a
+    // vertical scroll on 320x600 if content doesn't fit, so there's no
+    // need to fight for every pixel here.
+    justify-content: flex-start;
   }
 
-  // Scaled down and re-centered, same bottom anchoring as desktop
-  // (still pointer-events: none, still purely decorative) — only its
-  // size and horizontal position change here.
+  // Left-anchored near the bottom, same as desktop (left: 0; bottom:
+  // 16px, both inherited, untouched) — only scaled down. Still
+  // pointer-events: none, still purely decorative.
   .home__decor {
-    left: 50%;
     width: min(220px, 60vw);
     height: min(248px, 68vw);
-    transform: translateX(-50%);
   }
 
   .home__content {
     align-items: center;
   }
 
-  .home__eyebrow,
+  .home__eyebrow {
+    align-self: center;
+    text-align: center;
+    // Bumped from the clamp()'s 16px floor (1rem) to a 20px floor, per
+    // request — still scales up with viewport width above that floor
+    // exactly as before, just starting from a larger minimum.
+    font-size: clamp(1.25rem, 3.33vw, 3rem);
+  }
+
   .home__title {
     align-self: center;
     text-align: center;
   }
 
+  // Scaled to roughly 200x78 (0.8x of the desktop 250x98, same aspect
+  // ratio) per request — the previous size crowded the decor below it.
+  // Every child (controller/label/arrow) and their gap/background sizes
+  // and hover-motion distances are scaled by the same 0.8 factor so the
+  // icon, label and arrow keep the same relative proportions and still
+  // fit with even side margins instead of overflowing the smaller box;
+  // the hover/focus rotate and scale animations (angle- and ratio-based,
+  // not pixel-based) are untouched.
   .play-button {
-    width: min(250px, 100%);
+    width: 200px;
+    height: 78px;
+    gap: 16px;
+
+    &__controller {
+      width: 35px;
+      height: 26px;
+      transform: translateY(-3px) rotate(0deg) scale(1);
+    }
+
+    &__label {
+      width: 66px;
+      height: 31px;
+    }
+
+    &__arrow {
+      width: 32px;
+      height: 24px;
+      transform: translateX(-2px);
+
+      &::before {
+        background-size: 26px auto;
+      }
+
+      &::after {
+        background-size: 29px auto;
+      }
+    }
+
+    &:hover &__controller,
+    &:focus-visible &__controller {
+      transform: translateY(-3px) rotate(-20deg) scale(1.03);
+    }
+
+    &:hover &__label,
+    &:focus-visible &__label {
+      transform: translate(6px, 2px);
+    }
+
+    &:hover &__arrow,
+    &:focus-visible &__arrow {
+      transform: translateX(4px);
+    }
   }
 }
 
