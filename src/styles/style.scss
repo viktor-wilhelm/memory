@@ -1909,12 +1909,75 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   pointer-events: none;
 }
 
+// From 1440px, independent of height (unlike the exact-geometry breakpoint
+// below, which additionally requires min-height: 1024px): a wide-but-short
+// browser window (e.g. 1920x951 — width alone already past 1440px, but
+// short of the height threshold) was still getting the regular strip
+// above, stretched wide enough that its background-size: 96% auto render
+// grew taller than the fixed 245px box and got clipped along a flat
+// bottom edge. Swapping to the widescreen strip here (matching this
+// selector's original intent, see the comment above the base rule) fixes
+// that; aspect-ratio instead of a fixed height keeps the box exactly as
+// tall as this asset actually renders at any width, so it can't clip at
+// any width from 1440px up, including well past 3440px. (11 is the
+// widescreen asset's own visible-content aspect ratio, measured by
+// rendering it uncropped and checking the last non-transparent pixel row
+// — not its full canvas ratio, which includes empty margin above/below
+// the motif.)
+//
+// A flat fixed height (360px, generous enough for 3440px+) was tried
+// instead of aspect-ratio, on the theory that a two-pass aspect-ratio
+// layout might be the source of a disappearance reported while dragging
+// a window border continuously through ~1440px (no version of this ever
+// showed a 0-size or missing background in a discrete width sweep, so
+// the exact cause couldn't be confirmed directly). That flat height
+// caused a real regression instead: at short heights below the compound
+// breakpoint (e.g. 1920x951), .screen--result's own overflow: hidden
+// clipped the button off the bottom of the screen, because 360px is far
+// taller than this layout needs at that width. Reverted to aspect-ratio,
+// which scales down with width the same way the content needs to and
+// never pushed content past the viewport; the likelier cause of the
+// reported flash is instead the browser decoding this ~600KB image for
+// the first time as the breakpoint is crossed, addressed below by
+// warming it into the image cache as soon as the screen mounts.
+@media (min-width: 1440px) {
+  .result__confetti {
+    background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
+    height: auto;
+    aspect-ratio: 11;
+  }
+}
+
 // .screen's own gap (16px, shared by every screen) is too tight once the
 // confetti is a real flex item — widen it just for this combo. A single
 // gap value, not gap + margin on the confetti itself, so the two can't
 // stack (see the earlier PR fix for the graphic-to-button gap).
+//
+// padding-top: 0 removes .screen's own 24px top inset for this combo only
+// (left/right/bottom padding, and every gap inside .result__reveal, are
+// untouched). Below 1440px this directly closes the gap above the confetti,
+// which is otherwise the first flex child; at the 1440x1024 breakpoint,
+// .result__confetti and .result__content are both position:absolute with
+// top values measured from .screen--result's padding edge, so removing the
+// padding moves that edge — and both elements with it — up by the same
+// 24px instead of only the confetti. The confetti.png asset itself has a
+// ~33px transparent margin above its first visible piece, so the confetti
+// motif still doesn't sit flush against the screen's edge even at
+// padding-top: 0 — matching the small gap visible in the Figma export.
+//
+// justify-content: flex-start overrides .screen--result's own
+// justify-content: center. That center rule is what actually produced the
+// visible top gap above confetti at viewport heights below the 1440x1024
+// breakpoint (confirmed via computed styles — padding-top was already 0):
+// with content shorter than the viewport, centering split the leftover
+// space evenly above and below the flex column, pushing confetti down by
+// half of it. Pinning to flex-start puts any leftover space below the
+// button instead, where it belongs, without touching the 40px gap or the
+// unchanged bottom/side padding.
 [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
   gap: 40px;
+  padding-top: 0;
+  justify-content: flex-start;
 }
 
 .result__button {
@@ -2293,34 +2356,31 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: nowrap;
   }
 
-  // From 1440px the confetti swaps to the long widescreen strip so it keeps
-  // spanning the full (now wider) window, matching Memory/widescreen-design.svg.
-  // Still sized as a percentage (not a fixed px), so it stays proportioned
-  // and nearly edge-to-edge at any width from 1440px up, not just at 3440px.
-  //
-  // Pinned back to the top edge here (unlike the in-flow default below this
-  // breakpoint): .result__content is already position:absolute with its own
-  // exact top offset at this breakpoint, so it no longer depends on flow/gap
-  // for spacing — and leaving confetti in-flow here would let
+  // The widescreen asset swap and its aspect-ratio-based height live in the
+  // width-only @media (min-width: 1440px) rule above (they apply here too,
+  // since both conditions hold whenever this compound breakpoint matches).
+  // This block only adds the absolute positioning: pinned back to the top
+  // edge here (unlike the in-flow default below this breakpoint) because
+  // .result__content is already position:absolute with its own exact top
+  // offset at this breakpoint, so it no longer depends on flow/gap for
+  // spacing — and leaving confetti in-flow here would let
   // justify-content:center vertically center it instead of pinning it to
   // the top (it'd be the only in-flow child once content goes absolute).
   .result__confetti {
     position: absolute;
     top: 0;
     left: 0;
-    background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
-    background-size: 96% auto;
   }
 
   [data-theme='code-vibes'] [data-outcome='winner'] {
-    // Lowered from the previous 358px so "The winner is" starts clear of
-    // the confetti band instead of sitting inside it. The requested ~140px
-    // shift (→498px) pushes the button past y=1024 (content is 584px tall,
-    // so it needs to start at 440px or less to fit the 1440x1024 reference
-    // viewport without scrolling) — capped at 430px, the largest shift that
-    // still fits with a small margin. Internal gaps (title/pawn/button)
-    // are untouched.
-    .result__content { width: 522px; top: 430px; }
+    // Re-measured against the Figma flat export (Winner_01-1.svg,
+    // rendered and compared pixel-for-pixel): "The winner is" starts at
+    // y=329 there, ~110px above where the previous 430px offset placed it
+    // live, pushing the whole block (title/pawn/button) well below its
+    // intended position. 320px reproduces the Figma position (accounting
+    // for this text's own ~9px line-height leading above the glyph).
+    // Internal gaps (title/pawn/button) are untouched.
+    .result__content { width: 522px; top: 320px; }
   }
 
   [data-theme='code-vibes'] [data-outcome='draw'] {

@@ -59,5 +59,13 @@ export function renderResult(): HTMLElement {
 
   section.querySelector('.result__button')?.addEventListener('click', returnToStart);
 
+  // Warms the widescreen confetti strip into the browser's image cache as
+  // soon as this screen mounts, not only once the viewport actually
+  // crosses 1440px — so resizing past that breakpoint swaps to an
+  // already-decoded image instead of decoding a ~600KB PNG on the fly.
+  if (isCodeVibes && !isDraw) {
+    new Image().src = '/assets/code-vibes-theme/result/confetti-widescreen.png';
+  }
+
   return section;
 }
