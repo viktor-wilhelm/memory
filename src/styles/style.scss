@@ -81,7 +81,17 @@ img {
   align-self: flex-start;
   margin: 0 0 6rem;
   font-family: var(--font-family-display);
-  font-size: clamp(2.5rem, 9.72vw, 8.75rem);
+  // Linear in vw (calc(12.2vw - 35.7px), not calc(9.72vw) alone) so it
+  // still hits exactly 8.75rem (140px) at the 1440px reference width —
+  // preserving that exact, already-approved desktop size — while
+  // shrinking enough below it to never wrap "Ready to play?" onto two
+  // lines; the old single-coefficient formula (9.72vw) wrapped from
+  // 768px up to ~1049px, where the fixed 230px+96px desktop padding eats
+  // an increasingly large share of a shrinking viewport. Verified against
+  // the actual rendered text (binary-searched the largest non-wrapping
+  // size at several widths), with a safety margin below each threshold.
+  // Below 768px this is overridden by the mobile rule further down.
+  font-size: clamp(1rem, calc(12.2vw - 35.7px), 8.75rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0;
@@ -119,7 +129,12 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: inline-block;
     width: 44px;
     height: 32px;
-    background: url('/assets/start-page/stadia_controller.png') no-repeat center / auto;
+    // contain, not auto: the asset's own native size (44x32) happens to
+    // match this box exactly, so this is a no-op here — but the mobile
+    // override below shrinks the box without a matching native asset,
+    // and auto (draw at native resolution regardless of box size) would
+    // crop/misrepresent it there instead of scaling it down proportionally.
+    background: url('/assets/start-page/stadia_controller.png') no-repeat center / contain;
     transform: translateY(-4px) rotate(0deg) scale(1);
     transition: transform 200ms $ease-portfolio;
   }
@@ -218,17 +233,22 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 @media (max-width: 767px) {
   .screen--home {
     padding: var(--space-4);
+    // .home__decor is bottom-anchored (inherited bottom: 16px) and its
+    // own height already scales with viewport width (min(248px, 68vw));
+    // reserving that same amount (plus a 40px gap) as padding-bottom
+    // keeps .screen's own justify-content: center (inherited) centering
+    // .home__content only within the space ABOVE the decor, instead of
+    // across the full viewport height. That's what actually fixes the
+    // overlap a plain justify-content: center produced on a short
+    // viewport (320x600) — not the centering itself, but centering into
+    // a zone the decor already occupies. It also means a taller viewport
+    // (e.g. 320x860) centers the group further down within its own
+    // (now taller) safe zone, instead of leaving it stranded near the
+    // top — matching the request to lower the group on tall phones
+    // while still never touching the decor. A vertical scroll is
+    // allowed if content still doesn't fit, per the task.
+    padding-bottom: calc(min(248px, 68vw) + 56px);
     align-items: center;
-    // .screen's own justify-content: center (inherited by .screen--home)
-    // vertically centers .home__content into the same lower portion of
-    // the screen .home__decor is bottom-anchored in, and on a short
-    // viewport (320x600) the two collided. Flowing from the top instead
-    // keeps them clear of each other at both 320x600 and 390x844
-    // (verified) without depending on exact height math between the
-    // two independently-sized elements; the task explicitly allows a
-    // vertical scroll on 320x600 if content doesn't fit, so there's no
-    // need to fight for every pixel here.
-    justify-content: flex-start;
   }
 
   // Left-anchored near the bottom, same as desktop (left: 0; bottom:
@@ -255,6 +275,13 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   .home__title {
     align-self: center;
     text-align: center;
+    // Same 9.72vw slope as the desktop rule always had — the wrap at
+    // 320px wasn't from that slope (9.72vw is already only 31px there,
+    // comfortably narrower than the ~38px this text can fit in at
+    // 320px), it was from the old 2.5rem (40px) floor overriding it.
+    // Lowering the floor lets the existing proportional scaling reach
+    // all the way down to 320px instead of flattening out early.
+    font-size: clamp(1.25rem, 9.72vw, 8.75rem);
   }
 
   // Scaled to roughly 200x78 (0.8x of the desktop 250x98, same aspect
