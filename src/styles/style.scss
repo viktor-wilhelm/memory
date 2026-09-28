@@ -1913,8 +1913,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 // confetti is a real flex item — widen it just for this combo. A single
 // gap value, not gap + margin on the confetti itself, so the two can't
 // stack (see the earlier PR fix for the graphic-to-button gap).
+//
+// padding-top: 0 removes .screen's own 24px top inset for this combo only
+// (left/right/bottom padding, and every gap inside .result__reveal, are
+// untouched). Below 1440px this directly closes the gap above the confetti,
+// which is otherwise the first flex child; at the 1440x1024 breakpoint,
+// .result__confetti and .result__content are both position:absolute with
+// top values measured from .screen--result's padding edge, so removing the
+// padding moves that edge — and both elements with it — up by the same
+// 24px instead of only the confetti. The confetti.png asset itself has a
+// ~33px transparent margin above its first visible piece, so the confetti
+// motif still doesn't sit flush against the screen's edge even at
+// padding-top: 0 — matching the small gap visible in the Figma export.
 [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
   gap: 40px;
+  padding-top: 0;
 }
 
 .result__button {
