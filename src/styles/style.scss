@@ -1186,11 +1186,22 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
+// Scoped to the cards themselves (not the whole board/screen) so a
+// click-drag or double-click over a card can't text-select its content or
+// start a native image drag — ordinary text elsewhere (header, results
+// copy, etc.) stays selectable. draggable="false" on the <img> elements
+// (board.ts) covers Firefox, which doesn't honor -webkit-user-drag.
 .board-card {
   aspect-ratio: 1/1;
   padding: 0;
   border-radius: var(--radius-sm);
   background: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+
+  img {
+    -webkit-user-drag: none;
+  }
 
   [data-theme='games'] & {
     aspect-ratio: 105 / 120;
