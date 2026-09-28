@@ -1925,9 +1925,20 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 // ~33px transparent margin above its first visible piece, so the confetti
 // motif still doesn't sit flush against the screen's edge even at
 // padding-top: 0 — matching the small gap visible in the Figma export.
+//
+// justify-content: flex-start overrides .screen--result's own
+// justify-content: center. That center rule is what actually produced the
+// visible top gap above confetti at viewport heights below the 1440x1024
+// breakpoint (confirmed via computed styles — padding-top was already 0):
+// with content shorter than the viewport, centering split the leftover
+// space evenly above and below the flex column, pushing confetti down by
+// half of it. Pinning to flex-start puts any leftover space below the
+// button instead, where it belongs, without touching the 40px gap or the
+// unchanged bottom/side padding.
 [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
   gap: 40px;
   padding-top: 0;
+  justify-content: flex-start;
 }
 
 .result__button {
