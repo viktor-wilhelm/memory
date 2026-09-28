@@ -1971,7 +1971,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// DA Projects — "Home" reuses Back to game's fill/hover, without its shadow.
+// DA Projects — "Home" follows Exit game's darken-on-hover pattern (dark
+// fill, white text, the same 4px 4px 4px rgba(0,0,0,0.18) shadow), but
+// Exit game's exact hover color, rgba(30, 117, 148, 1), is this theme's
+// --color-result-bg — Exit game sits on a white board header, so that
+// coincidence never showed there, but on the result screen it made the
+// button vanish into the page, leaving only white text. Darkened further
+// (mixed with black, not just the light chip's own color) so the fill
+// stays clearly distinct from the page background.
 [data-theme='da-projects'] .result__button {
   width: 96px;
   height: 48px;
@@ -1981,10 +1988,12 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   font-family: var(--font-family-da-projects);
   font-weight: 700;
   font-size: 16px;
+  transition: background-color 80ms ease-out, color 80ms ease-out, box-shadow 80ms ease-out;
 
   &:hover {
-    background-color: rgba(30, 117, 148, 1);
+    background-color: color-mix(in srgb, rgba(30, 117, 148, 1) 70%, black 30%);
     color: #ffffff;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.18);
   }
 }
 
