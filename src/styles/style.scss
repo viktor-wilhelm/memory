@@ -534,12 +534,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   min-width: 280px;
 }
 
+// aspect-ratio (not a fixed 412px height): max-width: 100% already lets
+// this shrink below 457px wide on any narrower screen, but the height
+// stayed pinned at 412px regardless, so at e.g. 280px wide (320px
+// viewport minus screen padding) the box rendered at 280x412 — a much
+// taller, narrower shape than the 457x412 image it was designed to
+// frame, instead of scaling down proportionally. aspect-ratio derives
+// height from whatever width actually renders, at any size; at the
+// exact desktop 457px width it still resolves to exactly 412px
+// (457 * 412/457), so the desktop box is pixel-identical to before.
 .settings__preview-board {
   position: relative;
   align-self: flex-end;
   width: 457px;
   max-width: 100%;
-  height: 412px;
+  aspect-ratio: 457 / 412;
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -702,6 +711,41 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   .settings__breadcrumb-label {
     white-space: normal;
+  }
+
+  // .settings__sep is a decorative diagonal "/" (a 56px-wide top border
+  // rotated -70.67deg) meant to sit inline between two labels on a
+  // single row. Once the breadcrumb wraps (flex-wrap above), that
+  // diagonal span could land across two different lines instead of
+  // between two adjacent labels, cutting straight through whichever
+  // text happened to be underneath it. A plain, unrotated vertical bar
+  // reads fine regardless of how the labels wrap, since it no longer
+  // needs diagonal room; sized to roughly the label text's own height
+  // instead of the desktop dash's 56px span. The "active" state's arrow
+  // icon (shown once that step is actually chosen) is scaled down to
+  // match for the same reason — at 56px tall it dwarfed the 20px label
+  // text next to it once everything shrank to this width.
+  .settings__sep {
+    width: 2px;
+    height: 20px;
+    border-top: 0;
+    background-color: var(--color-play-button-bg);
+    transform: none;
+  }
+
+  .settings__sep--active {
+    width: auto;
+    height: 20px;
+  }
+
+  // Radio rows were only as tall as their own content (~27px: a 20px
+  // dot plus a touch of line-height) — comfortably clickable with a
+  // mouse, but under the ~40-44px minimum recommended tap-target size
+  // on a touchscreen. min-height adds tappable area above/below the dot
+  // and label (still vertically centered via the row's own
+  // align-items: center) without changing how the row looks.
+  .radio-row {
+    min-height: 40px;
   }
 }
 
