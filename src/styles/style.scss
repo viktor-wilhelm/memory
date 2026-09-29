@@ -1479,9 +1479,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 0;
   }
 
+  // Percentage, not a fixed 13px: card size is fluid (.board__grid sizes
+  // itself via container query units against .board__grid-wrap, so an
+  // individual card's rendered size isn't known at author time and
+  // shrinks well below its 120x100 desktop max on narrow viewports). A
+  // fixed 13px radius stayed constant while the card shrank around it,
+  // so at small mobile sizes the corners consumed most of the card and
+  // it read as a circle/pill instead of a rounded rectangle. Percentage
+  // border-radius resolves horizontal/vertical radii against the
+  // element's own width/height respectively, so 10.8333%/13% tracks
+  // whatever size the card actually renders at — and reproduces exactly
+  // 13px/13px (this theme's original look) at the 120x100 desktop size,
+  // since aspect-ratio keeps width:height locked at 120:100 always.
   [data-theme='da-projects'] & {
     aspect-ratio: 120 / 100;
-    border-radius: 13px;
+    border-radius: 10.8333% / 13%;
   }
 
   [data-theme='food'] & {
@@ -1542,6 +1554,19 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     [data-theme='games'] & {
       box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.55);
+    }
+
+    // Same fluid-size reasoning as .board-card's own closed-state radius
+    // above: this theme's --card-face-radius (13px) stayed fixed while
+    // the card shrinks, so the open/matched face corners went from a
+    // subtle round to a near-circle at small mobile sizes. Percentage
+    // instead reproduces exactly 13px/13px at the 120x100 desktop size
+    // and scales with whatever size the card (same box the front face
+    // fills) actually renders at. This also covers the matched-pair
+    // state, since .is-matched doesn't set its own border-radius — its
+    // outline ring already follows whatever radius is set here.
+    [data-theme='da-projects'] & {
+      border-radius: 10.8333% / 13%;
     }
   }
 
