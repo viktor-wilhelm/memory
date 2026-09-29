@@ -754,25 +754,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     background-color: transparent;
   }
 
-  // Radio rows were only as tall as their own content (~27px: a 20px
-  // dot plus a touch of line-height) — comfortably clickable with a
-  // mouse, but under the ~40-44px minimum recommended tap-target size
-  // on a touchscreen. min-height adds tappable area above/below the dot
-  // and label (still vertically centered via the row's own
-  // align-items: center) without changing how the row looks.
-  //
-  // That min-height plus the desktop row-gap (var(--space-2), 8px) would
-  // have stretched the pitch between rows to 48px — visibly looser than
-  // the ~35px desktop pitch. Dropping the gap to 0 keeps rows touching
-  // (each still individually 40px tall) so the list reads about as
-  // tight as the desktop version despite the taller touch target.
-  .radio-row {
-    min-height: 40px;
-  }
-
-  .radio-list {
-    gap: 0;
-  }
+  // Row height and .radio-list gap are intentionally left at their
+  // desktop values (no min-height override, gap: var(--space-2)) so the
+  // pitch between adjacent radio options — measured center-to-center —
+  // is identical on every width down to 320px, not just visually close.
 
   // Last row of the last group ("36 cards") would otherwise butt
   // directly against the preview image with no gap at all once stacked
