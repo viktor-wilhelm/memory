@@ -1293,6 +1293,130 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   letter-spacing: 0;
 }
 
+// Board's header was built the same way Home was: a fixed 112px side
+// padding on .screen--board, and a fixed pixel width on .board__score
+// and .board__exit per theme (156-292px), inside a 3-column grid that
+// never wraps or shrinks them. The widest theme (Code vibes, 292px
+// score + 207px exit) only clears the viewport again at ~870px width
+// (measured directly), so this breakpoint is 899px — comfortably above
+// that, and wide enough to cover the required 768px checkpoint — not
+// the 767px used elsewhere on this screen. Below it, the three columns'
+// combined fixed width plus the 224px of side padding simply doesn't
+// fit — Exit (and on narrower phones, the score chip too) gets pushed
+// off-screen with nothing to scroll to reveal it. Stacking the header
+// into a column and letting each chip size to its own content (instead
+// of a fixed px width) fixes this at any width down to 320px; layout
+// above this breakpoint is untouched.
+@media (max-width: 899px) {
+  .screen--board {
+    padding: var(--space-4);
+  }
+
+  .board__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    padding-top: var(--space-2);
+    gap: 0;
+  }
+
+  // Graduated instead of the header's single uniform gap: the score chip
+  // sits closer to the header's own (now reduced) top padding, Current
+  // player gets a bit more breathing room below it, and Exit — the most
+  // important target to keep unambiguous from the score above it — gets
+  // the most. All three checked directly against each other's bounding
+  // boxes at 320px, including two-digit scores, to confirm no overlap.
+  .board__current-player {
+    margin-top: 14px;
+  }
+
+  .board__exit {
+    margin-top: 22px;
+  }
+
+  .board__score,
+  .board__exit {
+    width: auto;
+    max-width: 100%;
+  }
+
+  [data-theme='da-projects'] .board__score,
+  [data-theme='food'] .board__score,
+  [data-theme='games'] .board__score,
+  [data-theme='code-vibes'] .board__score,
+  [data-theme='da-projects'] .board__exit,
+  [data-theme='food'] .board__exit,
+  [data-theme='games'] .board__exit,
+  [data-theme='code-vibes'] .board__exit {
+    width: auto;
+    max-width: 100%;
+  }
+
+  [data-theme='da-projects'] .board__header,
+  [data-theme='games'] .board__header,
+  [data-theme='food'] .board__header {
+    height: auto;
+  }
+
+  // Current player's font-size (26-32px per theme) plus its gap/letter-
+  // spacing was tuned for the desktop-width column and left no side
+  // margin at 320px (Games in particular genuinely overflowed the
+  // viewport there, clipped invisibly by .screen--board's own
+  // overflow: hidden rather than becoming reachable via scroll — the
+  // other three themes technically stayed just inside the viewport but
+  // with zero to ~4px of margin, not something to leave right at the
+  // edge). Sized down for a comfortable margin at 320px; unaffected
+  // above this breakpoint.
+  [data-theme='games'] .board__current-player {
+    gap: 10px;
+    font-size: 20px;
+  }
+
+  [data-theme='da-projects'] .board__current-player,
+  [data-theme='food'] .board__current-player {
+    font-size: 26px;
+  }
+
+  // Code vibes' score text (24px) left both numbers flush against the
+  // chip's own edges at 320px, especially with a two-digit score
+  // ("Blue 12" / "Orange 9") — 20px gives each a comfortable inner
+  // margin, checked with double-digit scores on both players.
+  [data-theme='code-vibes'] .board__score-item {
+    font-size: 20px;
+  }
+
+  // The header's Exit button kept its full desktop padding/height/font
+  // (up to 62px tall for Code vibes) even once it dropped its fixed
+  // desktop width — comfortably tappable already, but taller than it
+  // needs to be once the header is a vertical stack on a short (320x600)
+  // viewport. Trimmed per theme; still comfortably above the ~44px
+  // minimum tap-target size on every theme.
+  [data-theme='code-vibes'] .board__exit {
+    height: 48px;
+    padding: 10px 18px;
+    font-size: 18px;
+  }
+
+  [data-theme='games'] .board__exit {
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 16px;
+  }
+
+  [data-theme='da-projects'] .board__exit {
+    height: 44px;
+    padding: 10px 16px;
+    font-size: 16px;
+  }
+
+  [data-theme='food'] .board__exit {
+    height: 44px;
+    padding: 10px 16px;
+  }
+}
+
 .board__grid-wrap {
   flex: 1 1 auto;
   min-height: 0;
@@ -1326,6 +1450,22 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --board-card-max-w: 105px;
   }
 
+  // Below 899px, cards are always sized down from their desktop max
+  // anyway (bound by the available container space, not
+  // --board-content-w/h) — the row/column gap set per board size in
+  // board.ts (16px for 4x4, 6-8px for 4x6/6x6) was tuned for the
+  // desktop card size, and at mobile sizes eats space that would
+  // otherwise go to the cards themselves. A flat 6px on every board
+  // size frees that space up; overriding the --board-row-gap/
+  // --board-column-gap custom properties (not just the row-gap/
+  // column-gap they feed) so --board-content-w/h — used to cap the
+  // grid at its ideal desktop size — stays consistent with the smaller
+  // gap actually being rendered.
+  @media (max-width: 899px) {
+    --board-row-gap: 6px;
+    --board-column-gap: 6px;
+  }
+
   [data-theme='da-projects'] & {
     --board-card-max-h: 100px;
   }
@@ -1333,6 +1473,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='food'] & {
     --board-card-max-w: 122px;
     --board-card-max-h: 122px;
+  }
+}
+
+// Food additionally sets its own --board-row-gap/--board-column-gap per
+// data-board-size (its 4x4/4x6/6x6 desktop values, 16/14, 8/6 and 4/6px),
+// which are more specific than the flat 6px mobile override just above
+// (attribute-plus-class-plus-descendant beats a bare class) and would
+// otherwise keep winning on mobile for this theme only. Reproduced with
+// matching specificity so Food's grid gap actually shrinks on mobile too.
+[data-theme='food'] .screen--board[data-board-size='4x4'] .board__grid,
+[data-theme='food'] .screen--board[data-board-size='4x6'] .board__grid,
+[data-theme='food'] .screen--board[data-board-size='6x6'] .board__grid {
+  @media (max-width: 899px) {
+    --board-row-gap: 6px;
+    --board-column-gap: 6px;
   }
 }
 
@@ -1355,9 +1510,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 0;
   }
 
+  // Percentage, not a fixed 13px: card size is fluid (.board__grid sizes
+  // itself via container query units against .board__grid-wrap, so an
+  // individual card's rendered size isn't known at author time and
+  // shrinks well below its 120x100 desktop max on narrow viewports). A
+  // fixed 13px radius stayed constant while the card shrank around it,
+  // so at small mobile sizes the corners consumed most of the card and
+  // it read as a circle/pill instead of a rounded rectangle. Percentage
+  // border-radius resolves horizontal/vertical radii against the
+  // element's own width/height respectively, so 10.8333%/13% tracks
+  // whatever size the card actually renders at — and reproduces exactly
+  // 13px/13px (this theme's original look) at the 120x100 desktop size,
+  // since aspect-ratio keeps width:height locked at 120:100 always.
   [data-theme='da-projects'] & {
     aspect-ratio: 120 / 100;
-    border-radius: 13px;
+    border-radius: 10.8333% / 13%;
   }
 
   [data-theme='food'] & {
@@ -1418,6 +1585,19 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     [data-theme='games'] & {
       box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.55);
+    }
+
+    // Same fluid-size reasoning as .board-card's own closed-state radius
+    // above: this theme's --card-face-radius (13px) stayed fixed while
+    // the card shrinks, so the open/matched face corners went from a
+    // subtle round to a near-circle at small mobile sizes. Percentage
+    // instead reproduces exactly 13px/13px at the 120x100 desktop size
+    // and scales with whatever size the card (same box the front face
+    // fills) actually renders at. This also covers the matched-pair
+    // state, since .is-matched doesn't set its own border-radius — its
+    // outline ring already follows whatever radius is set here.
+    [data-theme='da-projects'] & {
+      border-radius: 10.8333% / 13%;
     }
   }
 
@@ -2806,6 +2986,98 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   padding: 12px 20px;
   border-width: 3px;
   border-radius: 10px;
+}
+
+// The confirm popup was fixed-width per theme (456-539px) with its two
+// buttons side by side — both wider than a 320px viewport outright, so
+// the card's edges and the buttons at its far side were cut off by the
+// screen edge with no way to scroll to them. Given side margins and a
+// max-width, plus each button's own width scaled down (not simply
+// full-width) so the stacked layout still reads as two distinct
+// buttons rather than one solid block; heights mostly kept (all already
+// close to or above the ~44px tap-target minimum). Same 899px
+// breakpoint as the header above, so the popup already fits by the time
+// Board's own header does; untouched above it.
+//
+// max-width: 400px (not 320px): width: 100% resolves against the
+// overlay's own padded content box (viewport minus the overlay's 24px
+// side padding each way), so a 320px cap was binding right in the
+// middle of the 320-390px range actually being tested — the card hit
+// its max at ~368px width and stayed there, so the *margin* kept
+// growing above 368px (35px at 390) while sitting flat at a themselves-
+// unremarkable 24px below it, a visible snap right at that boundary.
+// 400px is comfortably above the content box's width even at the upper
+// end of this range (342px at 390px viewport), so the cap never binds
+// between 320-390px and the margin stays a constant, smoothly-behaving
+// 24px (the overlay's own padding) at every width in between — verified
+// directly (card width was still growing linearly with viewport, not
+// pinned to 320, at 320/340/360/370/390px).
+@media (max-width: 899px) {
+  .board__exit-confirm-overlay {
+    padding: var(--space-4);
+    box-sizing: border-box;
+  }
+
+  .board__exit-confirm-card {
+    box-sizing: border-box;
+  }
+
+  [data-theme='code-vibes'] .board__exit-confirm-card,
+  [data-theme='games'] .board__exit-confirm-card,
+  [data-theme='da-projects'] .board__exit-confirm-card,
+  [data-theme='food'] .board__exit-confirm-card {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    padding: 28px 24px;
+    gap: 24px;
+  }
+
+  .board__exit-confirm-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  [data-theme='code-vibes'] .board__exit-confirm-actions,
+  [data-theme='games'] .board__exit-confirm-actions,
+  [data-theme='da-projects'] .board__exit-confirm-actions,
+  [data-theme='food'] .board__exit-confirm-actions {
+    gap: 12px;
+  }
+
+  [data-theme='code-vibes'] .board__exit-confirm-cancel {
+    width: 160px;
+    height: 46px;
+  }
+
+  [data-theme='code-vibes'] .board__exit-confirm-confirm {
+    width: 140px;
+    height: 46px;
+  }
+
+  [data-theme='games'] .board__exit-confirm-cancel {
+    width: 170px;
+  }
+
+  [data-theme='games'] .board__exit-confirm-confirm {
+    width: 150px;
+  }
+
+  [data-theme='da-projects'] .board__exit-confirm-cancel {
+    width: 130px;
+  }
+
+  [data-theme='da-projects'] .board__exit-confirm-confirm {
+    width: 105px;
+  }
+
+  [data-theme='food'] .board__exit-confirm-cancel {
+    width: 180px;
+  }
+
+  [data-theme='food'] .board__exit-confirm-confirm {
+    width: 125px;
+  }
 }
 
 .board__exit-confirm-cancel {
