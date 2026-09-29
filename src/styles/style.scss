@@ -760,8 +760,25 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   // on a touchscreen. min-height adds tappable area above/below the dot
   // and label (still vertically centered via the row's own
   // align-items: center) without changing how the row looks.
+  //
+  // That min-height plus the desktop row-gap (var(--space-2), 8px) would
+  // have stretched the pitch between rows to 48px — visibly looser than
+  // the ~35px desktop pitch. Dropping the gap to 0 keeps rows touching
+  // (each still individually 40px tall) so the list reads about as
+  // tight as the desktop version despite the taller touch target.
   .radio-row {
     min-height: 40px;
+  }
+
+  .radio-list {
+    gap: 0;
+  }
+
+  // Last row of the last group ("36 cards") would otherwise butt
+  // directly against the preview image with no gap at all once stacked
+  // into a single column.
+  .settings__preview {
+    margin-top: 28px;
   }
 }
 
@@ -773,16 +790,13 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 // row spacing (desktop-tuned) added up to a lot of scrolling before
 // reaching the preview/Start area.
 @media (max-width: 600px) {
-  // Shifts the whole title (text + its ::after diamond/line decor moves
-  // with it, since the decor is positioned relative to this box) right,
-  // away from the viewport edge, without changing their relative position
-  // to each other.
+  // Shifts the whole title away from the viewport edge. The ::after
+  // decor (diamond + line) is positioned relative to this same box and
+  // is left untouched, so it moves together with the text at the exact
+  // same offset as on desktop — only the pair's distance from the edge
+  // changes, not their relative position to each other.
   .settings__title {
-    margin-left: 12px;
-  }
-
-  .settings__title::after {
-    left: -4px;
+    margin-left: 20px;
   }
 
   .settings__groups {
@@ -791,14 +805,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
   .radio-list {
     margin-left: 20px;
-    gap: 0;
-  }
-
-  // Extra breathing room before the preview image: without it, the last
-  // row of the last group ("36 cards") butted directly against the
-  // preview box with zero gap once the groups themselves were tightened.
-  .settings__preview {
-    margin-top: 24px;
   }
 
   // Pushes the Start button a bit further from the last breadcrumb line
