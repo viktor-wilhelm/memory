@@ -1450,6 +1450,22 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --board-card-max-w: 105px;
   }
 
+  // Below 899px, cards are always sized down from their desktop max
+  // anyway (bound by the available container space, not
+  // --board-content-w/h) — the row/column gap set per board size in
+  // board.ts (16px for 4x4, 6-8px for 4x6/6x6) was tuned for the
+  // desktop card size, and at mobile sizes eats space that would
+  // otherwise go to the cards themselves. A flat 6px on every board
+  // size frees that space up; overriding the --board-row-gap/
+  // --board-column-gap custom properties (not just the row-gap/
+  // column-gap they feed) so --board-content-w/h — used to cap the
+  // grid at its ideal desktop size — stays consistent with the smaller
+  // gap actually being rendered.
+  @media (max-width: 899px) {
+    --board-row-gap: 6px;
+    --board-column-gap: 6px;
+  }
+
   [data-theme='da-projects'] & {
     --board-card-max-h: 100px;
   }
@@ -1457,6 +1473,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='food'] & {
     --board-card-max-w: 122px;
     --board-card-max-h: 122px;
+  }
+}
+
+// Food additionally sets its own --board-row-gap/--board-column-gap per
+// data-board-size (its 4x4/4x6/6x6 desktop values, 16/14, 8/6 and 4/6px),
+// which are more specific than the flat 6px mobile override just above
+// (attribute-plus-class-plus-descendant beats a bare class) and would
+// otherwise keep winning on mobile for this theme only. Reproduced with
+// matching specificity so Food's grid gap actually shrinks on mobile too.
+[data-theme='food'] .screen--board[data-board-size='4x4'] .board__grid,
+[data-theme='food'] .screen--board[data-board-size='4x6'] .board__grid,
+[data-theme='food'] .screen--board[data-board-size='6x6'] .board__grid {
+  @media (max-width: 899px) {
+    --board-row-gap: 6px;
+    --board-column-gap: 6px;
   }
 }
 
