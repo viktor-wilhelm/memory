@@ -1293,6 +1293,78 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   letter-spacing: 0;
 }
 
+// Board's header was built the same way Home was: a fixed 112px side
+// padding on .screen--board, and a fixed pixel width on .board__score
+// and .board__exit per theme (156-292px), inside a 3-column grid that
+// never wraps or shrinks them. The widest theme (Code vibes, 292px
+// score + 207px exit) only clears the viewport again at ~870px width
+// (measured directly), so this breakpoint is 899px — comfortably above
+// that, and wide enough to cover the required 768px checkpoint — not
+// the 767px used elsewhere on this screen. Below it, the three columns'
+// combined fixed width plus the 224px of side padding simply doesn't
+// fit — Exit (and on narrower phones, the score chip too) gets pushed
+// off-screen with nothing to scroll to reveal it. Stacking the header
+// into a column and letting each chip size to its own content (instead
+// of a fixed px width) fixes this at any width down to 320px; layout
+// above this breakpoint is untouched.
+@media (max-width: 899px) {
+  .screen--board {
+    padding: var(--space-4);
+  }
+
+  .board__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    gap: var(--space-2);
+  }
+
+  .board__score,
+  .board__exit {
+    width: auto;
+    max-width: 100%;
+  }
+
+  [data-theme='da-projects'] .board__score,
+  [data-theme='food'] .board__score,
+  [data-theme='games'] .board__score,
+  [data-theme='code-vibes'] .board__score,
+  [data-theme='da-projects'] .board__exit,
+  [data-theme='food'] .board__exit,
+  [data-theme='games'] .board__exit,
+  [data-theme='code-vibes'] .board__exit {
+    width: auto;
+    max-width: 100%;
+  }
+
+  [data-theme='da-projects'] .board__header,
+  [data-theme='games'] .board__header,
+  [data-theme='food'] .board__header {
+    height: auto;
+  }
+
+  // Current player's font-size (26-32px per theme) plus its gap/letter-
+  // spacing was tuned for the desktop-width column and left no side
+  // margin at 320px (Games in particular genuinely overflowed the
+  // viewport there, clipped invisibly by .screen--board's own
+  // overflow: hidden rather than becoming reachable via scroll — the
+  // other three themes technically stayed just inside the viewport but
+  // with zero to ~4px of margin, not something to leave right at the
+  // edge). Sized down for a comfortable margin at 320px; unaffected
+  // above this breakpoint.
+  [data-theme='games'] .board__current-player {
+    gap: 10px;
+    font-size: 20px;
+  }
+
+  [data-theme='da-projects'] .board__current-player,
+  [data-theme='food'] .board__current-player {
+    font-size: 26px;
+  }
+}
+
 .board__grid-wrap {
   flex: 1 1 auto;
   min-height: 0;
