@@ -733,9 +733,14 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: none;
   }
 
+  // The active state shows the arrow icon itself, not the bar — without
+  // this, the inherited background-color (identical yellow to the icon's
+  // own fill) sat behind the image and the two blended into one solid
+  // rectangle, hiding the arrow shape entirely.
   .settings__sep--active {
     width: auto;
-    height: 20px;
+    height: 28px;
+    background-color: transparent;
   }
 
   // Radio rows were only as tall as their own content (~27px: a 20px
@@ -746,6 +751,45 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   // align-items: center) without changing how the row looks.
   .radio-row {
     min-height: 40px;
+  }
+}
+
+// Narrow phone widths (320-480px, tested at 320/390): the decorative
+// diamond+line under "Settings" sat right at the viewport edge, the
+// longest theme labels ("Code vibes theme", "DA Projects theme") wrapped
+// to two lines because the row always reserves space for its hover/active
+// arrow regardless of state, and the three settings groups plus their own
+// row spacing (desktop-tuned) added up to a lot of scrolling before
+// reaching the preview/Start area.
+@media (max-width: 600px) {
+  .settings__title::after {
+    left: -4px;
+  }
+
+  .settings__groups {
+    gap: 2rem;
+  }
+
+  .radio-list {
+    margin-left: 20px;
+    gap: 2px;
+  }
+
+  // The row's hover/active arrow (a 37px bar + 10px diamond) is always
+  // laid out, just invisible (opacity, not display), so it permanently
+  // eats width from the label even on rows that are neither checked nor
+  // hovered. Shrinking it recovers just enough room for the longest theme
+  // label to fit on one line at 320px.
+  .radio-row__arrow {
+    &::before {
+      width: 22px;
+    }
+
+    &::after {
+      width: 7px;
+      height: 7px;
+      margin-left: -2px;
+    }
   }
 }
 
