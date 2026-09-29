@@ -534,12 +534,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   min-width: 280px;
 }
 
+// aspect-ratio (not a fixed 412px height): max-width: 100% already lets
+// this shrink below 457px wide on any narrower screen, but the height
+// stayed pinned at 412px regardless, so at e.g. 280px wide (320px
+// viewport minus screen padding) the box rendered at 280x412 — a much
+// taller, narrower shape than the 457x412 image it was designed to
+// frame, instead of scaling down proportionally. aspect-ratio derives
+// height from whatever width actually renders, at any size; at the
+// exact desktop 457px width it still resolves to exactly 412px
+// (457 * 412/457), so the desktop box is pixel-identical to before.
 .settings__preview-board {
   position: relative;
   align-self: flex-end;
   width: 457px;
   max-width: 100%;
-  height: 412px;
+  aspect-ratio: 457 / 412;
   border-radius: var(--radius-md);
   overflow: hidden;
 }
@@ -700,8 +709,110 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     flex-wrap: wrap;
   }
 
+  // Each wrapped line pairs a label with the sep that follows it (label +
+  // active-state arrow), except the last label, which has none. Without a
+  // shared min-height, a line containing the 28px-tall arrow is taller
+  // than a label-only line, and since the fixed row-gap is measured
+  // between those differently-sized line boxes, the visible space between
+  // text baselines ends up uneven. Giving every label the same min-height
+  // as the arrow makes all wrapped lines the same height, so the gaps
+  // read as equal.
   .settings__breadcrumb-label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
     white-space: normal;
+  }
+
+  // .settings__sep is a decorative diagonal "/" (a 56px-wide top border
+  // rotated -70.67deg) meant to sit inline between two labels on a
+  // single row. Once the breadcrumb wraps (flex-wrap above), that
+  // diagonal span could land across two different lines instead of
+  // between two adjacent labels, cutting straight through whichever
+  // text happened to be underneath it. A plain, unrotated vertical bar
+  // reads fine regardless of how the labels wrap, since it no longer
+  // needs diagonal room; sized to roughly the label text's own height
+  // instead of the desktop dash's 56px span. The "active" state's arrow
+  // icon (shown once that step is actually chosen) is scaled down to
+  // match for the same reason — at 56px tall it dwarfed the 20px label
+  // text next to it once everything shrank to this width.
+  .settings__sep {
+    width: 2px;
+    height: 20px;
+    border-top: 0;
+    background-color: var(--color-play-button-bg);
+    transform: none;
+  }
+
+  // The active state shows the arrow icon itself, not the bar — without
+  // this, the inherited background-color (identical yellow to the icon's
+  // own fill) sat behind the image and the two blended into one solid
+  // rectangle, hiding the arrow shape entirely.
+  .settings__sep--active {
+    width: auto;
+    height: 28px;
+    background-color: transparent;
+  }
+
+  // Row height and .radio-list gap are intentionally left at their
+  // desktop values (no min-height override, gap: var(--space-2)) so the
+  // pitch between adjacent radio options — measured center-to-center —
+  // is identical on every width down to 320px, not just visually close.
+
+  // Last row of the last group ("36 cards") would otherwise butt
+  // directly against the preview image with no gap at all once stacked
+  // into a single column.
+  .settings__preview {
+    margin-top: 28px;
+  }
+}
+
+// Narrow phone widths (320-480px, tested at 320/390): the decorative
+// diamond+line under "Settings" sat right at the viewport edge, the
+// longest theme labels ("Code vibes theme", "DA Projects theme") wrapped
+// to two lines because the row always reserves space for its hover/active
+// arrow regardless of state, and the three settings groups plus their own
+// row spacing (desktop-tuned) added up to a lot of scrolling before
+// reaching the preview/Start area.
+@media (max-width: 600px) {
+  // Shifts the whole title away from the viewport edge. The ::after
+  // decor (diamond + line) is positioned relative to this same box and
+  // is left untouched, so it moves together with the text at the exact
+  // same offset as on desktop — only the pair's distance from the edge
+  // changes, not their relative position to each other.
+  .settings__title {
+    margin-left: 20px;
+  }
+
+  .settings__groups {
+    gap: 2rem;
+  }
+
+  .radio-list {
+    margin-left: 20px;
+  }
+
+  // Pushes the Start button a bit further from the last breadcrumb line
+  // than the row's own 1rem wrap-gap alone provided.
+  .settings__start-wrapper {
+    margin-top: 8px;
+  }
+
+  // The row's hover/active arrow (a 37px bar + 10px diamond) is always
+  // laid out, just invisible (opacity, not display), so it permanently
+  // eats width from the label even on rows that are neither checked nor
+  // hovered. Shrinking it recovers just enough room for the longest theme
+  // label to fit on one line at 320px.
+  .radio-row__arrow {
+    &::before {
+      width: 22px;
+    }
+
+    &::after {
+      width: 7px;
+      height: 7px;
+      margin-left: -2px;
+    }
   }
 }
 
