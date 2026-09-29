@@ -2942,6 +2942,20 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 // close to or above the ~44px tap-target minimum). Same 899px
 // breakpoint as the header above, so the popup already fits by the time
 // Board's own header does; untouched above it.
+//
+// max-width: 400px (not 320px): width: 100% resolves against the
+// overlay's own padded content box (viewport minus the overlay's 24px
+// side padding each way), so a 320px cap was binding right in the
+// middle of the 320-390px range actually being tested — the card hit
+// its max at ~368px width and stayed there, so the *margin* kept
+// growing above 368px (35px at 390) while sitting flat at a themselves-
+// unremarkable 24px below it, a visible snap right at that boundary.
+// 400px is comfortably above the content box's width even at the upper
+// end of this range (342px at 390px viewport), so the cap never binds
+// between 320-390px and the margin stays a constant, smoothly-behaving
+// 24px (the overlay's own padding) at every width in between — verified
+// directly (card width was still growing linearly with viewport, not
+// pinned to 320, at 320/340/360/370/390px).
 @media (max-width: 899px) {
   .board__exit-confirm-overlay {
     padding: var(--space-4);
@@ -2957,7 +2971,7 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   [data-theme='da-projects'] .board__exit-confirm-card,
   [data-theme='food'] .board__exit-confirm-card {
     width: 100%;
-    max-width: 320px;
+    max-width: 400px;
     height: auto;
     padding: 28px 24px;
     gap: 24px;
