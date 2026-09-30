@@ -102,7 +102,7 @@
     height: 62px;
     padding: 17px 20px;
     gap: 32px;
-    background-color: rgba(134, 233, 214, 0.2);
+    background-color: var(--color-accent-tint);
   }
 
   .game-over__player {

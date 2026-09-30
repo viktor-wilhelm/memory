@@ -27,6 +27,7 @@
   --color-result-winner-blue: rgba(43, 177, 255, 1);
   --color-result-winner-orange: rgba(245, 142, 57, 1);
   --color-result-draw-title: #4dd5bc;
+  --color-accent-tint: rgba(134, 233, 214, 0.2);
 }
 
 [data-theme="games"] {
@@ -58,6 +59,7 @@
   --color-card-match-shadow: rgba(237, 27, 118, 0.3);
   --card-face-radius: 12px;
   --card-match-border-width: 3px;
+  --color-hover-fill: #695574;
 }
 
 [data-theme="da-projects"] {
@@ -71,20 +73,22 @@
   --color-popup-bg: #eef3fb;
   --color-popup-text: var(--color-text);
   --color-popup-cancel-bg: rgba(191, 229, 242, 1);
-  --color-popup-cancel-text: rgba(30, 117, 148, 1);
+  --color-accent-strong: #1e7594;
+  --color-popup-cancel-text: var(--color-accent-strong);
   --color-popup-confirm-bg: rgba(253, 138, 129, 1);
   --color-popup-confirm-text: #ffffff;
   --color-card-face-bg: #eaf2f4;
   --color-card-match-bg: #f0fbff;
-  --color-card-match-border: #1e7594;
+  --color-card-match-border: var(--color-accent-strong);
   --color-card-match-shadow: transparent;
   --card-face-radius: 13px;
+  --card-closed-radius: 10.8333% / 13%;
   --card-match-border-width: 2px;
   --color-player-orange: #ea6900;
   --color-player-blue: #097fc5;
-  --color-game-over-bg: #1e7594;
+  --color-game-over-bg: var(--color-accent-strong);
   --game-over-content-top: 292px;
-  --color-result-bg: #1e7594;
+  --color-result-bg: var(--color-accent-strong);
   --color-result-title: #ffffff;
   --color-result-draw-title: #fd5b4f;
 }

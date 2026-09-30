@@ -138,7 +138,8 @@
   transform: translateY(2px);
 }
 
-[data-theme='da-projects'] .board__current-player-badge--filled {
+[data-theme='da-projects'] .board__current-player-badge--filled,
+[data-theme='food'] .board__current-player-badge--filled {
   box-sizing: border-box;
   width: 41px;
   height: 40px;
@@ -147,20 +148,30 @@
   border-radius: 8px;
 }
 
-[data-theme='da-projects'] .board__current-player-badge--filled.board__current-player-badge--blue {
+[data-theme='da-projects'] .board__current-player-badge--filled.board__current-player-badge--blue,
+[data-theme='food'] .board__current-player-badge--filled.board__current-player-badge--blue {
   background-color: rgba(9, 127, 197, 1);
 }
 
 [data-theme='da-projects'] .board__current-player-badge img,
-[data-theme='da-projects'] .board__current-player-badge svg {
+[data-theme='da-projects'] .board__current-player-badge svg,
+[data-theme='food'] .board__current-player-badge img,
+[data-theme='food'] .board__current-player-badge svg,
+[data-theme='games'] .board__current-player-badge img,
+[data-theme='games'] .board__current-player-badge svg {
   width: 25px;
   height: 32px;
+}
+
+[data-theme='da-projects'] .board__current-player-badge img,
+[data-theme='da-projects'] .board__current-player-badge svg,
+[data-theme='food'] .board__current-player-badge img,
+[data-theme='food'] .board__current-player-badge svg {
   color: #ffffff;
-  opacity: 1;
 }
 
 [data-theme='da-projects'] .board__current-player {
-  color: rgba(30, 117, 148, 1);
+  color: var(--color-accent-strong);
   font-family: var(--font-family-da-projects);
   font-weight: 700;
   font-size: 32px;
@@ -176,8 +187,8 @@
   border-radius: 10px;
   padding: 12px 20px;
   border: none;
-  background-color: rgba(191, 229, 242, 1);
-  color: rgba(30, 117, 148, 1);
+  background-color: var(--color-popup-cancel-bg);
+  color: var(--color-accent-strong);
   font-family: var(--font-family-da-projects);
   font-weight: 700;
   font-size: 20px;
@@ -235,26 +246,6 @@
   font-size: 32px;
   line-height: 1;
   letter-spacing: 0;
-}
-
-[data-theme='food'] .board__current-player-badge--filled {
-  box-sizing: border-box;
-  width: 41px;
-  height: 40px;
-  padding: 4px 8px;
-  gap: 10px;
-  border-radius: 8px;
-}
-
-[data-theme='food'] .board__current-player-badge--filled.board__current-player-badge--blue {
-  background-color: rgba(9, 127, 197, 1);
-}
-
-[data-theme='food'] .board__current-player-badge img,
-[data-theme='food'] .board__current-player-badge svg {
-  width: 25px;
-  height: 32px;
-  color: #ffffff;
 }
 
 [data-theme='food'] .board__header {
@@ -446,12 +437,6 @@
   background-color: #1faafc;
 }
 
-[data-theme='games'] .board__current-player-badge img,
-[data-theme='games'] .board__current-player-badge svg {
-  width: 25px;
-  height: 32px;
-}
-
 [data-theme='games'] .board__exit {
   position: relative;
   box-sizing: border-box;
@@ -474,7 +459,7 @@
 }
 
 [data-theme='games'] .board__exit:hover {
-  background-color: #695574;
+  background-color: var(--color-hover-fill);
 }
 
 [data-theme='games'] .board__exit::before {
@@ -516,7 +501,7 @@
   padding: 17px 20px;
   gap: 20px;
   border-radius: 0;
-  background-color: rgba(134, 233, 214, 0.2);
+  background-color: var(--color-accent-tint);
 }
 
 [data-theme='code-vibes'] .board__score-item {
@@ -538,7 +523,7 @@
   justify-content: center;
   border-radius: 0;
   border: none;
-  background-color: rgba(134, 233, 214, 0.14);
+  background-color: var(--color-popup-confirm-outline-bg);
   color: var(--color-text);
   font-family: var(--font-family-display);
   font-weight: 700;
@@ -553,14 +538,14 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  border: 1px solid rgba(77, 213, 188, 1);
-  box-shadow: inset 0 0 0 0 rgba(77, 213, 188, 1), 2px 2px 6px rgba(205, 225, 215, 0);
+  border: 1px solid var(--color-popup-confirm-bg);
+  box-shadow: inset 0 0 0 0 var(--color-popup-confirm-bg), 2px 2px 6px rgba(205, 225, 215, 0);
   transition: box-shadow 160ms ease-out;
   transition-delay: 0ms;
 }
 
 [data-theme='code-vibes'] .board__exit:hover::before {
-  box-shadow: inset 0 0 0 2px rgba(77, 213, 188, 1), 2px 2px 6px rgba(205, 225, 215, 0.35);
+  box-shadow: inset 0 0 0 2px var(--color-popup-confirm-bg), 2px 2px 6px rgba(205, 225, 215, 0.35);
 }
 
 [data-theme='code-vibes'] .board__exit svg {
@@ -745,7 +730,7 @@
 
   [data-theme='da-projects'] & {
     aspect-ratio: 120 / 100;
-    border-radius: 10.8333% / 13%;
+    border-radius: var(--card-closed-radius);
   }
 
   [data-theme='food'] & {
@@ -799,7 +784,7 @@
     }
 
     [data-theme='da-projects'] & {
-      border-radius: 10.8333% / 13%;
+      border-radius: var(--card-closed-radius);
     }
   }
 
