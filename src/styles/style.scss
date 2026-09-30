@@ -694,6 +694,17 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     justify-content: flex-start;
   }
 
+  // The title's ::after decor (diamond + line) hangs 22px to the left of
+  // the title's own box, which reads fine on desktop where the title
+  // sits next to the wide preview column, but once the layout stacks
+  // into a single column (anywhere in this ≤1150px range, not just on
+  // narrow phones) that same offset puts the diamond right at the
+  // screen's edge. Shifting the whole title right gives the decor room
+  // without moving it relative to the text.
+  .settings__title {
+    margin-left: 20px;
+  }
+
   .settings__panel,
   .settings__preview {
     flex: 1 1 auto;
@@ -793,15 +804,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
 // row spacing (desktop-tuned) added up to a lot of scrolling before
 // reaching the preview/Start area.
 @media (max-width: 600px) {
-  // Shifts the whole title away from the viewport edge. The ::after
-  // decor (diamond + line) is positioned relative to this same box and
-  // is left untouched, so it moves together with the text at the exact
-  // same offset as on desktop — only the pair's distance from the edge
-  // changes, not their relative position to each other.
-  .settings__title {
-    margin-left: 20px;
-  }
-
   .settings__groups {
     gap: 2rem;
   }
