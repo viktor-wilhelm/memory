@@ -1,0 +1,533 @@
+.screen--result {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100vh;
+  justify-content: center;
+  overflow: hidden;
+  background-color: var(--color-result-bg);
+  color: var(--color-text);
+}
+
+.result__content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.result__reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.result__eyebrow {
+  margin: 0;
+}
+
+.result__title {
+  margin: 0;
+
+  &--blue {
+    color: var(--color-result-winner-blue, var(--color-result-title));
+  }
+
+  &--orange {
+    color: var(--color-result-winner-orange, var(--color-result-title));
+  }
+}
+
+.result__draw-title {
+  position: relative;
+  margin: 0;
+  color: var(--color-result-draw-title);
+}
+
+.result__draw-backing {
+  position: absolute;
+  inset: 0;
+  color: #ffffff;
+  z-index: 0;
+}
+
+.result__draw-word {
+  position: relative;
+  z-index: 1;
+}
+
+.result__graphic {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.result__pawn {
+  display: flex;
+
+  svg {
+    display: block;
+  }
+
+  &--blue {
+    color: var(--color-player-blue);
+  }
+
+  &--orange {
+    color: var(--color-player-orange);
+  }
+}
+
+.result__pawn-backing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7e6d5;
+}
+
+.result__trophy {
+  display: block;
+}
+
+.result__scale {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-result-draw-title);
+
+  svg {
+    display: block;
+  }
+}
+
+.result__confetti {
+  width: 100%;
+  height: 245px;
+  background-image: url('/assets/code-vibes-theme/result/confetti.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: 96% auto;
+  pointer-events: none;
+}
+
+@media (min-width: 1440px) {
+  .result__confetti {
+    background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
+    height: auto;
+    aspect-ratio: 11;
+  }
+}
+
+[data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+  gap: 40px;
+  padding-top: 0;
+  justify-content: flex-start;
+}
+
+.result__button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+
+[data-theme='code-vibes'] .result__button {
+  width: 204px;
+  height: 62px;
+  border: 1px solid #4dd5bc;
+  border-radius: 0;
+  background-color: rgba(134, 233, 214, 0.2);
+  color: #ffffff;
+  font-family: var(--font-family-display);
+  font-weight: 700;
+  font-size: 24px;
+
+  &:hover {
+    background-color: color-mix(in srgb, rgba(134, 233, 214, 0.2) 99%, black 1%);
+    box-shadow: inset 0 0 0 1px #4dd5bc, 3px 3px 10px rgba(77, 213, 188, 0.5);
+  }
+}
+
+[data-theme='games'] .result__button {
+  width: 107px;
+  height: 49px;
+  border: 2px solid #e71c4f;
+  border-radius: 10px;
+  background-color: rgba(237, 27, 118, 0.08);
+  color: #ffffff;
+  font-family: var(--font-family-games);
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 0.04em;
+  transition: background-color 80ms ease-out, box-shadow 80ms ease-out;
+
+  &:hover {
+    background-color: #695574;
+    box-shadow: inset 0 0 0 1px #e71c4f;
+  }
+}
+
+[data-theme='da-projects'] .result__button {
+  width: 96px;
+  height: 48px;
+  border-radius: 10px;
+  background-color: rgba(191, 229, 242, 1);
+  color: rgba(30, 117, 148, 1);
+  font-family: var(--font-family-da-projects);
+  font-weight: 700;
+  font-size: 16px;
+  transition: background-color 80ms ease-out, color 80ms ease-out, box-shadow 80ms ease-out;
+
+  &:hover {
+    background-color: color-mix(in srgb, rgba(30, 117, 148, 1) 70%, black 30%);
+    color: #ffffff;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.18);
+  }
+}
+
+[data-theme='food'] .result__button {
+  width: 97px;
+  height: 45px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffab3e;
+  color: #ffffff;
+  font-family: var(--font-family-food-button);
+  font-weight: 700;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #f3832d;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+  }
+}
+
+[data-theme='code-vibes'] {
+  .result__eyebrow {
+    font-family: var(--font-family-display);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 5vw, 40px);
+    line-height: 1.2;
+    color: #ffffff;
+  }
+
+  .result__title {
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 10vw, 60px);
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .result__draw-title {
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: 112px;
+    line-height: 1;
+  }
+
+  .result__draw-backing {
+    transform: translate(-4px, -2px);
+  }
+
+  .result__pawn svg {
+    width: 200px;
+    height: 250px;
+  }
+
+  & [data-outcome='winner'] {
+    .result__title {
+      margin-top: 24px;
+    }
+
+    .result__graphic {
+      margin-top: 64px;
+    }
+
+    .result__button {
+      margin-top: 64px;
+    }
+  }
+
+  & [data-outcome='draw'] {
+    .result__draw-title {
+      margin-top: 35px;
+    }
+
+    .result__scale {
+      margin-top: 35px;
+    }
+
+    .result__button {
+      margin-top: 64px;
+    }
+  }
+
+  .result__scale svg {
+    width: 346px;
+    height: 276px;
+  }
+}
+
+[data-theme='games'] {
+  .result__eyebrow {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: clamp(1rem, 4vw, 28px);
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    color: #ffffff;
+  }
+
+  .result__title {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: clamp(2rem, 11vw, 64px);
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .result__draw-title {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 14vw, 128px);
+    line-height: 1.2;
+    letter-spacing: 0.07em;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .result__trophy {
+    width: 288px;
+    height: 344px;
+    filter: drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.25));
+  }
+
+  .result__scale svg {
+    width: 346px;
+    height: 276px;
+  }
+
+  & [data-outcome='winner'] {
+    .result__title { margin-top: 45px; }
+    .result__graphic { margin-top: 45px; }
+    .result__button { margin-top: 64px; }
+  }
+
+  & [data-outcome='draw'] {
+    .result__draw-title { margin-top: 27px; }
+    .result__scale { margin-top: 27px; }
+    .result__button { margin-top: 64px; }
+  }
+}
+
+[data-theme='da-projects'] {
+  .result__eyebrow {
+    font-family: var(--font-family-da-projects);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 5vw, 40px);
+    line-height: 1.2;
+    color: #ffffff;
+  }
+
+  .result__title {
+    font-family: var(--font-family-da-projects);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 12vw, 80px);
+    line-height: 1.2;
+    color: var(--color-result-title);
+  }
+
+  .result__draw-title {
+    font-family: var(--font-family-da-projects);
+    font-weight: 800;
+    font-size: clamp(2.25rem, 14vw, 128px);
+    line-height: 1.2;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  }
+
+  .result__pawn svg {
+    width: 212px;
+    height: 262px;
+  }
+
+  .result__scale svg {
+    width: 339px;
+    height: 272px;
+    filter: drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff)
+      drop-shadow(0 -3px 0 #fff) drop-shadow(3px 3px 0 #fff) drop-shadow(-3px -3px 0 #fff)
+      drop-shadow(3px -3px 0 #fff) drop-shadow(-3px 3px 0 #fff);
+  }
+
+  & [data-outcome='winner'] {
+    .result__title { margin-top: 38px; }
+    .result__graphic { margin-top: 38px; }
+    .result__button { margin-top: 64px; }
+  }
+
+  & [data-outcome='draw'] {
+    .result__draw-title { margin-top: 26px; }
+    .result__scale { margin-top: 26px; }
+    .result__button { margin-top: 64px; }
+  }
+}
+
+[data-theme='food'] {
+  .result__eyebrow {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: clamp(1.25rem, 5vw, 40px);
+    line-height: 1.2;
+    color: var(--color-result-title);
+  }
+
+  .result__title {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: clamp(2.25rem, 12vw, 80px);
+    line-height: 1.2;
+    color: var(--color-result-title);
+  }
+
+  .result__draw-title {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: clamp(2.25rem, 14vw, 128px);
+    line-height: 1.2;
+  }
+
+  .result__pawn svg {
+    width: 200px;
+    height: 250px;
+  }
+
+  .result__pawn-backing {
+    width: 260px;
+    height: 298px;
+  }
+
+  .result__scale svg {
+    width: 311px;
+    height: 249px;
+  }
+
+  .result__scale {
+    width: 311px;
+    height: 285px;
+    background-color: #f7e6d5;
+  }
+
+  & [data-outcome='winner'] {
+    .result__title { margin-top: 48px; }
+    .result__graphic { margin-top: 48px; }
+    .result__button { margin-top: 64px; }
+  }
+
+  & [data-outcome='draw'] {
+    .result__draw-title { margin-top: 40px; }
+    .result__scale { margin-top: 40px; }
+    .result__button { margin-top: 64px; }
+  }
+}
+
+@media (min-width: 1440px) and (min-height: 1024px) {
+  .result__content {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .result__title,
+  .result__draw-title {
+    white-space: nowrap;
+  }
+
+  .result__confetti {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  [data-theme='code-vibes'] [data-outcome='winner'] {
+    .result__content { width: 522px; top: 320px; }
+  }
+
+  [data-theme='code-vibes'] [data-outcome='draw'] {
+    .result__content { width: 420px; top: 222px; }
+  }
+
+  [data-theme='games'] [data-outcome='winner'] {
+    .result__content { width: 468px; top: 192.5px; }
+  }
+
+  [data-theme='games'] [data-outcome='draw'] {
+    .result__content { width: 578px; top: 216px; }
+  }
+
+  [data-theme='da-projects'] [data-outcome='winner'] {
+    .result__content { width: 522px; top: 192px; }
+  }
+
+  [data-theme='da-projects'] [data-outcome='draw'] {
+    .result__content { width: 386px; top: 192px; }
+  }
+
+  [data-theme='food'] [data-outcome='winner'] {
+    .result__content { width: 540px; top: 192px; }
+  }
+
+  [data-theme='food'] [data-outcome='draw'] {
+    .result__content { width: 376px; top: 185px; }
+  }
+}
+
+@keyframes result-reveal-from-top {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes result-reveal-from-bottom {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes result-reveal-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.screen--result--from-top .result__reveal {
+  animation: result-reveal-from-top 400ms ease-out;
+}
+
+.screen--result--from-bottom .result__reveal {
+  animation: result-reveal-from-bottom 400ms ease-out;
+}
+
+.screen--result--none .result__reveal {
+  animation: result-reveal-fade 400ms ease-out;
+}
