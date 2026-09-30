@@ -1,16 +1,6 @@
 @use 'tokens';
 @use 'themes';
 
-// min-height, not height: a fixed height pins the body box to exactly one
-// viewport regardless of how tall its content actually is. Every screen
-// that can exceed viewport height (e.g. Settings on a short phone with a
-// long combination of selections) still visually overflows this box
-// (overflow is the default `visible`), but capping the box itself at
-// one viewport is the textbook setup that makes mobile browsers miscompute
-// how far the page can scroll — the classic "can't reach the bottom"
-// mobile bug. min-height keeps every other screen (which relies on this
-// to fill at least one viewport) unaffected, since none of them are
-// shorter than 100vh to begin with.
 body {
   min-height: 100vh;
   margin: 0;
@@ -19,11 +9,6 @@ body {
   font-family: var(--font-family-base);
 }
 
-// Every <img> in this app is a UI graphic (icons, card faces, theme
-// previews, etc.), never user content someone would want to select or
-// drag out — so this is safe app-wide, unlike a blanket rule on text
-// elements would be. draggable="false" (set on each <img> in the
-// markup) covers Firefox, which doesn't honor -webkit-user-drag.
 img {
   -webkit-user-drag: none;
   user-select: none;
@@ -91,16 +76,6 @@ img {
   align-self: flex-start;
   margin: 0 0 6rem;
   font-family: var(--font-family-display);
-  // Linear in vw (calc(12.2vw - 35.7px), not calc(9.72vw) alone) so it
-  // still hits exactly 8.75rem (140px) at the 1440px reference width —
-  // preserving that exact, already-approved desktop size — while
-  // shrinking enough below it to never wrap "Ready to play?" onto two
-  // lines; the old single-coefficient formula (9.72vw) wrapped from
-  // 768px up to ~1049px, where the fixed 230px+96px desktop padding eats
-  // an increasingly large share of a shrinking viewport. Verified against
-  // the actual rendered text (binary-searched the largest non-wrapping
-  // size at several widths), with a safety margin below each threshold.
-  // Below 768px this is overridden by the mobile rule further down.
   font-size: clamp(1rem, calc(12.2vw - 35.7px), 8.75rem);
   font-weight: 700;
   line-height: 1;
@@ -139,11 +114,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: inline-block;
     width: 44px;
     height: 32px;
-    // contain, not auto: the asset's own native size (44x32) happens to
-    // match this box exactly, so this is a no-op here — but the mobile
-    // override below shrinks the box without a matching native asset,
-    // and auto (draw at native resolution regardless of box size) would
-    // crop/misrepresent it there instead of scaling it down proportionally.
     background: url('/assets/start-page/stadia_controller.png') no-repeat center / contain;
     transform: translateY(-4px) rotate(0deg) scale(1);
     transition: transform 200ms $ease-portfolio;
@@ -230,40 +200,13 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Home was built against a single fixed desktop canvas: .screen--home's
-// 230px left padding exists purely to reserve visual space to the right
-// of .home__decor (an absolutely-positioned, non-interactive background
-// graphic that takes up no flow space of its own), so .home__content
-// never actually needed the viewport to be wider than ~480px — anything
-// narrower pushed the Play button off-screen by however much was
-// missing (up to 154px at 320px wide). 768px and up (already verified
-// against the desktop design) are completely untouched below; this only
-// re-centers the content and scales the decor and button down for
-// anything narrower.
 @media (max-width: 767px) {
   .screen--home {
     padding: var(--space-4);
-    // .home__decor is bottom-anchored (inherited bottom: 16px) and its
-    // own height already scales with viewport width (min(248px, 68vw));
-    // reserving that same amount (plus a 40px gap) as padding-bottom
-    // keeps .screen's own justify-content: center (inherited) centering
-    // .home__content only within the space ABOVE the decor, instead of
-    // across the full viewport height. That's what actually fixes the
-    // overlap a plain justify-content: center produced on a short
-    // viewport (320x600) — not the centering itself, but centering into
-    // a zone the decor already occupies. It also means a taller viewport
-    // (e.g. 320x860) centers the group further down within its own
-    // (now taller) safe zone, instead of leaving it stranded near the
-    // top — matching the request to lower the group on tall phones
-    // while still never touching the decor. A vertical scroll is
-    // allowed if content still doesn't fit, per the task.
     padding-bottom: calc(min(248px, 68vw) + 56px);
     align-items: center;
   }
 
-  // Left-anchored near the bottom, same as desktop (left: 0; bottom:
-  // 16px, both inherited, untouched) — only scaled down. Still
-  // pointer-events: none, still purely decorative.
   .home__decor {
     width: min(220px, 60vw);
     height: min(248px, 68vw);
@@ -276,38 +219,15 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   .home__eyebrow {
     align-self: center;
     text-align: center;
-    // Bumped from the clamp()'s 16px floor (1rem) to a 20px floor, per
-    // request — still scales up with viewport width above that floor
-    // exactly as before, just starting from a larger minimum.
     font-size: clamp(1.25rem, 3.33vw, 3rem);
   }
 
   .home__title {
     align-self: center;
     text-align: center;
-    // Same 9.72vw slope as the desktop rule always had — wrapping was
-    // never caused by that slope (9.72vw is only 31px at 320px, well
-    // inside what fits), only by the old 2.5rem (40px) floor overriding
-    // it. 2.25rem (36px) is the floor now, not the lowest non-wrapping
-    // size (38.4px, binary-searched against the actual rendered text —
-    // that would leave the title touching the side padding) but with a
-    // margin so it stays clearly clear of the edges at 320px (~33px of
-    // side margin beyond the 24px screen padding, confirmed by
-    // measuring the rendered text's own bounding box). Only matters
-    // below ~370px width, where 9.72vw would otherwise be smaller than
-    // this floor; above that this is a no-op and the same proportional
-    // scaling continues exactly as before.
     font-size: clamp(2.25rem, 9.72vw, 8.75rem);
   }
 
-  // Scaled to roughly 200x78 (0.8x of the desktop 250x98, same aspect
-  // ratio) per request — the previous size crowded the decor below it.
-  // Every child (controller/label/arrow) and their gap/background sizes
-  // and hover-motion distances are scaled by the same 0.8 factor so the
-  // icon, label and arrow keep the same relative proportions and still
-  // fit with even side margins instead of overflowing the smaller box;
-  // the hover/focus rotate and scale animations (angle- and ratio-based,
-  // not pixel-based) are untouched.
   .play-button {
     width: 200px;
     height: 78px;
@@ -439,11 +359,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     height: 0;
   }
 
-  // Focus ring for keyboard navigation only (native :focus-visible), drawn
-  // around the visible dot rather than the input itself (which is visually
-  // hidden at 0x0). box-shadow (not outline) so it follows the dot's own
-  // border-radius as a round ring; it paints outside the box and never
-  // affects layout.
   input:focus-visible + .radio-row__dot {
     box-shadow: 0 0 0 3px var(--color-accent);
   }
@@ -466,8 +381,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       transition: opacity 150ms ease-in-out;
     }
 
-    // Unchecked: the thicker ring alone. Checked: it fades out so only
-    // mode_standby's thinner ring + centered dot (below) shows through.
     &::before {
       background-image: url('/assets/settings-page/fiber_manual_record.svg');
     }
@@ -544,15 +457,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   min-width: 280px;
 }
 
-// aspect-ratio (not a fixed 412px height): max-width: 100% already lets
-// this shrink below 457px wide on any narrower screen, but the height
-// stayed pinned at 412px regardless, so at e.g. 280px wide (320px
-// viewport minus screen padding) the box rendered at 280x412 — a much
-// taller, narrower shape than the 457x412 image it was designed to
-// frame, instead of scaling down proportionally. aspect-ratio derives
-// height from whatever width actually renders, at any size; at the
-// exact desktop 457px width it still resolves to exactly 412px
-// (457 * 412/457), so the desktop box is pixel-identical to before.
 .settings__preview-board {
   position: relative;
   align-self: flex-end;
@@ -687,17 +591,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transition: transform 200ms ease-in-out;
 }
 
-// The title's ::after decor (diamond + line) hangs 22px to the left of the
-// title's own box. On a wide desktop viewport this is invisible — centering
-// leaves well over 22px of margin before the title — but as the viewport
-// narrows, that margin shrinks, and it keeps shrinking through the 1150px
-// breakpoint where the layout stacks into a column: there's nothing special
-// about 1150px itself, the margin is already down to a few px well before
-// it (e.g. ~0px at 1151px) and stays thin for a while after it (still just
-// ~24px, the screen's own padding, at 320px). One media query covering the
-// whole range the margin is too thin, independent of row vs. column layout,
-// shifts the whole title right so the decor always has room, without
-// moving it relative to the text.
 @media (max-width: 1200px) {
   .settings__title {
     margin-left: 20px;
@@ -736,14 +629,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     flex-wrap: wrap;
   }
 
-  // Each wrapped line pairs a label with the sep that follows it (label +
-  // active-state arrow), except the last label, which has none. Without a
-  // shared min-height, a line containing the 28px-tall arrow is taller
-  // than a label-only line, and since the fixed row-gap is measured
-  // between those differently-sized line boxes, the visible space between
-  // text baselines ends up uneven. Giving every label the same min-height
-  // as the arrow makes all wrapped lines the same height, so the gaps
-  // read as equal.
   .settings__breadcrumb-label {
     display: inline-flex;
     align-items: center;
@@ -751,18 +636,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: normal;
   }
 
-  // .settings__sep is a decorative diagonal "/" (a 56px-wide top border
-  // rotated -70.67deg) meant to sit inline between two labels on a
-  // single row. Once the breadcrumb wraps (flex-wrap above), that
-  // diagonal span could land across two different lines instead of
-  // between two adjacent labels, cutting straight through whichever
-  // text happened to be underneath it. A plain, unrotated vertical bar
-  // reads fine regardless of how the labels wrap, since it no longer
-  // needs diagonal room; sized to roughly the label text's own height
-  // instead of the desktop dash's 56px span. The "active" state's arrow
-  // icon (shown once that step is actually chosen) is scaled down to
-  // match for the same reason — at 56px tall it dwarfed the 20px label
-  // text next to it once everything shrank to this width.
   .settings__sep {
     width: 2px;
     height: 20px;
@@ -771,44 +644,21 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: none;
   }
 
-  // The active state shows the arrow icon itself, not the bar — without
-  // this, the inherited background-color (identical yellow to the icon's
-  // own fill) sat behind the image and the two blended into one solid
-  // rectangle, hiding the arrow shape entirely.
   .settings__sep--active {
     width: auto;
     height: 28px;
     background-color: transparent;
   }
 
-  // Row height and .radio-list gap are intentionally left at their
-  // desktop values (no min-height override, gap: var(--space-2)) so the
-  // pitch between adjacent radio options — measured center-to-center —
-  // is identical on every width down to 320px, not just visually close.
-
-  // A bit more air between a group's own heading ("Game themes") and its
-  // first option than the 8px used between options within the list —
-  // otherwise the heading reads as if it were part of the list instead
-  // of a label for it.
   .settings__group-title {
     margin-bottom: 16px;
   }
 
-  // Last row of the last group ("36 cards") would otherwise butt
-  // directly against the preview image with no gap at all once stacked
-  // into a single column.
   .settings__preview {
     margin-top: 56px;
   }
 }
 
-// Narrow phone widths (320-480px, tested at 320/390): the decorative
-// diamond+line under "Settings" sat right at the viewport edge, the
-// longest theme labels ("Code vibes theme", "DA Projects theme") wrapped
-// to two lines because the row always reserves space for its hover/active
-// arrow regardless of state, and the three settings groups plus their own
-// row spacing (desktop-tuned) added up to a lot of scrolling before
-// reaching the preview/Start area.
 @media (max-width: 600px) {
   .settings__groups {
     gap: 2rem;
@@ -818,17 +668,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     margin-left: 20px;
   }
 
-  // Pushes the Start button a bit further from the last breadcrumb line
-  // than the row's own 1rem wrap-gap alone provided.
   .settings__start-wrapper {
     margin-top: 8px;
   }
 
-  // The row's hover/active arrow (a 37px bar + 10px diamond) is always
-  // laid out, just invisible (opacity, not display), so it permanently
-  // eats width from the label even on rows that are neither checked nor
-  // hovered. Shrinking it recovers just enough room for the longest theme
-  // label to fit on one line at 320px.
   .radio-row__arrow {
     &::before {
       width: 22px;
@@ -1430,20 +1273,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   letter-spacing: 0;
 }
 
-// Board's header was built the same way Home was: a fixed 112px side
-// padding on .screen--board, and a fixed pixel width on .board__score
-// and .board__exit per theme (156-292px), inside a 3-column grid that
-// never wraps or shrinks them. The widest theme (Code vibes, 292px
-// score + 207px exit) only clears the viewport again at ~870px width
-// (measured directly), so this breakpoint is 899px — comfortably above
-// that, and wide enough to cover the required 768px checkpoint — not
-// the 767px used elsewhere on this screen. Below it, the three columns'
-// combined fixed width plus the 224px of side padding simply doesn't
-// fit — Exit (and on narrower phones, the score chip too) gets pushed
-// off-screen with nothing to scroll to reveal it. Stacking the header
-// into a column and letting each chip size to its own content (instead
-// of a fixed px width) fixes this at any width down to 320px; layout
-// above this breakpoint is untouched.
 @media (max-width: 899px) {
   .screen--board {
     padding: var(--space-4);
@@ -1459,12 +1288,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     gap: 0;
   }
 
-  // Graduated instead of the header's single uniform gap: the score chip
-  // sits closer to the header's own (now reduced) top padding, Current
-  // player gets a bit more breathing room below it, and Exit — the most
-  // important target to keep unambiguous from the score above it — gets
-  // the most. All three checked directly against each other's bounding
-  // boxes at 320px, including two-digit scores, to confirm no overlap.
   .board__current-player {
     margin-top: 14px;
   }
@@ -1497,15 +1320,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     height: auto;
   }
 
-  // Current player's font-size (26-32px per theme) plus its gap/letter-
-  // spacing was tuned for the desktop-width column and left no side
-  // margin at 320px (Games in particular genuinely overflowed the
-  // viewport there, clipped invisibly by .screen--board's own
-  // overflow: hidden rather than becoming reachable via scroll — the
-  // other three themes technically stayed just inside the viewport but
-  // with zero to ~4px of margin, not something to leave right at the
-  // edge). Sized down for a comfortable margin at 320px; unaffected
-  // above this breakpoint.
   [data-theme='games'] .board__current-player {
     gap: 10px;
     font-size: 20px;
@@ -1516,20 +1330,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     font-size: 26px;
   }
 
-  // Code vibes' score text (24px) left both numbers flush against the
-  // chip's own edges at 320px, especially with a two-digit score
-  // ("Blue 12" / "Orange 9") — 20px gives each a comfortable inner
-  // margin, checked with double-digit scores on both players.
   [data-theme='code-vibes'] .board__score-item {
     font-size: 20px;
   }
 
-  // The header's Exit button kept its full desktop padding/height/font
-  // (up to 62px tall for Code vibes) even once it dropped its fixed
-  // desktop width — comfortably tappable already, but taller than it
-  // needs to be once the header is a vertical stack on a short (320x600)
-  // viewport. Trimmed per theme; still comfortably above the ~44px
-  // minimum tap-target size on every theme.
   [data-theme='code-vibes'] .board__exit {
     height: 48px;
     padding: 10px 18px;
@@ -1587,17 +1391,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --board-card-max-w: 105px;
   }
 
-  // Below 899px, cards are always sized down from their desktop max
-  // anyway (bound by the available container space, not
-  // --board-content-w/h) — the row/column gap set per board size in
-  // board.ts (16px for 4x4, 6-8px for 4x6/6x6) was tuned for the
-  // desktop card size, and at mobile sizes eats space that would
-  // otherwise go to the cards themselves. A flat 6px on every board
-  // size frees that space up; overriding the --board-row-gap/
-  // --board-column-gap custom properties (not just the row-gap/
-  // column-gap they feed) so --board-content-w/h — used to cap the
-  // grid at its ideal desktop size — stays consistent with the smaller
-  // gap actually being rendered.
   @media (max-width: 899px) {
     --board-row-gap: 6px;
     --board-column-gap: 6px;
@@ -1613,12 +1406,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Food additionally sets its own --board-row-gap/--board-column-gap per
-// data-board-size (its 4x4/4x6/6x6 desktop values, 16/14, 8/6 and 4/6px),
-// which are more specific than the flat 6px mobile override just above
-// (attribute-plus-class-plus-descendant beats a bare class) and would
-// otherwise keep winning on mobile for this theme only. Reproduced with
-// matching specificity so Food's grid gap actually shrinks on mobile too.
 [data-theme='food'] .screen--board[data-board-size='4x4'] .board__grid,
 [data-theme='food'] .screen--board[data-board-size='4x6'] .board__grid,
 [data-theme='food'] .screen--board[data-board-size='6x6'] .board__grid {
@@ -1628,10 +1415,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Belt-and-suspenders alongside the global img rule above: the card
-// container itself (not just its <img> children) is unselectable, since a
-// click-drag anchored just outside an image but still inside the card
-// could otherwise start a selection there.
 .board-card {
   aspect-ratio: 1/1;
   padding: 0;
@@ -1647,18 +1430,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 0;
   }
 
-  // Percentage, not a fixed 13px: card size is fluid (.board__grid sizes
-  // itself via container query units against .board__grid-wrap, so an
-  // individual card's rendered size isn't known at author time and
-  // shrinks well below its 120x100 desktop max on narrow viewports). A
-  // fixed 13px radius stayed constant while the card shrank around it,
-  // so at small mobile sizes the corners consumed most of the card and
-  // it read as a circle/pill instead of a rounded rectangle. Percentage
-  // border-radius resolves horizontal/vertical radii against the
-  // element's own width/height respectively, so 10.8333%/13% tracks
-  // whatever size the card actually renders at — and reproduces exactly
-  // 13px/13px (this theme's original look) at the 120x100 desktop size,
-  // since aspect-ratio keeps width:height locked at 120:100 always.
   [data-theme='da-projects'] & {
     aspect-ratio: 120 / 100;
     border-radius: 10.8333% / 13%;
@@ -1677,13 +1448,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: inherit;
 }
 
-// The card shadow is drawn by the currently visible face (back while closed,
-// front while open), not by the outer, unanimated .board-card box: that way
-// it turns and foreshortens with the flip instead of staying behind as a
-// static full-size rectangle. .board-card__back is an <img>; box-shadow on a
-// replaced element doesn't blend cleanly with its own border-radius clip
-// (a visible seam at the rounded corners), so this uses filter: drop-shadow,
-// which follows the image's actual rendered (already-clipped) shape instead.
 [data-theme='games'] .board-card__back {
   filter: drop-shadow(7px 7px 10px rgba(0, 0, 0, 0.55));
 }
@@ -1711,9 +1475,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     backface-visibility: hidden;
   }
 
-  // Face colors, corner radius and the found-pair border come from per-theme
-  // tokens in _themes.scss. The found-pair shadow (6px/6px, 4px Gaussian sigma =
-  // 8px CSS blur) is the Figma "match status" component shared by the themes.
   .board-card__front {
     overflow: hidden;
     background-color: var(--color-card-face-bg);
@@ -1724,15 +1485,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       box-shadow: 7px 7px 10px rgba(0, 0, 0, 0.55);
     }
 
-    // Same fluid-size reasoning as .board-card's own closed-state radius
-    // above: this theme's --card-face-radius (13px) stayed fixed while
-    // the card shrinks, so the open/matched face corners went from a
-    // subtle round to a near-circle at small mobile sizes. Percentage
-    // instead reproduces exactly 13px/13px at the 120x100 desktop size
-    // and scales with whatever size the card (same box the front face
-    // fills) actually renders at. This also covers the matched-pair
-    // state, since .is-matched doesn't set its own border-radius — its
-    // outline ring already follows whatever radius is set here.
     [data-theme='da-projects'] & {
       border-radius: 10.8333% / 13%;
     }
@@ -1755,7 +1507,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       box-shadow: 6px 6px 8px var(--color-card-match-shadow);
     }
 
-    // Found-pair border, drawn above the image inside the face plane.
     .board-card__front::after {
       content: '';
       position: absolute;
@@ -1766,13 +1517,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
       pointer-events: none;
     }
 
-    // Only the image is enlarged; the 3D face plane keeps its flip transform.
     .board-card__face {
       transform: scale(var(--card-match-image-scale));
     }
 
-    // Optional theme-provided frame drawn over the face; it flips with the face
-    // and never takes part in layout or hit testing.
     .board-card__inner::after {
       content: '';
       position: absolute;
@@ -1853,19 +1601,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Game Over — shared markup/logic lives in one place (src/views/gameOver.ts);
-// only layout, typography, colors and the score row's presentation differ per
-// theme, via [data-theme='...'] rules below and the shared player-color
-// tokens (never a new literal for a color that already has a token).
-//
-// Geometry: below the reference desktop viewport (1440x1024, see the media
-// query at the end of this section) everything is fluid/centered so nothing
-// overflows or clips on small screens. At the reference viewport, Content is
-// switched to an exact absolute position (--game-over-content-top per theme,
-// horizontal centering via left: 50%) and every text block gets the exact
-// px font-size/line-height Figma gives, reproducing the Figma bounding boxes
-// to the pixel — line-height: 100% alone doesn't do this, since a font's own
-// natural leading isn't necessarily equal to its font-size.
 .screen--game-over {
   position: relative;
   box-sizing: border-box;
@@ -1953,8 +1688,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   .game-over__score {
     width: 323px;
     max-width: 100%;
-    // Derived from the given totals: 367.2 (Content) - 125.2 (title) - 124
-    // (Content gap) = 118, and 118 - 32 (Final score text) - 62 (panel) = 24.
     gap: 24px;
   }
 
@@ -1981,8 +1714,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     font-weight: 700;
     font-size: 24px;
     line-height: 100%;
-    // Color comes from the shared &--blue/&--orange modifiers (player-color
-    // tokens) below, not a literal here — only "Final score" itself is white.
 
     img {
       width: 24px;
@@ -2153,9 +1884,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Exact desktop geometry, reproducing the Figma bounding boxes to the pixel.
-// Only active at (or above) the reference viewport; every smaller viewport
-// keeps the fluid/centered rules above instead.
 @media (min-width: 1440px) and (min-height: 1024px) {
   .game-over__content {
     position: absolute;
@@ -2164,19 +1892,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transform: translateX(-50%);
   }
 
-  // The Figma title boxes are single-line; force it here so a sub-pixel
-  // rounding difference between Figma's and the browser's text engines
-  // (e.g. Food's "GAME OVER" measures ~771px vs. its 770px box) can't
-  // silently wrap the line and double the block's height.
   .game-over__title {
     white-space: nowrap;
   }
 
   [data-theme='code-vibes'] {
-    // The merged asset's own aspect ratio (998x138) doesn't match Figma's
-    // final grouped size (990.5x125.2); per the confirmed exception, the
-    // title box is sized exactly and the image fills it (non-uniform scale)
-    // rather than preserving the source aspect ratio.
     .game-over__title {
       width: 990.5px;
       height: 125.2px;
@@ -2238,15 +1958,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Result — the themed Winner/Draw screen shown after Game Over (shared
-// markup in src/views/result.ts). Same fluid-below/exact-at-1440 approach as
-// Game Over above: below the reference viewport everything is centered and
-// fluid so nothing clips; at 1440x1024 the content box gets Figma's exact
-// x/y/width/height (per theme AND per outcome — winner and draw use
-// different boxes within the same theme). Gaps between the eyebrow/title-or-
-// draw/graphic/button are derived the same way Game Over derives its score
-// gap: (box height - sum of element heights) / (gap count), assuming a
-// 1.2 line-height for body text and 1 for the big DRAW/title word.
 .screen--result {
   position: relative;
   box-sizing: border-box;
@@ -2265,9 +1976,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   box-sizing: border-box;
 }
 
-// Separate from .result__content so the reveal animation's transform never
-// fights the content box's own centering transform (translateX(-50%) at the
-// 1440px breakpoint below).
 .result__reveal {
   display: flex;
   flex-direction: column;
@@ -2355,22 +2063,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Sized as a percentage of the viewport (not a fixed px) so it keeps
-// spanning almost the full width — small side margins, never stretched out
-// of proportion — at any window width, not just exactly at 1440/3440px.
-// Below 1440px the short strip; from 1440px the long "widescreen" strip
-// (matching Memory/widescreen-design.svg), swapped in the media query below.
-//
-// Deliberately NOT position:absolute: .result__content only gets an exact
-// top offset inside the @media(min-width:1440px)-and-(min-height:1024px)
-// block below. Below that (including width>=1440 with a shorter browser
-// viewport — common with real browser chrome, not just narrow windows) the
-// content is a normal in-flow flex child with no offset at all. An absolute
-// confetti band doesn't reserve any layout space, so the text and the
-// confetti silently ended up on top of each other. Flowing normally instead
-// means the two are always separated by .screen--result's own gap (widened
-// below for this element specifically), at every viewport size, not just
-// the two hand-picked breakpoints.
 .result__confetti {
   width: 100%;
   height: 245px;
@@ -2381,37 +2073,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   pointer-events: none;
 }
 
-// From 1440px, independent of height (unlike the exact-geometry breakpoint
-// below, which additionally requires min-height: 1024px): a wide-but-short
-// browser window (e.g. 1920x951 — width alone already past 1440px, but
-// short of the height threshold) was still getting the regular strip
-// above, stretched wide enough that its background-size: 96% auto render
-// grew taller than the fixed 245px box and got clipped along a flat
-// bottom edge. Swapping to the widescreen strip here (matching this
-// selector's original intent, see the comment above the base rule) fixes
-// that; aspect-ratio instead of a fixed height keeps the box exactly as
-// tall as this asset actually renders at any width, so it can't clip at
-// any width from 1440px up, including well past 3440px. (11 is the
-// widescreen asset's own visible-content aspect ratio, measured by
-// rendering it uncropped and checking the last non-transparent pixel row
-// — not its full canvas ratio, which includes empty margin above/below
-// the motif.)
-//
-// A flat fixed height (360px, generous enough for 3440px+) was tried
-// instead of aspect-ratio, on the theory that a two-pass aspect-ratio
-// layout might be the source of a disappearance reported while dragging
-// a window border continuously through ~1440px (no version of this ever
-// showed a 0-size or missing background in a discrete width sweep, so
-// the exact cause couldn't be confirmed directly). That flat height
-// caused a real regression instead: at short heights below the compound
-// breakpoint (e.g. 1920x951), .screen--result's own overflow: hidden
-// clipped the button off the bottom of the screen, because 360px is far
-// taller than this layout needs at that width. Reverted to aspect-ratio,
-// which scales down with width the same way the content needs to and
-// never pushed content past the viewport; the likelier cause of the
-// reported flash is instead the browser decoding this ~600KB image for
-// the first time as the breakpoint is crossed, addressed below by
-// warming it into the image cache as soon as the screen mounts.
 @media (min-width: 1440px) {
   .result__confetti {
     background-image: url('/assets/code-vibes-theme/result/confetti-widescreen.png');
@@ -2420,32 +2081,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// .screen's own gap (16px, shared by every screen) is too tight once the
-// confetti is a real flex item — widen it just for this combo. A single
-// gap value, not gap + margin on the confetti itself, so the two can't
-// stack (see the earlier PR fix for the graphic-to-button gap).
-//
-// padding-top: 0 removes .screen's own 24px top inset for this combo only
-// (left/right/bottom padding, and every gap inside .result__reveal, are
-// untouched). Below 1440px this directly closes the gap above the confetti,
-// which is otherwise the first flex child; at the 1440x1024 breakpoint,
-// .result__confetti and .result__content are both position:absolute with
-// top values measured from .screen--result's padding edge, so removing the
-// padding moves that edge — and both elements with it — up by the same
-// 24px instead of only the confetti. The confetti.png asset itself has a
-// ~33px transparent margin above its first visible piece, so the confetti
-// motif still doesn't sit flush against the screen's edge even at
-// padding-top: 0 — matching the small gap visible in the Figma export.
-//
-// justify-content: flex-start overrides .screen--result's own
-// justify-content: center. That center rule is what actually produced the
-// visible top gap above confetti at viewport heights below the 1440x1024
-// breakpoint (confirmed via computed styles — padding-top was already 0):
-// with content shorter than the viewport, centering split the leftover
-// space evenly above and below the flex column, pushing confetti down by
-// half of it. Pinning to flex-start puts any leftover space below the
-// button instead, where it belongs, without touching the 40px gap or the
-// unchanged bottom/side padding.
 [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
   gap: 40px;
   padding-top: 0;
@@ -2463,9 +2098,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
-// Code vibes — "Back to start" reuses the Exit Game outline chrome, but with
-// its own exact numbers per spec (not the shared --color-popup-confirm-*
-// tokens, so the existing Exit Game button stays untouched).
 [data-theme='code-vibes'] .result__button {
   width: 204px;
   height: 62px;
@@ -2483,10 +2115,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Games — "Home" reuses the Board header's "Exit game" button chrome and
-// hover exactly (not the exit-confirm popup's outline button, which was the
-// wrong source component: its hover doesn't change background at all,
-// unlike .board__exit's #695574 fill + inset ring).
 [data-theme='games'] .result__button {
   width: 107px;
   height: 49px;
@@ -2506,14 +2134,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// DA Projects — "Home" follows Exit game's darken-on-hover pattern (dark
-// fill, white text, the same 4px 4px 4px rgba(0,0,0,0.18) shadow), but
-// Exit game's exact hover color, rgba(30, 117, 148, 1), is this theme's
-// --color-result-bg — Exit game sits on a white board header, so that
-// coincidence never showed there, but on the result screen it made the
-// button vanish into the page, leaving only white text. Darkened further
-// (mixed with black, not just the light chip's own color) so the fill
-// stays clearly distinct from the page background.
 [data-theme='da-projects'] .result__button {
   width: 96px;
   height: 48px;
@@ -2532,14 +2152,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Food — at the Figma-specified 97x45, the Pop up component's baked
-// shape/hover SVGs (drawn on a ~211-214px-wide canvas, stretched here via
-// background-size: 100% 100%) get squeezed ~2x more on the x-axis than the
-// y-axis, flattening their baked 10px corner radius into a clipped-looking
-// curve. Painted directly in CSS instead — like .board__exit's hover rect
-// (a plain filled rounded rect, not a stretched asset) — so the corner
-// radius stays a true circle at this width. Fill colors confirmed against
-// the source SVGs: resting #FFAB3E, hover #F3832D.
 [data-theme='food'] .result__button {
   width: 97px;
   height: 45px;
@@ -2577,8 +2189,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   .result__draw-title {
     font-family: var(--font-family-display);
     font-weight: 700;
-    // Not given explicitly in the task text; measured off the DRAW glyph
-    // paths in Memory/Draw_01.svg (~77px cap height at Red Rose Bold).
     font-size: 112px;
     line-height: 1;
   }
@@ -2592,14 +2202,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     height: 250px;
   }
 
-  // Per-gap spacing, set as margins (not .result__reveal's flex gap) so
-  // each of the 3 internal gaps can differ, and — critically — so the
-  // graphic→button gap is exactly 64px on its own, never gap + margin
-  // stacked on top of each other. Space, not &[data-outcome=...]:
-  // data-theme lives on <html> and data-outcome on the <section>, two
-  // different elements, so this must be a descendant selector, not a
-  // compound one requiring both attributes on the same element (that
-  // compound form silently never matches).
   & [data-outcome='winner'] {
     .result__title {
       margin-top: 24px;
@@ -2673,10 +2275,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     height: 276px;
   }
 
-  // See the code-vibes block above for why these are margins, not
-  // .result__reveal's flex gap: the first gap here matches the theme's
-  // original gap: 45px/27px (unchanged, already correct); only the
-  // graphic→button gap is forced to exactly 64px.
   & [data-outcome='winner'] {
     .result__title { margin-top: 45px; }
     .result__graphic { margin-top: 45px; }
@@ -2723,18 +2321,11 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   .result__scale svg {
     width: 339px;
     height: 272px;
-    // SCALE_ICON has no baked outline (unlike the winner pawn), so the white
-    // contour from the mockup is approximated with 8 offset copies —
-    // a standard CSS-only outline technique for a currentColor icon.
     filter: drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff)
       drop-shadow(0 -3px 0 #fff) drop-shadow(3px 3px 0 #fff) drop-shadow(-3px -3px 0 #fff)
       drop-shadow(3px -3px 0 #fff) drop-shadow(-3px 3px 0 #fff);
   }
 
-  // See the code-vibes block above for why these are margins, not
-  // .result__reveal's flex gap: the first gap here matches the theme's
-  // original gap: 38px/26px (unchanged, already correct); only the
-  // graphic→button gap is forced to exactly 64px.
   & [data-outcome='winner'] {
     .result__title { margin-top: 38px; }
     .result__graphic { margin-top: 38px; }
@@ -2793,12 +2384,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     background-color: #f7e6d5;
   }
 
-  // See the code-vibes block above for why these are margins, not
-  // .result__reveal's flex gap: the first gap here matches the theme's
-  // original gap: 48px/40px (unchanged, already correct); only the
-  // graphic→button gap is forced to exactly 64px (measured from the cream
-  // backing's own bottom edge, since it's set directly on .result__graphic's
-  // child / .result__scale itself).
   & [data-outcome='winner'] {
     .result__title { margin-top: 48px; }
     .result__graphic { margin-top: 48px; }
@@ -2812,9 +2397,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Exact desktop geometry, reproducing the Figma bounding boxes to the pixel.
-// Winner and Draw use different content boxes (see the per-theme comments),
-// so both are keyed by [data-outcome] in addition to [data-theme].
 @media (min-width: 1440px) and (min-height: 1024px) {
   .result__content {
     position: absolute;
@@ -2828,16 +2410,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     white-space: nowrap;
   }
 
-  // The widescreen asset swap and its aspect-ratio-based height live in the
-  // width-only @media (min-width: 1440px) rule above (they apply here too,
-  // since both conditions hold whenever this compound breakpoint matches).
-  // This block only adds the absolute positioning: pinned back to the top
-  // edge here (unlike the in-flow default below this breakpoint) because
-  // .result__content is already position:absolute with its own exact top
-  // offset at this breakpoint, so it no longer depends on flow/gap for
-  // spacing — and leaving confetti in-flow here would let
-  // justify-content:center vertically center it instead of pinning it to
-  // the top (it'd be the only in-flow child once content goes absolute).
   .result__confetti {
     position: absolute;
     top: 0;
@@ -2845,13 +2417,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 
   [data-theme='code-vibes'] [data-outcome='winner'] {
-    // Re-measured against the Figma flat export (Winner_01-1.svg,
-    // rendered and compared pixel-for-pixel): "The winner is" starts at
-    // y=329 there, ~110px above where the previous 430px offset placed it
-    // live, pushing the whole block (title/pawn/button) well below its
-    // intended position. 320px reproduces the Figma position (accounting
-    // for this text's own ~9px line-height leading above the glyph).
-    // Internal gaps (title/pawn/button) are untouched.
     .result__content { width: 522px; top: 320px; }
   }
 
@@ -3125,30 +2690,6 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: 10px;
 }
 
-// The confirm popup was fixed-width per theme (456-539px) with its two
-// buttons side by side — both wider than a 320px viewport outright, so
-// the card's edges and the buttons at its far side were cut off by the
-// screen edge with no way to scroll to them. Given side margins and a
-// max-width, plus each button's own width scaled down (not simply
-// full-width) so the stacked layout still reads as two distinct
-// buttons rather than one solid block; heights mostly kept (all already
-// close to or above the ~44px tap-target minimum). Same 899px
-// breakpoint as the header above, so the popup already fits by the time
-// Board's own header does; untouched above it.
-//
-// max-width: 400px (not 320px): width: 100% resolves against the
-// overlay's own padded content box (viewport minus the overlay's 24px
-// side padding each way), so a 320px cap was binding right in the
-// middle of the 320-390px range actually being tested — the card hit
-// its max at ~368px width and stayed there, so the *margin* kept
-// growing above 368px (35px at 390) while sitting flat at a themselves-
-// unremarkable 24px below it, a visible snap right at that boundary.
-// 400px is comfortably above the content box's width even at the upper
-// end of this range (342px at 390px viewport), so the cap never binds
-// between 320-390px and the margin stays a constant, smoothly-behaving
-// 24px (the overlay's own padding) at every width in between — verified
-// directly (card width was still growing linearly with viewport, not
-// pinned to 320, at 320/340/360/370/390px).
 @media (max-width: 899px) {
   .board__exit-confirm-overlay {
     padding: var(--space-4);
