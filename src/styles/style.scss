@@ -687,22 +687,28 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transition: transform 200ms ease-in-out;
 }
 
+// The title's ::after decor (diamond + line) hangs 22px to the left of the
+// title's own box. On a wide desktop viewport this is invisible — centering
+// leaves well over 22px of margin before the title — but as the viewport
+// narrows, that margin shrinks, and it keeps shrinking through the 1150px
+// breakpoint where the layout stacks into a column: there's nothing special
+// about 1150px itself, the margin is already down to a few px well before
+// it (e.g. ~0px at 1151px) and stays thin for a while after it (still just
+// ~24px, the screen's own padding, at 320px). One media query covering the
+// whole range the margin is too thin, independent of row vs. column layout,
+// shifts the whole title right so the decor always has room, without
+// moving it relative to the text.
+@media (max-width: 1200px) {
+  .settings__title {
+    margin-left: 20px;
+  }
+}
+
 @media (max-width: 1150px) {
   .screen--settings {
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-  }
-
-  // The title's ::after decor (diamond + line) hangs 22px to the left of
-  // the title's own box, which reads fine on desktop where the title
-  // sits next to the wide preview column, but once the layout stacks
-  // into a single column (anywhere in this ≤1150px range, not just on
-  // narrow phones) that same offset puts the diamond right at the
-  // screen's edge. Shifting the whole title right gives the decor room
-  // without moving it relative to the text.
-  .settings__title {
-    margin-left: 20px;
   }
 
   .settings__panel,
