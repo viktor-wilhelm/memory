@@ -1,0 +1,385 @@
+@keyframes board-exit-confirm-from-top {
+  from {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes board-exit-confirm-from-bottom {
+  from {
+    transform: translateY(120vh);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes board-exit-confirm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.board__exit-confirm-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+
+  [data-theme='code-vibes'] & {
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: 0;
+  }
+
+  [data-theme='games'] & {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: 0.56px;
+  }
+
+  [data-theme='da-projects'] & {
+    font-family: var(--font-family-da-projects);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: 0;
+  }
+
+  [data-theme='food'] & {
+    font-family: var(--font-family-food);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 40px;
+    letter-spacing: 0;
+    color: rgba(164, 82, 18, 1);
+  }
+}
+
+.board__exit-confirm-actions {
+  display: flex;
+  gap: var(--space-3);
+
+  [data-theme='code-vibes'] & {
+    gap: var(--space-4);
+  }
+
+  [data-theme='games'] & {
+    gap: 24px;
+  }
+
+  [data-theme='da-projects'] & {
+    gap: 24px;
+  }
+
+  [data-theme='food'] & {
+    gap: 24px;
+  }
+}
+
+.board__exit-confirm-cancel,
+.board__exit-confirm-confirm {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-3) var(--space-4);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-lg);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+
+  [data-theme='code-vibes'] & {
+    border-radius: 0;
+    font-family: var(--font-family-display);
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  [data-theme='games'] & {
+    font-family: var(--font-family-games);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0.64px;
+    white-space: nowrap;
+  }
+
+  [data-theme='da-projects'] & {
+    font-family: var(--font-family-da-projects);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+    border-radius: 10px;
+  }
+
+  [data-theme='food'] & {
+    font-family: var(--font-family-food-button);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+}
+
+[data-theme='code-vibes'] .board__exit-confirm-cancel {
+  width: 182px;
+  height: 57px;
+  padding: 16px 24px;
+}
+
+[data-theme='games'] .board__exit-confirm-cancel {
+  width: 201px;
+  height: 44px;
+  padding: 12px 20px;
+  border-width: 2px;
+  border-radius: 10px;
+}
+
+[data-theme='code-vibes'] .board__exit-confirm-confirm {
+  width: 151px;
+  height: 57px;
+}
+
+[data-theme='games'] .board__exit-confirm-confirm {
+  width: 176px;
+  height: 44px;
+  padding: 12px 20px;
+  border-width: 2px;
+  border-radius: 10px;
+}
+
+[data-theme='da-projects'] .board__exit-confirm-cancel {
+  width: 140px;
+  height: 43px;
+}
+
+[data-theme='da-projects'] .board__exit-confirm-confirm {
+  width: 114px;
+  height: 43px;
+}
+
+[data-theme='food'] .board__exit-confirm-cancel {
+  width: 211px;
+  height: 45px;
+  padding: 12px 20px;
+  border-width: 3px;
+  border-radius: 10px;
+}
+
+[data-theme='food'] .board__exit-confirm-confirm {
+  width: 141px;
+  height: 46px;
+  padding: 12px 20px;
+  border-width: 3px;
+  border-radius: 10px;
+}
+
+@media (max-width: 899px) {
+  .board__exit-confirm-overlay {
+    padding: var(--space-4);
+    box-sizing: border-box;
+  }
+
+  .board__exit-confirm-card {
+    box-sizing: border-box;
+  }
+
+  [data-theme='code-vibes'] .board__exit-confirm-card,
+  [data-theme='games'] .board__exit-confirm-card,
+  [data-theme='da-projects'] .board__exit-confirm-card,
+  [data-theme='food'] .board__exit-confirm-card {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    padding: 28px 24px;
+    gap: 24px;
+  }
+
+  .board__exit-confirm-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  [data-theme='code-vibes'] .board__exit-confirm-actions,
+  [data-theme='games'] .board__exit-confirm-actions,
+  [data-theme='da-projects'] .board__exit-confirm-actions,
+  [data-theme='food'] .board__exit-confirm-actions {
+    gap: 12px;
+  }
+
+  [data-theme='code-vibes'] .board__exit-confirm-cancel {
+    width: 160px;
+    height: 46px;
+  }
+
+  [data-theme='code-vibes'] .board__exit-confirm-confirm {
+    width: 140px;
+    height: 46px;
+  }
+
+  [data-theme='games'] .board__exit-confirm-cancel {
+    width: 170px;
+  }
+
+  [data-theme='games'] .board__exit-confirm-confirm {
+    width: 150px;
+  }
+
+  [data-theme='da-projects'] .board__exit-confirm-cancel {
+    width: 130px;
+  }
+
+  [data-theme='da-projects'] .board__exit-confirm-confirm {
+    width: 105px;
+  }
+
+  [data-theme='food'] .board__exit-confirm-cancel {
+    width: 180px;
+  }
+
+  [data-theme='food'] .board__exit-confirm-confirm {
+    width: 125px;
+  }
+}
+
+.board__exit-confirm-cancel {
+  background-color: var(--color-popup-cancel-bg);
+  color: var(--color-popup-cancel-text);
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
+
+  [data-theme='code-vibes'] & {
+    border-width: 3px;
+  }
+
+  [data-theme='code-vibes'] &:hover {
+    background-color: color-mix(in srgb, var(--color-popup-cancel-bg) 50%, white 50%);
+    border-color: var(--color-popup-cancel-bg);
+  }
+
+  [data-theme='games'] &:hover {
+    background-color: var(--color-popup-confirm-outline-bg);
+    border-color: var(--color-popup-confirm-bg);
+    color: var(--color-popup-confirm-bg);
+    box-shadow: 6px 6px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  [data-theme='da-projects'] & {
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15);
+  }
+
+  [data-theme='da-projects'] &:hover {
+    background-color: rgba(30, 117, 148, 1);
+    color: #ffffff;
+    box-shadow: none;
+  }
+
+  [data-theme='food'] & {
+    background-color: transparent;
+    background-image: url('/assets/foods-theme/button-pop-up_04-text.svg'),
+      url('/assets/foods-theme/button-pop-up_04-shape.svg');
+    background-size: 100% 100%, 100% 100%;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-origin: border-box;
+    border-color: transparent;
+    color: transparent;
+    box-shadow: none;
+  }
+
+  [data-theme='food'] &:hover {
+    background-image: url('/assets/foods-theme/button-pop-up_04-text.svg'),
+      url('/assets/foods-theme/button-pop-up_04-shape-hover.svg');
+    background-size: 100% 100%, 100% 100%;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    border-color: transparent;
+    color: transparent;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.board__exit-confirm-confirm {
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, color 150ms ease;
+
+  &--outline {
+    background-color: var(--color-popup-confirm-outline-bg, transparent);
+    border-color: var(--color-popup-confirm-bg);
+    color: var(--color-popup-confirm-text);
+
+    [data-theme='code-vibes'] & {
+      border-width: 2px;
+    }
+
+    [data-theme='code-vibes'] &:hover {
+      background-color: color-mix(in srgb, var(--color-popup-confirm-outline-bg) 99%, black 1%);
+      box-shadow: inset 0 0 0 1px var(--color-popup-confirm-bg),
+        3px 3px 10px color-mix(in srgb, var(--color-popup-confirm-bg) 50%, white 50%);
+    }
+
+    [data-theme='games'] &:hover {
+      box-shadow: inset 0 0 0 1px var(--color-popup-confirm-bg),
+        6px 6px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    [data-theme='food'] & {
+      background-color: transparent;
+      background-image: url('/assets/foods-theme/button-exit_04-text.svg'),
+        url('/assets/foods-theme/button-exit_04-shape.svg');
+      background-size: 100% 100%, 100% 100%;
+      background-position: center, center;
+      background-repeat: no-repeat, no-repeat;
+      background-origin: border-box;
+      border-color: transparent;
+      color: transparent;
+      box-shadow: none;
+    }
+
+    [data-theme='food'] &:hover {
+      background-image: url('/assets/foods-theme/button-exit_04-text-hover.svg'),
+        url('/assets/foods-theme/button-exit_04-shape-hover.svg');
+      background-size: 100% 100%, 100% 100%;
+      background-position: center, center;
+      background-repeat: no-repeat, no-repeat;
+      border-color: transparent;
+      color: transparent;
+      box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  &--filled {
+    background-color: var(--color-popup-confirm-bg);
+    color: var(--color-popup-confirm-text);
+
+    [data-theme='da-projects'] & {
+      background-color: rgba(253, 138, 129, 1);
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.15);
+    }
+
+    [data-theme='da-projects'] &:hover {
+      background-color: rgb(236, 91, 81);
+      box-shadow: none;
+    }
+  }
+}
