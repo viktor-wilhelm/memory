@@ -1,8 +1,18 @@
 @use 'tokens';
 @use 'themes';
 
+// min-height, not height: a fixed height pins the body box to exactly one
+// viewport regardless of how tall its content actually is. Every screen
+// that can exceed viewport height (e.g. Settings on a short phone with a
+// long combination of selections) still visually overflows this box
+// (overflow is the default `visible`), but capping the box itself at
+// one viewport is the textbook setup that makes mobile browsers miscompute
+// how far the page can scroll — the classic "can't reach the bottom"
+// mobile bug. min-height keeps every other screen (which relies on this
+// to fill at least one viewport) unaffected, since none of them are
+// shorter than 100vh to begin with.
 body {
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
   background-color: var(--color-bg);
   color: var(--color-text);
@@ -759,11 +769,19 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   // pitch between adjacent radio options — measured center-to-center —
   // is identical on every width down to 320px, not just visually close.
 
+  // A bit more air between a group's own heading ("Game themes") and its
+  // first option than the 8px used between options within the list —
+  // otherwise the heading reads as if it were part of the list instead
+  // of a label for it.
+  .settings__group-title {
+    margin-bottom: 16px;
+  }
+
   // Last row of the last group ("36 cards") would otherwise butt
   // directly against the preview image with no gap at all once stacked
   // into a single column.
   .settings__preview {
-    margin-top: 28px;
+    margin-top: 40px;
   }
 }
 
