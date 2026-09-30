@@ -91,18 +91,12 @@
 
 .board__exit-confirm-cancel,
 .board__exit-confirm-confirm {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: var(--space-3) var(--space-4);
   border: 1.5px solid transparent;
   border-radius: var(--radius-lg);
-  font: inherit;
   font-size: 1rem;
   font-weight: 700;
   text-align: center;
-  cursor: pointer;
 
   [data-theme='code-vibes'] & {
     border-radius: 0;
@@ -267,7 +261,6 @@
 .board__exit-confirm-cancel {
   background-color: var(--color-popup-cancel-bg);
   color: var(--color-popup-cancel-text);
-  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 
   [data-theme='code-vibes'] & {
     border-width: 3px;
@@ -290,7 +283,7 @@
   }
 
   [data-theme='da-projects'] &:hover {
-    background-color: rgba(30, 117, 148, 1);
+    background-color: var(--color-accent-strong);
     color: #ffffff;
     box-shadow: none;
   }
@@ -321,8 +314,6 @@
 }
 
 .board__exit-confirm-confirm {
-  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, color 150ms ease;
-
   &--outline {
     background-color: var(--color-popup-confirm-outline-bg, transparent);
     border-color: var(--color-popup-confirm-bg);

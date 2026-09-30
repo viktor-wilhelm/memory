@@ -52,7 +52,7 @@ export function renderResult(): HTMLElement {
     <div class="result__content">
       <div class="result__reveal">
         ${body}
-        <button type="button" class="result__button">${theme.resultButtonLabel}</button>
+        <button type="button" class="btn-action result__button">${theme.resultButtonLabel}</button>
       </div>
     </div>
   `;

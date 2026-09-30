@@ -128,30 +128,23 @@
 }
 
 .result__button {
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border: none;
-  cursor: pointer;
-  font: inherit;
-  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, box-shadow 150ms ease;
 }
 
 [data-theme='code-vibes'] .result__button {
   width: 204px;
   height: 62px;
-  border: 1px solid #4dd5bc;
+  border: 1px solid var(--color-popup-confirm-bg);
   border-radius: 0;
-  background-color: rgba(134, 233, 214, 0.2);
+  background-color: var(--color-accent-tint);
   color: #ffffff;
   font-family: var(--font-family-display);
   font-weight: 700;
   font-size: 24px;
 
   &:hover {
-    background-color: color-mix(in srgb, rgba(134, 233, 214, 0.2) 99%, black 1%);
-    box-shadow: inset 0 0 0 1px #4dd5bc, 3px 3px 10px rgba(77, 213, 188, 0.5);
+    background-color: color-mix(in srgb, var(--color-accent-tint) 99%, black 1%);
+    box-shadow: inset 0 0 0 1px var(--color-popup-confirm-bg), 3px 3px 10px rgba(77, 213, 188, 0.5);
   }
 }
 
@@ -169,7 +162,7 @@
   transition: background-color 80ms ease-out, box-shadow 80ms ease-out;
 
   &:hover {
-    background-color: #695574;
+    background-color: var(--color-hover-fill);
     box-shadow: inset 0 0 0 1px #e71c4f;
   }
 }
@@ -178,15 +171,15 @@
   width: 96px;
   height: 48px;
   border-radius: 10px;
-  background-color: rgba(191, 229, 242, 1);
-  color: rgba(30, 117, 148, 1);
+  background-color: var(--color-popup-cancel-bg);
+  color: var(--color-accent-strong);
   font-family: var(--font-family-da-projects);
   font-weight: 700;
   font-size: 16px;
   transition: background-color 80ms ease-out, color 80ms ease-out, box-shadow 80ms ease-out;
 
   &:hover {
-    background-color: color-mix(in srgb, rgba(30, 117, 148, 1) 70%, black 30%);
+    background-color: color-mix(in srgb, var(--color-accent-strong) 70%, black 30%);
     color: #ffffff;
     box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.18);
   }
