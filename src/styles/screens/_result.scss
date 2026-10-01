@@ -482,6 +482,86 @@
   }
 }
 
+@media (max-width: 767px) {
+  .screen--result {
+    --result-title-gap: var(--space-3);
+    --result-graphic-gap: var(--space-3);
+    --result-button-gap: var(--space-4);
+  }
+
+  .result__confetti {
+    height: auto;
+    aspect-ratio: 3702 / 981;
+    flex-shrink: 0;
+  }
+
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+    gap: var(--space-4);
+  }
+
+  .screen--result[data-outcome='winner'] {
+    .result__title {
+      margin-top: var(--result-title-gap);
+    }
+
+    .result__graphic {
+      margin-top: var(--result-graphic-gap);
+    }
+  }
+
+  .screen--result[data-outcome='draw'] {
+    .result__draw-title {
+      margin-top: var(--result-title-gap);
+    }
+
+    .result__scale {
+      margin-top: var(--result-graphic-gap);
+    }
+  }
+
+  .screen--result[data-outcome] .result__button {
+    margin-top: var(--result-button-gap);
+  }
+
+  .result__pawn svg,
+  .result__scale svg {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .result__pawn svg {
+    height: min(250px, 30vh);
+  }
+
+  .result__scale svg {
+    height: min(276px, 30vh);
+  }
+
+  .result__trophy {
+    width: auto;
+    max-width: 100%;
+    height: min(344px, 32vh);
+  }
+
+  [data-theme='code-vibes'] .result__draw-title {
+    font-size: clamp(3rem, 24vw, 112px);
+  }
+
+  [data-theme='food'] {
+    .result__pawn-backing {
+      width: min(260px, 100%);
+      height: auto;
+      padding-block: var(--space-3);
+    }
+
+    .result__scale {
+      width: min(311px, 100%);
+      height: auto;
+      padding-block: var(--space-3);
+    }
+  }
+}
+
 @keyframes result-reveal-from-top {
   from {
     transform: translateY(-40px);

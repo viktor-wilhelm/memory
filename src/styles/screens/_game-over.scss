@@ -281,6 +281,23 @@
   }
 }
 
+@media (max-width: 767px) {
+  .game-over__content {
+    gap: clamp(48px, 12vh, 104px);
+  }
+
+  [data-theme='code-vibes'] {
+    .game-over__content {
+      gap: clamp(48px, 12vh, 124px);
+    }
+
+    .game-over__score-panel {
+      padding-inline: var(--space-2);
+      gap: var(--space-3);
+    }
+  }
+}
+
 @media (min-width: 1440px) and (min-height: 1024px) {
   .game-over__content {
     position: absolute;
