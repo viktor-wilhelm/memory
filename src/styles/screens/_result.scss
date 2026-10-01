@@ -553,16 +553,25 @@
   --result-name-size: clamp(1.5rem, 8vw, 60px);
   --result-name-gap: var(--space-3);
   --result-confetti-height: calc((100vw - 48px) * 981 / 3702);
+  --result-confetti-art: calc(0.96 * (100vw - 48px) * 981 / 3702);
   --result-confetti-gap: clamp(16px, 4dvh, 40px);
   --result-pawn-max: min(200px, 48vw);
   --result-stack: calc(
     (var(--result-eyebrow-size) + var(--result-name-size)) * 1.2 + var(--result-name-gap) + 190px
   );
+  --result-confetti-visible: min(
+    calc(var(--result-confetti-art) * 0.765),
+    var(--result-confetti-height)
+  );
+  --result-top-loose: calc(var(--result-confetti-height) + var(--result-confetti-gap));
+  --result-top-tight: calc(var(--result-confetti-visible) + 10px);
+  --result-top: max(
+    var(--result-top-tight),
+    min(var(--result-top-loose), calc(100dvh - var(--result-stack) - 134px))
+  );
   --result-pawn-height: clamp(
     110px,
-    calc(
-      100dvh - var(--result-confetti-height) - var(--result-confetti-gap) - var(--result-stack) - 24px
-    ),
+    calc(100dvh - var(--result-top) - var(--result-stack) - 24px),
     var(--result-pawn-max)
   );
 
@@ -574,15 +583,12 @@
   padding-block: 0;
   height: 100vh;
   height: 100dvh;
-  min-height: calc(
-    var(--result-confetti-height) + var(--result-confetti-gap) + var(--result-stack) +
-      var(--result-pawn-height) + 24px
-  );
+  min-height: calc(var(--result-top) + var(--result-stack) + var(--result-pawn-height) + 24px);
 
   .result__confetti {
     grid-row: 1;
     align-self: start;
-    margin-bottom: var(--result-confetti-gap);
+    margin-bottom: calc(var(--result-top) - var(--result-confetti-height));
   }
 
   .result__content {
@@ -629,6 +635,7 @@
 @media (min-width: 1440px) {
   [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
     --result-confetti-height: calc(100vw / 11);
+    --result-confetti-art: calc(0.96 * (100vw - 48px) * 981 / 9756);
   }
 }
 
