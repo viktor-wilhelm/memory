@@ -648,10 +648,35 @@
   [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
     --result-confetti-height: calc(100vw / 11);
     --result-confetti-art: calc(0.96 * (100vw - 48px) * 981 / 9756);
+    --result-top-loose: max(224.4px, calc(var(--result-confetti-height) + var(--result-confetti-gap)));
+    --result-top-tight: max(224.4px, calc(var(--result-confetti-visible) + 10px));
+
+    .result__confetti {
+      position: relative;
+      background-image: none;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -32px;
+        left: 50%;
+        width: 100vw;
+        height: 359px;
+        transform: translateX(-50%);
+        background: url('/assets/code-vibes-theme/result/confetti-widescreen.png') no-repeat
+          calc(50% + 35px) top / auto 359px;
+        pointer-events: none;
+      }
+    }
   }
 }
 
 @media (min-width: 1440px) and (min-height: 1024px) {
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+    --result-top-loose: max(220px, calc(var(--result-confetti-height) + var(--result-confetti-gap)));
+    --result-top-tight: max(220px, calc(var(--result-confetti-visible) + 10px));
+  }
+
   [data-theme='code-vibes'] .screen--result[data-outcome='winner'] .result__confetti {
     position: relative;
     width: calc(100% + 48px);
