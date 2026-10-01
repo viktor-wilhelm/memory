@@ -660,7 +660,7 @@
         position: absolute;
         top: -32px;
         left: 50%;
-        width: 100vw;
+        width: calc(1233.92px + (100vw - 1440px) * 0.99104);
         height: 359px;
         transform: translateX(-50%);
         background: url('/assets/code-vibes-theme/result/confetti-widescreen.png') no-repeat
