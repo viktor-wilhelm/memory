@@ -121,12 +121,6 @@
   }
 }
 
-[data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
-  gap: 40px;
-  padding-top: 0;
-  justify-content: flex-start;
-}
-
 .result__button {
   border: none;
 }
@@ -449,10 +443,6 @@
     left: 0;
   }
 
-  [data-theme='code-vibes'] [data-outcome='winner'] {
-    .result__content { width: 522px; top: 320px; }
-  }
-
   [data-theme='code-vibes'] [data-outcome='draw'] {
     .result__content { width: 420px; top: 222px; }
   }
@@ -479,6 +469,231 @@
 
   [data-theme='food'] [data-outcome='draw'] {
     .result__content { width: 376px; top: 185px; }
+  }
+}
+
+@media (max-width: 767px) {
+  .screen--result {
+    --result-title-gap: var(--space-3);
+    --result-graphic-gap: var(--space-3);
+    --result-button-gap: var(--space-4);
+  }
+
+  .result__confetti {
+    height: auto;
+    aspect-ratio: 3702 / 981;
+    flex-shrink: 0;
+  }
+
+  .screen--result[data-outcome='winner'] {
+    .result__title {
+      margin-top: var(--result-title-gap);
+    }
+
+    .result__graphic {
+      margin-top: var(--result-graphic-gap);
+    }
+  }
+
+  .screen--result[data-outcome='draw'] {
+    .result__draw-title {
+      margin-top: var(--result-title-gap);
+    }
+
+    .result__scale {
+      margin-top: var(--result-graphic-gap);
+    }
+  }
+
+  .screen--result[data-outcome] .result__button {
+    margin-top: var(--result-button-gap);
+  }
+
+  .result__pawn svg,
+  .result__scale svg {
+    width: auto;
+    max-width: 100%;
+  }
+
+  .result__pawn svg {
+    height: min(250px, 30vh);
+  }
+
+  .result__scale svg {
+    height: min(276px, 30vh);
+  }
+
+  .result__trophy {
+    width: auto;
+    max-width: 100%;
+    height: min(344px, 32vh);
+  }
+
+  [data-theme='code-vibes'] .result__draw-title {
+    font-size: clamp(3rem, 24vw, 112px);
+  }
+
+  [data-theme='food'] {
+    .result__pawn-backing {
+      width: min(260px, 100%);
+      height: auto;
+      padding-block: var(--space-3);
+    }
+
+    .result__scale {
+      width: min(311px, 100%);
+      height: auto;
+      padding-block: var(--space-3);
+    }
+  }
+}
+
+[data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+  --result-eyebrow-size: clamp(1.25rem, 5vw, 40px);
+  --result-name-size: clamp(1.5rem, 8vw, 60px);
+  --result-name-gap: var(--space-3);
+  --result-confetti-height: calc((100vw - 48px) * 981 / 3702);
+  --result-confetti-art: calc(0.96 * (100vw - 48px) * 981 / 3702);
+  --result-confetti-gap: clamp(16px, 4dvh, 40px);
+  --result-pawn-max: min(200px, 48vw);
+  --result-stack: calc(
+    (var(--result-eyebrow-size) + var(--result-name-size)) * 1.2 + var(--result-name-gap) + 190px
+  );
+  --result-confetti-visible: min(
+    calc(var(--result-confetti-art) * 0.765),
+    var(--result-confetti-height)
+  );
+  --result-top-loose: calc(var(--result-confetti-height) + var(--result-confetti-gap));
+  --result-top-tight: calc(var(--result-confetti-visible) + 10px);
+  --result-top: max(
+    var(--result-top-tight),
+    min(var(--result-top-loose), calc(100dvh - var(--result-stack) - 134px))
+  );
+  --result-lift: 0px;
+  --result-lift-floor: 0px;
+  --result-pawn-height: clamp(
+    110px,
+    calc(100dvh - var(--result-top) - var(--result-stack) - 24px),
+    var(--result-pawn-max)
+  );
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 1fr auto 1fr;
+  justify-content: normal;
+  gap: 0;
+  padding-block: 0;
+  height: 100vh;
+  height: 100dvh;
+  min-height: calc(var(--result-top) + var(--result-stack) + var(--result-pawn-height) + 24px);
+
+  .result__confetti {
+    grid-row: 1;
+    align-self: start;
+    margin-bottom: calc(
+      min(var(--result-top), max(var(--result-lift-floor), var(--result-top) - var(--result-lift))) -
+        var(--result-confetti-height)
+    );
+  }
+
+  .result__content {
+    grid-row: 2;
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    transform: none;
+  }
+
+  .result__eyebrow {
+    font-size: var(--result-eyebrow-size);
+  }
+
+  .result__title {
+    margin-top: var(--result-name-gap);
+    font-size: var(--result-name-size);
+    white-space: nowrap;
+  }
+
+  .result__graphic {
+    margin-top: 64px;
+  }
+
+  .result__pawn svg {
+    width: auto;
+    height: var(--result-pawn-height);
+  }
+
+  .result__button {
+    margin-top: 64px;
+  }
+}
+
+@media (min-width: 768px) {
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+    --result-name-gap: var(--space-4);
+    --result-confetti-height: 245px;
+    --result-pawn-max: 250px;
+  }
+}
+
+@media (min-aspect-ratio: 16/10) and (min-width: 1024px) and (max-width: 1439px) and (min-height: 700px) and (max-height: 860px) {
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+    --result-lift: 32px;
+    --result-lift-floor: calc(var(--result-confetti-art) * 0.704 + 10px);
+  }
+}
+
+@media (min-width: 1440px) {
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+    --result-confetti-height: calc(100vw / 11);
+    --result-confetti-art: calc(0.96 * (100vw - 48px) * 981 / 9756);
+    --result-top-desktop: clamp(224.4px, calc(50dvh - 200.6px), 311.4px);
+    --result-top-loose: max(
+      var(--result-top-desktop),
+      calc(var(--result-confetti-height) + var(--result-confetti-gap))
+    );
+    --result-top-tight: max(var(--result-top-desktop), calc(var(--result-confetti-visible) + 10px));
+
+    .result__confetti {
+      position: relative;
+      background-image: none;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: -32px;
+        left: 50%;
+        width: calc(1178.6px + (100vw - 1440px) * 0.9592);
+        height: 359px;
+        transform: translateX(-50%);
+        background: url('/assets/code-vibes-theme/result/confetti-widescreen.png') no-repeat
+          calc(-1004.2px + (100vw - 1440px) * 0.4883) bottom /
+          calc(3251.6px - (100vw - 1440px) * 0.0178) auto;
+        mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+@media (min-width: 1440px) and (max-width: 1440.98px) {
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] .result__confetti::before {
+    width: 1233.92px;
+    background: url('/assets/code-vibes-theme/result/confetti.png') no-repeat left bottom / 100% auto;
+    mask-image: none;
+  }
+}
+
+@media (min-width: 1440px) and (min-height: 1024px) {
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] {
+    --result-top-desktop: clamp(220px, calc(50dvh - 205px), 307px);
+  }
+
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] .result__confetti {
+    position: relative;
+    width: calc(100% + 48px);
+    margin-inline: calc(var(--space-4) * -1);
   }
 }
 
