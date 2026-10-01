@@ -660,14 +660,24 @@
         position: absolute;
         top: -32px;
         left: 50%;
-        width: calc(1233.92px + (100vw - 1440px) * 0.99104);
+        width: calc(1178.6px + (100vw - 1440px) * 0.9592);
         height: 359px;
         transform: translateX(-50%);
         background: url('/assets/code-vibes-theme/result/confetti-widescreen.png') no-repeat
-          calc(50% + 35px) top / auto 359px;
+          calc(-1004.2px + (100vw - 1440px) * 0.4883) bottom /
+          calc(3251.6px - (100vw - 1440px) * 0.0178) auto;
+        mask-image: linear-gradient(to right, transparent, #000 24px, #000 calc(100% - 24px), transparent);
         pointer-events: none;
       }
     }
+  }
+}
+
+@media (min-width: 1440px) and (max-width: 1440.98px) {
+  [data-theme='code-vibes'] .screen--result[data-outcome='winner'] .result__confetti::before {
+    width: 1233.92px;
+    background: url('/assets/code-vibes-theme/result/confetti.png') no-repeat left bottom / 100% auto;
+    mask-image: none;
   }
 }
 
