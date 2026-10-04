@@ -1,135 +1,245 @@
+import { CARDS_PER_PAIR } from '../app/deck';
 import { startGame } from '../app/game';
 import { getState, setState } from '../app/state';
-import { DEFAULT_THEME, THEMES } from '../config/themes';
-import { BOARD_SIZES } from '../config/boardSizes';
+import { fillTemplate } from '../app/template';
+import type { BoardSizeId, GameState, PlayerColor, ThemeId } from '../app/types';
+import { BOARD_SIZES } from '../config/board-sizes';
 import { PLAYERS } from '../config/players';
-import type { ThemeId, PlayerColor, BoardSizeId } from '../app/types';
+import { DEFAULT_THEME, THEMES } from '../config/themes';
+import groupTemplate from '../templates/settings/group.html?raw';
+import layoutTemplate from '../templates/settings/layout.html?raw';
+import radioRowTemplate from '../templates/settings/radio-row.html?raw';
+import separatorTemplate from '../templates/settings/separator.html?raw';
+import { createScreenSection } from './screen-section';
 
-function radioRow(name: string, value: string, label: string, checked: boolean): string {
-  return `
-    <label class="radio-row${checked ? ' is-checked' : ''}">
-      <input type="radio" name="${name}" value="${value}" ${checked ? 'checked' : ''} />
-      <span class="radio-row__dot"></span>
-      <span class="radio-row__label">${label}</span>
-      <span class="radio-row__arrow"></span>
-    </label>
-  `;
+/** One selectable entry of a radio group. */
+interface RadioOption {
+  value: string;
+  label: string;
 }
 
+/** Heading and markup hooks of one radio group. */
+interface GroupConfig {
+  inputName: string;
+  listName: string;
+  title: string;
+  iconSrc: string;
+}
+
+const THEME_GROUP: GroupConfig = {
+  inputName: 'theme',
+  listName: 'theme',
+  title: 'Game themes',
+  iconSrc: '/assets/settings-page/palette.svg',
+};
+
+const PLAYER_GROUP: GroupConfig = {
+  inputName: 'player',
+  listName: 'player',
+  title: 'Choose player',
+  iconSrc: '/assets/settings-page/chess_pawn.svg',
+};
+
+const BOARD_SIZE_GROUP: GroupConfig = {
+  inputName: 'boardSize',
+  listName: 'board',
+  title: 'Board size',
+  iconSrc: '/assets/settings-page/style.svg',
+};
+
+/**
+ * Builds one radio row.
+ * @param inputName The name shared by the radio inputs of the group.
+ * @param option The entry the row stands for.
+ * @param isChecked Whether the entry is the current selection.
+ * @returns The row markup.
+ */
+function buildRadioRow(inputName: string, option: RadioOption, isChecked: boolean): string {
+  return fillTemplate(radioRowTemplate, {
+    name: inputName,
+    value: option.value,
+    label: option.label,
+    checkedClass: isChecked ? ' is-checked' : '',
+    checkedAttribute: isChecked ? 'checked' : '',
+  });
+}
+
+/**
+ * Builds the radio rows of a group.
+ * @param inputName The name shared by the radio inputs of the group.
+ * @param options The entries of the group.
+ * @param checkedValue The selected entry's value, or null while nothing is selected.
+ * @returns The markup of all rows.
+ */
+function buildRows(inputName: string, options: RadioOption[], checkedValue: string | null): string {
+  return options
+    .map((option: RadioOption): string =>
+      buildRadioRow(inputName, option, option.value === checkedValue),
+    )
+    .join('');
+}
+
+/**
+ * Builds a radio group with its heading.
+ * @param group The group's heading and markup hooks.
+ * @param options The entries of the group.
+ * @param checkedValue The selected entry's value, or null while nothing is selected.
+ * @returns The group markup.
+ */
+function buildGroup(
+  group: GroupConfig,
+  options: RadioOption[],
+  checkedValue: string | null,
+): string {
+  const rows = buildRows(group.inputName, options, checkedValue);
+  const { iconSrc, title, listName } = group;
+  return fillTemplate(groupTemplate, { iconSrc, title, listName, rows });
+}
+
+/**
+ * Lists the entries of a configuration record as radio options.
+ * @param labels The labels by id.
+ * @returns One option per id.
+ */
+function toOptions(labels: Record<string, { label: string }>): RadioOption[] {
+  return Object.keys(labels).map((id: string): RadioOption => ({
+    value: id,
+    label: labels[id].label,
+  }));
+}
+
+/**
+ * Builds the three radio groups: theme, player and board size.
+ * @param state The current game state.
+ * @returns The markup of all groups.
+ */
+function buildGroups(state: GameState): string {
+  const player = state.playerSelected ? state.playerColor : null;
+  const boardSize = state.boardSizeSelected ? state.boardSize : null;
+  return [
+    buildGroup(THEME_GROUP, toOptions(THEMES), state.theme),
+    buildGroup(PLAYER_GROUP, toOptions(PLAYERS), player),
+    buildGroup(BOARD_SIZE_GROUP, toOptions(BOARD_SIZES), boardSize),
+  ].join('\n');
+}
+
+/**
+ * Describes the three selections for the breadcrumb; unselected steps show a placeholder.
+ * @param state The current game state.
+ * @returns The breadcrumb texts for theme, player and board size.
+ */
+function describeSelection(state: GameState): Record<string, string> {
+  const { theme, playerSelected, playerColor, boardSizeSelected, boardSize } = state;
+  const cardCount = BOARD_SIZES[boardSize].pairCount * CARDS_PER_PAIR;
+  return {
+    themeText: theme ? THEMES[theme].label : 'Theme',
+    playerText: playerSelected ? `${PLAYERS[playerColor].label} Player` : 'Player',
+    boardSizeText: boardSizeSelected ? `Board-${cardCount} Cards` : 'Board size',
+  };
+}
+
+/**
+ * Builds the arrow between two breadcrumb steps; it is highlighted once the step before it is chosen.
+ * @param isActive Whether the step before the separator has been chosen.
+ * @returns The separator markup.
+ */
+function buildSeparator(isActive: boolean): string {
+  return fillTemplate(separatorTemplate, { activeClass: isActive ? ' settings__sep--active' : '' });
+}
+
+/**
+ * Tells whether every setting has been chosen, which enables the Start button.
+ * @param state The current game state.
+ * @returns True when theme, player and board size are all selected.
+ */
+function isReadyToStart(state: GameState): boolean {
+  return Boolean(state.theme) && state.playerSelected && state.boardSizeSelected;
+}
+
+/**
+ * Builds the Settings markup: the selection groups, the theme preview and the breadcrumb.
+ * @param state The current game state.
+ * @returns The screen markup.
+ */
+function buildSettingsMarkup(state: GameState): string {
+  const previewTheme = THEMES[state.theme ?? DEFAULT_THEME];
+  return fillTemplate(layoutTemplate, {
+    groups: buildGroups(state),
+    previewImage: previewTheme.previewImage,
+    previewAlt: previewTheme.label,
+    ...describeSelection(state),
+    themeSeparator: buildSeparator(Boolean(state.theme)),
+    playerSeparator: buildSeparator(state.playerSelected),
+    startDisabledAttribute: isReadyToStart(state) ? '' : 'disabled',
+  });
+}
+
+/**
+ * Calls a handler with the value of a radio input whenever its selection changes.
+ * @param section The screen element.
+ * @param inputName The name shared by the radio inputs of the group.
+ * @param onSelect Receives the newly selected value.
+ */
+function bindRadioGroup(
+  section: HTMLElement,
+  inputName: string,
+  onSelect: (value: string) => void,
+): void {
+  section.querySelectorAll(`input[name="${inputName}"]`).forEach((input: Element): void => {
+    input.addEventListener('change', (event: Event): void =>
+      onSelect((event.target as HTMLInputElement).value),
+    );
+  });
+}
+
+/**
+ * Stores the three selections in the state when the user changes them.
+ * @param section The screen element.
+ */
+function bindSelections(section: HTMLElement): void {
+  bindRadioGroup(section, 'theme', (value: string): void => setState({ theme: value as ThemeId }));
+  bindRadioGroup(section, 'player', (value: string): void => {
+    setState({ playerColor: value as PlayerColor, playerSelected: true });
+  });
+  bindRadioGroup(section, 'boardSize', (value: string): void => {
+    setState({ boardSize: value as BoardSizeId, boardSizeSelected: true });
+  });
+}
+
+/**
+ * Shows a theme's preview image.
+ * @param image The preview image element, if the screen has one.
+ * @param themeId The theme whose preview is shown.
+ */
+function showPreview(image: HTMLImageElement | null, themeId: ThemeId): void {
+  if (image) image.src = THEMES[themeId].previewImage;
+}
+
+/**
+ * Previews a theme while the pointer is over its row and restores the chosen theme afterwards.
+ * @param section The screen element.
+ */
+function bindThemePreview(section: HTMLElement): void {
+  const image = section.querySelector<HTMLImageElement>('.settings__preview-image');
+  section
+    .querySelectorAll<HTMLElement>('.radio-list--theme .radio-row')
+    .forEach((row: HTMLElement): void => {
+      const themeId = row.querySelector('input')?.value as ThemeId;
+      row.addEventListener('mouseenter', (): void => showPreview(image, themeId));
+      row.addEventListener('mouseleave', (): void =>
+        showPreview(image, getState().theme ?? DEFAULT_THEME),
+      );
+    });
+}
+
+/**
+ * Builds the Settings screen where the player picks theme, player color and board size.
+ * @returns The screen element.
+ */
 export function renderSettings(): HTMLElement {
-  const state = getState();
-  const section = document.createElement('section');
-  section.className = 'screen screen--settings';
-
-  const themeRows = (Object.keys(THEMES) as ThemeId[])
-    .map((id) => radioRow('theme', id, THEMES[id].label, state.theme === id))
-    .join('');
-
-  const playerRows = (Object.keys(PLAYERS) as PlayerColor[])
-    .map((id) => radioRow('player', id, PLAYERS[id].label, state.playerSelected && state.playerColor === id))
-    .join('');
-
-  const sizeRows = (Object.keys(BOARD_SIZES) as BoardSizeId[])
-    .map((id) => radioRow('boardSize', id, BOARD_SIZES[id].label, state.boardSizeSelected && state.boardSize === id))
-    .join('');
-
-  const previewThemeId: ThemeId = state.theme ?? DEFAULT_THEME;
-  const themeText = state.theme ? THEMES[state.theme].label : 'Theme';
-  const playerText = state.playerSelected ? `${PLAYERS[state.playerColor].label} Player` : 'Player';
-  const boardSizeText = state.boardSizeSelected
-    ? `Board-${BOARD_SIZES[state.boardSize].pairCount * 2} Cards`
-    : 'Board size';
-  const isReadyToStart = Boolean(state.theme) && state.playerSelected && state.boardSizeSelected;
-  const isThemeSelected = Boolean(state.theme);
-
-  section.innerHTML = `
-    <div class="settings__panel">
-      <h1 class="settings__title">Settings</h1>
-
-      <div class="settings__groups">
-        <div class="settings__group">
-          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/palette.svg" alt="" draggable="false" />Game themes</h2>
-          <div class="radio-list radio-list--theme">${themeRows}</div>
-        </div>
-
-        <div class="settings__group">
-          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/chess_pawn.svg" alt="" draggable="false" />Choose player</h2>
-          <div class="radio-list radio-list--player">${playerRows}</div>
-        </div>
-
-        <div class="settings__group">
-          <h2 class="settings__group-title"><img class="settings__group-icon" src="/assets/settings-page/style.svg" alt="" draggable="false" />Board size</h2>
-          <div class="radio-list radio-list--board">${sizeRows}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="settings__preview">
-      <div class="settings__preview-board">
-        <div class="settings__preview-cards">
-          <img class="settings__preview-image" src="${THEMES[previewThemeId].previewImage}" alt="${THEMES[previewThemeId].label}" draggable="false" />
-        </div>
-      </div>
-
-      <div class="settings__breadcrumb">
-        <div class="settings__breadcrumb-labels">
-          <span class="settings__breadcrumb-label">${themeText}</span>
-          <span class="settings__sep${isThemeSelected ? ' settings__sep--active' : ''}">
-            <img class="settings__sep-arrow" src="/assets/start-page/line-5.svg" alt="" draggable="false" />
-          </span>
-          <span class="settings__breadcrumb-label">${playerText}</span>
-          <span class="settings__sep${state.playerSelected ? ' settings__sep--active' : ''}">
-            <img class="settings__sep-arrow" src="/assets/start-page/line-5.svg" alt="" draggable="false" />
-          </span>
-          <span class="settings__breadcrumb-label">${boardSizeText}</span>
-        </div>
-        <span class="settings__start-wrapper">
-          <button type="button" class="settings__start" ${isReadyToStart ? '' : 'disabled'}>
-            <span class="settings__start-icon">
-              <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="1" y="1" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.5" />
-                <path d="M8 4L14 8L8 12V4Z" fill="currentColor" />
-              </svg>
-            </span>
-            Start
-          </button>
-        </span>
-      </div>
-    </div>
-  `;
-
-  section.querySelectorAll('input[name="theme"]').forEach((el) => {
-    el.addEventListener('change', (e) => {
-      setState({ theme: (e.target as HTMLInputElement).value as ThemeId });
-    });
-  });
-
-  const previewImage = section.querySelector('.settings__preview-image') as HTMLImageElement | null;
-  section.querySelectorAll('.radio-list--theme .radio-row').forEach((row) => {
-    const input = row.querySelector('input') as HTMLInputElement;
-    row.addEventListener('mouseenter', () => {
-      if (previewImage) previewImage.src = THEMES[input.value as ThemeId].previewImage;
-    });
-    row.addEventListener('mouseleave', () => {
-      if (previewImage) previewImage.src = THEMES[getState().theme ?? DEFAULT_THEME].previewImage;
-    });
-  });
-
-  section.querySelectorAll('input[name="player"]').forEach((el) => {
-    el.addEventListener('change', (e) => {
-      setState({ playerColor: (e.target as HTMLInputElement).value as PlayerColor, playerSelected: true });
-    });
-  });
-
-  section.querySelectorAll('input[name="boardSize"]').forEach((el) => {
-    el.addEventListener('change', (e) => {
-      setState({ boardSize: (e.target as HTMLInputElement).value as BoardSizeId, boardSizeSelected: true });
-    });
-  });
-
-  section.querySelector('.settings__start')?.addEventListener('click', () => {
-    startGame();
-  });
-
+  const section = createScreenSection('screen--settings', buildSettingsMarkup(getState()));
+  bindSelections(section);
+  bindThemePreview(section);
+  section.querySelector('.settings__start')?.addEventListener('click', startGame);
   return section;
 }
