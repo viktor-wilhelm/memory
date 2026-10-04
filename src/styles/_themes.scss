@@ -1,6 +1,3 @@
-// Einzige Datei mit tatsächlichen Farbwerten. Jede Komponente referenziert
-// nur var(--color-*) aus _tokens.scss — nie Farben direkt.
-
 [data-theme="code-vibes"] {
   --color-bg: #303131;
   --color-surface: #16211f;
@@ -30,6 +27,7 @@
   --color-result-winner-blue: rgba(43, 177, 255, 1);
   --color-result-winner-orange: rgba(245, 142, 57, 1);
   --color-result-draw-title: #4dd5bc;
+  --color-accent-tint: rgba(134, 233, 214, 0.2);
 }
 
 [data-theme="games"] {
@@ -47,17 +45,11 @@
   --color-popup-confirm-bg: rgba(231, 28, 79, 1);
   --color-popup-confirm-text: rgba(231, 28, 79, 1);
   --color-popup-confirm-outline-bg: rgba(237, 27, 118, 0.08);
-  // #117ec3 (the :root default) was never actually correct for Games — the
-  // Game Over Figma reference gives the true value; Board reuses this same
-  // token, so this fixes Board's blue pawn/score color too, not just Game Over.
   --color-player-blue: #097fc5;
   --color-player-orange: #ea6900;
   --color-game-over-bg: #294f60;
   --game-over-content-top: 291px;
   --color-result-bg: #294f60;
-  // Blue Player's result-screen name color, confirmed against Winner_02.svg:
-  // deliberately different from --color-player-blue (#097fc5, used by the
-  // board/pawn), which is a separate accent value in that mockup.
   --color-result-winner-blue: #2298db;
   --color-result-winner-orange: #ea6900;
   --color-result-draw-title: #ed1b76;
@@ -67,6 +59,7 @@
   --color-card-match-shadow: rgba(237, 27, 118, 0.3);
   --card-face-radius: 12px;
   --card-match-border-width: 3px;
+  --color-hover-fill: #695574;
 }
 
 [data-theme="da-projects"] {
@@ -80,25 +73,22 @@
   --color-popup-bg: #eef3fb;
   --color-popup-text: var(--color-text);
   --color-popup-cancel-bg: rgba(191, 229, 242, 1);
-  --color-popup-cancel-text: rgba(30, 117, 148, 1);
+  --color-accent-strong: #1e7594;
+  --color-popup-cancel-text: var(--color-accent-strong);
   --color-popup-confirm-bg: rgba(253, 138, 129, 1);
   --color-popup-confirm-text: #ffffff;
   --color-card-face-bg: #eaf2f4;
   --color-card-match-bg: #f0fbff;
-  --color-card-match-border: #1e7594;
+  --color-card-match-border: var(--color-accent-strong);
   --color-card-match-shadow: transparent;
   --card-face-radius: 13px;
+  --card-closed-radius: 10.8333% / 13%;
   --card-match-border-width: 2px;
-  // DA Projects never overrode these and fell back to the :root defaults
-  // (#e96900/#117ec3), which are close but not exact. The Game Over Figma
-  // reference gives the true values; this also corrects Board's pawn colors.
   --color-player-orange: #ea6900;
   --color-player-blue: #097fc5;
-  --color-game-over-bg: #1e7594;
+  --color-game-over-bg: var(--color-accent-strong);
   --game-over-content-top: 292px;
-  --color-result-bg: #1e7594;
-  // DA Projects' winner name is plain white regardless of player (see
-  // Winner_03.svg); only the pawn icon itself is player-colored.
+  --color-result-bg: var(--color-accent-strong);
   --color-result-title: #ffffff;
   --color-result-draw-title: #fd5b4f;
 }

@@ -1,0 +1,19 @@
+<h1 class="visually-hidden">Memory board</h1>
+<header class="board__header">
+  <div class="board__score">
+    {{{scoreItems}}}
+  </div>
+  <div class="board__current-player">
+    <span class="board__current-player-label">Current player:</span>
+    <span class="board__current-player-badge board__current-player-badge--{{currentPlayer}}{{badgeModifier}}">{{{playerIcon}}}</span>
+  </div>
+  {{{exitButton}}}
+</header>
+
+<div class="board__grid-wrap">
+  <div class="board__grid" style="--board-cols: {{columns}}; --board-rows: {{rows}}; --board-gap: {{gap}}px;">
+    {{{cards}}}
+  </div>
+</div>
+
+{{{exitConfirm}}}

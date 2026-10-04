@@ -1,6 +1,7 @@
 import type { PlayerColor, ThemeId } from '../app/types';
 
-interface ThemeConfig {
+/** Everything that differs between the selectable themes. */
+export interface ThemeConfig {
   label: string;
   previewImage: string;
   cardBackImage: string;
@@ -14,6 +15,10 @@ interface ThemeConfig {
   boardScoreOrder: [PlayerColor, PlayerColor];
   boardScoreShowLabel: boolean;
   boardCurrentPlayerFilled: boolean;
+  // 'text': the Exit button is an icon plus text; 'vector-text': the label is a vector graphic.
+  boardExitButton: 'text' | 'vector-text';
+  // Gap between cards on the 24- and 36-card boards, in px (the 16-card board uses a roomier gap).
+  boardDenseCardGapPx: number;
   // Exit-confirm popup copy/style — also confirmed to differ per theme
   // from the *-pop-up.png Figma references, not just colors.
   exitConfirmCancelLabel: string;
@@ -72,6 +77,8 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     boardScoreOrder: ['blue', 'orange'],
     boardScoreShowLabel: true,
     boardCurrentPlayerFilled: false,
+    boardExitButton: 'text',
+    boardDenseCardGapPx: 6,
     exitConfirmCancelLabel: 'Back to game',
     exitConfirmConfirmLabel: 'Exit game',
     exitConfirmUppercase: false,
@@ -112,6 +119,8 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,
     boardCurrentPlayerFilled: true,
+    boardExitButton: 'text',
+    boardDenseCardGapPx: 6,
     exitConfirmCancelLabel: 'No, back to game',
     exitConfirmConfirmLabel: 'Yes, quit game',
     exitConfirmUppercase: false,
@@ -152,6 +161,8 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,
     boardCurrentPlayerFilled: true,
+    boardExitButton: 'text',
+    boardDenseCardGapPx: 8,
     exitConfirmCancelLabel: 'Back to game',
     exitConfirmConfirmLabel: 'Exit game',
     exitConfirmUppercase: false,
@@ -192,6 +203,8 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     boardScoreOrder: ['orange', 'blue'],
     boardScoreShowLabel: false,
     boardCurrentPlayerFilled: true,
+    boardExitButton: 'vector-text',
+    boardDenseCardGapPx: 6,
     exitConfirmCancelLabel: 'No, back to game',
     exitConfirmConfirmLabel: 'Exit game',
     exitConfirmUppercase: true,
