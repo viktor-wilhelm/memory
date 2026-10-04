@@ -1,6 +1,9 @@
 import type { GameState } from './types';
 
-const state: GameState = {
+/** Called with the new state after every change. */
+type StateListener = (state: GameState) => void;
+
+const GAME_STATE: GameState = {
   theme: null,
   playerColor: 'blue',
   playerSelected: false,
@@ -17,18 +20,29 @@ const state: GameState = {
   result: null,
 };
 
-type Listener = (state: GameState) => void;
-const listeners = new Set<Listener>();
+const STATE_LISTENERS = new Set<StateListener>();
 
+/**
+ * Returns the single shared game state.
+ * @returns The current game state.
+ */
 export function getState(): GameState {
-  return state;
+  return GAME_STATE;
 }
 
+/**
+ * Merges a partial update into the state and notifies every listener.
+ * @param partial The state fields to change.
+ */
 export function setState(partial: Partial<GameState>): void {
-  Object.assign(state, partial);
-  listeners.forEach((listener) => listener(state));
+  Object.assign(GAME_STATE, partial);
+  STATE_LISTENERS.forEach((listener: StateListener): void => listener(GAME_STATE));
 }
 
-export function subscribe(listener: Listener): void {
-  listeners.add(listener);
+/**
+ * Registers a listener that runs after every state change.
+ * @param listener The function to call with the new state.
+ */
+export function subscribe(listener: StateListener): void {
+  STATE_LISTENERS.add(listener);
 }
