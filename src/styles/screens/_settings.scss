@@ -391,8 +391,16 @@
     margin-left: 20px;
   }
 
-  .settings__start-wrapper {
+  .settings__start-wrapper,
+  .settings__start-wrapper:has(.settings__start:not(:disabled):hover) {
+    flex: 1 1 100%;
+    width: 100%;
+    justify-content: center;
     margin-top: 8px;
+  }
+
+  .settings__start {
+    transform-origin: center;
   }
 
   .radio-row__arrow {
