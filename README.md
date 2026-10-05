@@ -2,7 +2,13 @@
 
 A Memory card game for two players that runs in the browser. Two players take turns on one device and the one who finds more pairs wins. Built as a course project for the Developer Akademie with TypeScript, Vite and SCSS, without a UI framework.
 
-[**Live Demo (Ctrl + Click → new tab)**](https://memory.viktor-wilhelm.de/)
+![TypeScript strict](https://img.shields.io/badge/TYPESCRIPT-STRICT-3178C6?style=flat-square&labelColor=555555&logo=typescript&logoColor=white) ![SCSS, 4 themes](https://img.shields.io/badge/SCSS-4%20THEMES-CC6699?style=flat-square&labelColor=555555&logo=sass&logoColor=white) ![Vite 8](https://img.shields.io/badge/VITE-8-646CFF?style=flat-square&labelColor=555555&logo=vite&logoColor=white) ![Responsive layout](https://img.shields.io/badge/LAYOUT-RESPONSIVE-1572B6?style=flat-square&labelColor=555555)
+
+## 🌐 Live Demo
+
+👉 **[memory.viktor-wilhelm.de](https://memory.viktor-wilhelm.de/)**
+
+> 💡 **Tip:** Ctrl + Click → open Live Demo in a new tab
 
 | Version | Link | Built from |
 | --- | --- | --- |
