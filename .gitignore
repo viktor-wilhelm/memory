@@ -7,3 +7,10 @@ dist/
 .DS_Store
 .directory
 *.log
+
+.claude/
+.vscode/
+.prettierrc
+.github/agents/
+*.md
+!README.md
