@@ -5,42 +5,21 @@ export interface ThemeConfig {
   label: string;
   previewImage: string;
   cardBackImage: string;
-  // Face images picked by pairId (faces[pairId]); an empty list means the
-  // theme has no faces yet and its cards stay visually unchanged.
   cardFaces: string[];
-  // Board header presentation — confirmed to differ per theme by comparing
-  // all 4 Figma board references (docs/figma-reference/board/), not just
-  // code-vibes. See Issue #11 for the per-theme comparison table.
   boardScoreIcon: 'flag' | 'pawn';
   boardScoreOrder: [PlayerColor, PlayerColor];
   boardScoreShowLabel: boolean;
   boardCurrentPlayerFilled: boolean;
-  // 'text': the Exit button is an icon plus text; 'vector-text': the label is a vector graphic.
   boardExitButton: 'text' | 'vector-text';
-  // Gap between cards on the 24- and 36-card boards, in px (the 16-card board uses a roomier gap).
   boardDenseCardGapPx: number;
-  // Exit-confirm popup copy/style — also confirmed to differ per theme
-  // from the *-pop-up.png Figma references, not just colors.
   exitConfirmCancelLabel: string;
   exitConfirmConfirmLabel: string;
   exitConfirmUppercase: boolean;
   exitConfirmStyle: 'outline' | 'filled';
   exitConfirmAnimation: 'from-top' | 'from-bottom' | 'none';
-  // Game Over — the intermediate result screen shown right after the final
-  // matched pair (before the not-yet-implemented Winner/Draw screen). The
-  // title is either a pre-composited SVG image (Code vibes) or literal text
-  // styled per theme in CSS; everything else (layout, typography, colors) is
-  // theme tokens/CSS, not per-theme markup.
   gameOverTitle: { type: 'image'; src: string } | { type: 'text' };
-  // 'label': player name + a per-color label icon, no pawn (Code vibes).
-  // 'pawn': the shared chess-pawn icon + score, no player name (the rest).
   gameOverScoreStyle: 'label' | 'pawn';
   gameOverScoreOrder: [PlayerColor, PlayerColor];
-  // Result — the themed Winner/Draw screen shown after Game Over. Draw
-  // always uses the shared scale icon (colors/backing in CSS); Winner's
-  // graphic differs by theme: the shared pawn icon (solid, or on a cream
-  // backing for Food), the same icon with a white outline (DA Projects), or
-  // the trophy image (Games).
   resultWinnerGraphic: 'pawn' | 'pawn-backed' | 'pawn-outline' | 'trophy';
   resultButtonLabel: string;
   resultRevealAnimation: 'from-top' | 'from-bottom' | 'none';
