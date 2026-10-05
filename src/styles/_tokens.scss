@@ -1,18 +1,44 @@
 :root {
-  --color-bg: #1e2b28;
+  --color-bg: #303131;
   --color-surface: #16211f;
   --color-accent: #2bcfa0;
-  --color-text: #eafff5;
-  --color-card-back: #0f1a18;
+  --color-text: #ffffff;
+  --color-play-button-bg: #f0ea6e;
+  --color-settings-bg: #ffffff;
+  --color-settings-text: #1a1a1a;
+  --color-settings-muted: #6b6b6b;
+  --color-board-panel-bg: rgba(246, 246, 246, 1);
+  --color-board-bg: #303131;
+  --color-board-panel: #303131;
+  --color-board-score-bg: #3f676f;
+  --color-player-blue: #117ec3;
+  --color-player-orange: #e96900;
+  --color-game-over-bg: var(--color-bg);
+  --game-over-content-top: 0px;
+
+  --card-match-frame: none;
+  --card-match-image-scale: 1;
 
   --radius-sm: 6px;
   --radius-md: 12px;
+  --radius-lg: 20px;
 
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
   --space-4: 24px;
+  --space-5: 42px;
+
+  --settings-content-width: 1103px;
+  --settings-panel-width: 557px;
+  --settings-preview-width: 546px;
 
   --breakpoint-wide: 1440px;
   --font-family-base: system-ui, sans-serif;
+  --font-family-display: 'Red Rose', system-ui, sans-serif;
+  --font-family-eyebrow: 'Almarai', system-ui, sans-serif;
+  --font-family-games: 'Orbitron', system-ui, sans-serif;
+  --font-family-da-projects: 'Figtree', system-ui, sans-serif;
+  --font-family-food: 'Klee One', system-ui, sans-serif;
+  --font-family-food-button: 'Delius Unicase', system-ui, sans-serif;
 }

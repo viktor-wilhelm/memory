@@ -1,0 +1,242 @@
+.screen--home {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  max-width: var(--breakpoint-wide);
+  margin-inline: auto;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0;
+  padding: var(--space-4) 96px var(--space-4) 230px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.home__decor {
+  position: absolute;
+  left: 0;
+  bottom: 16px;
+  width: 363px;
+  height: 410px;
+  background: url('/assets/start-page/stadia_controller-big.png') no-repeat center / contain;
+  pointer-events: none;
+}
+
+.home__content {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home__eyebrow {
+  align-self: flex-start;
+  margin: 0 0 2rem;
+  font-family: var(--font-family-eyebrow);
+  font-size: clamp(1rem, 3.33vw, 3rem);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.home__title {
+  align-self: flex-start;
+  margin: 0 0 6rem;
+  font-family: var(--font-family-display);
+  font-size: clamp(1rem, calc(12.2vw - 35.7px), 8.75rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+$ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+.play-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 250px;
+  height: 98px;
+  padding: 0;
+  border: none;
+  border-radius: 1px;
+  background: none;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: var(--color-play-button-bg);
+    transform: scale(1);
+    transition: transform 200ms $ease-portfolio;
+  }
+
+  &__controller {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 44px;
+    height: 32px;
+    background: url('/assets/start-page/stadia_controller.png') no-repeat center / contain;
+    transform: translateY(-4px) rotate(0deg) scale(1);
+    transition: transform 200ms $ease-portfolio;
+  }
+
+  &__label {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 83px;
+    height: 39px;
+    background: url('/assets/start-page/Play.png') no-repeat center / contain;
+    transition: transform 200ms $ease-portfolio;
+  }
+
+  &__arrow {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    width: 40px;
+    height: 30px;
+    transform: translateX(-3px);
+    transition: transform 200ms $ease-portfolio;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: auto;
+    }
+
+    &::before {
+      background-image: url('/assets/start-page/Arrow-1.png');
+      background-size: 33px auto;
+      opacity: 1;
+      transform: translateY(-2px);
+      transition: opacity 0s linear 100ms;
+    }
+
+    &::after {
+      background-image: url('/assets/start-page/Arrow-1-hover.png');
+      background-size: 36px auto;
+      opacity: 0;
+      transform: translateX(4px);
+      transition: opacity 0s linear;
+    }
+  }
+
+  &:hover,
+  &:focus-visible {
+    &::before {
+      transform: scale(1.08, 1.0408);
+    }
+  }
+
+  &:hover &__controller,
+  &:focus-visible &__controller {
+    transform: translateY(-4px) rotate(-20deg) scale(1.03);
+  }
+
+  &:hover &__label,
+  &:focus-visible &__label {
+    transform: translate(8px, 2px);
+  }
+
+  &:hover &__arrow,
+  &:focus-visible &__arrow {
+    transform: translateX(5px);
+  }
+
+  &:hover &__arrow::before,
+  &:focus-visible &__arrow::before {
+    opacity: 0;
+    transition: opacity 0s linear;
+  }
+
+  &:hover &__arrow::after,
+  &:focus-visible &__arrow::after {
+    opacity: 1;
+    transition: opacity 0s linear 100ms;
+  }
+}
+
+@media (max-width: 767px) {
+  .screen--home {
+    padding: var(--space-4);
+    padding-bottom: calc(min(248px, 68vw) + 56px);
+    align-items: center;
+  }
+
+  .home__decor {
+    width: min(220px, 60vw);
+    height: min(248px, 68vw);
+  }
+
+  .home__content {
+    align-items: center;
+  }
+
+  .home__eyebrow {
+    align-self: center;
+    text-align: center;
+    font-size: clamp(1.25rem, 3.33vw, 3rem);
+  }
+
+  .home__title {
+    align-self: center;
+    text-align: center;
+    font-size: clamp(2.25rem, 9.72vw, 8.75rem);
+  }
+
+  .play-button {
+    width: 200px;
+    height: 78px;
+    gap: 16px;
+
+    &__controller {
+      width: 35px;
+      height: 26px;
+      transform: translateY(-3px) rotate(0deg) scale(1);
+    }
+
+    &__label {
+      width: 66px;
+      height: 31px;
+    }
+
+    &__arrow {
+      width: 32px;
+      height: 24px;
+      transform: translateX(-2px);
+
+      &::before {
+        background-size: 26px auto;
+      }
+
+      &::after {
+        background-size: 29px auto;
+      }
+    }
+
+    &:hover &__controller,
+    &:focus-visible &__controller {
+      transform: translateY(-3px) rotate(-20deg) scale(1.03);
+    }
+
+    &:hover &__label,
+    &:focus-visible &__label {
+      transform: translate(6px, 2px);
+    }
+
+    &:hover &__arrow,
+    &:focus-visible &__arrow {
+      transform: translateX(4px);
+    }
+  }
+}

@@ -1,16 +1,18 @@
 import { setState } from '../app/state';
+import homeTemplate from '../templates/home.html?raw';
+import { createScreenSection } from './screen-section';
 
+/** Opens the Settings screen. */
+function openSettings(): void {
+  setState({ screen: 'settings' });
+}
+
+/**
+ * Builds the start screen with the Play button.
+ * @returns The screen element.
+ */
 export function renderHome(): HTMLElement {
-  const section = document.createElement('section');
-  section.className = 'screen screen--home';
-  section.innerHTML = `
-    <h1>Ready to play?</h1>
-    <button type="button" class="button">Play</button>
-  `;
-
-  section.querySelector('.button')?.addEventListener('click', () => {
-    setState({ screen: 'settings' });
-  });
-
+  const section = createScreenSection('screen--home', homeTemplate);
+  section.querySelector('.play-button')?.addEventListener('click', openSettings);
   return section;
 }
