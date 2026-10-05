@@ -3,9 +3,9 @@ import type { GameState, PlayerColor } from '../app/types';
 import { CHESS_PAWN_ICON, CODE_VIBES_LABEL_ICON, EXIT_ICON, EXIT_TEXT_ICON } from '../config/icons';
 import { PLAYERS } from '../config/players';
 import type { ThemeConfig } from '../config/themes';
-import exitButtonTemplate from '../templates/board/exit-button.html?raw';
-import exitButtonVectorTemplate from '../templates/board/exit-button-vector.html?raw';
-import scoreItemTemplate from '../templates/board/score-item.html?raw';
+import exitButtonTemplate from '../templates/pages/exit-button.html?raw';
+import exitButtonVectorTemplate from '../templates/pages/exit-button-vector.html?raw';
+import scoreItemTemplate from '../templates/pages/score-item.html?raw';
 
 /**
  * Returns the small marker that stands for a player in the header: Code vibes uses its

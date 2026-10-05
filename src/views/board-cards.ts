@@ -1,8 +1,8 @@
 import { fillTemplate, type TemplateValues } from '../app/template';
 import type { CardState } from '../app/types';
 import type { ThemeConfig } from '../config/themes';
-import facedCardTemplate from '../templates/board/card-faced.html?raw';
-import plainCardTemplate from '../templates/board/card.html?raw';
+import facedCardTemplate from '../templates/pages/card-faced.html?raw';
+import plainCardTemplate from '../templates/pages/card.html?raw';
 
 /** A card whose flip has to be started after the new markup is in the DOM. */
 export interface PendingFlip {

@@ -6,10 +6,10 @@ import type { BoardSizeId, GameState, PlayerColor, ThemeId } from '../app/types'
 import { BOARD_SIZES } from '../config/board-sizes';
 import { PLAYERS } from '../config/players';
 import { DEFAULT_THEME, THEMES } from '../config/themes';
-import groupTemplate from '../templates/settings/group.html?raw';
-import layoutTemplate from '../templates/settings/layout.html?raw';
-import radioRowTemplate from '../templates/settings/radio-row.html?raw';
-import separatorTemplate from '../templates/settings/separator.html?raw';
+import groupTemplate from '../templates/pages/group.html?raw';
+import layoutTemplate from '../templates/pages/settings-layout.html?raw';
+import radioRowTemplate from '../templates/pages/radio-row.html?raw';
+import separatorTemplate from '../templates/pages/separator.html?raw';
 import { createScreenSection } from './screen-section';
 
 /** One selectable entry of a radio group. */
