@@ -2,12 +2,11 @@
   position: relative;
   min-height: 100vh;
   width: 100%;
-  max-width: var(--breakpoint-wide);
-  margin-inline: auto;
   align-items: flex-start;
   justify-content: center;
   gap: 0;
-  padding: var(--space-4) 96px var(--space-4) 230px;
+  padding: var(--space-4) max(96px, calc((100% - var(--breakpoint-wide)) / 2 + 96px)) var(--space-4)
+    max(230px, calc((100% - var(--breakpoint-wide)) / 2 + 230px));
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -91,7 +90,15 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     display: inline-block;
     width: 83px;
     height: 39px;
-    background: url('/assets/start-page/Play.png') no-repeat center / contain;
+    font-family: var(--font-family-display);
+    font-size: 41px;
+    font-weight: 700;
+    line-height: 33px;
+    letter-spacing: -0.5px;
+    text-indent: -2px;
+    text-align: center;
+    white-space: nowrap;
+    color: var(--color-bg);
     transition: transform 200ms $ease-portfolio;
   }
 
@@ -208,6 +215,10 @@ $ease-portfolio: cubic-bezier(0.25, 0.46, 0.45, 0.94);
     &__label {
       width: 66px;
       height: 31px;
+      font-size: 32.5px;
+      line-height: 27px;
+      letter-spacing: -0.4px;
+      text-indent: -2px;
     }
 
     &__arrow {

@@ -5,15 +5,15 @@ import type { GameState, PlayerColor, ThemeId } from '../app/types';
 import { RESULT_PAWN_ICON, RESULT_PAWN_OUTLINE_ICON, SCALE_ICON } from '../config/icons';
 import { PLAYERS } from '../config/players';
 import { DEFAULT_THEME, THEMES, type ThemeConfig } from '../config/themes';
-import confettiTemplate from '../templates/result/confetti.html?raw';
-import drawTemplate from '../templates/result/draw.html?raw';
-import drawWordBevelTemplate from '../templates/result/draw-word-bevel.html?raw';
-import drawWordTemplate from '../templates/result/draw-word.html?raw';
-import layoutTemplate from '../templates/result/layout.html?raw';
-import pawnBackingTemplate from '../templates/result/pawn-backing.html?raw';
-import pawnTemplate from '../templates/result/pawn.html?raw';
-import trophyTemplate from '../templates/result/trophy.html?raw';
-import winnerTemplate from '../templates/result/winner.html?raw';
+import confettiTemplate from '../templates/pages/confetti.html?raw';
+import drawTemplate from '../templates/pages/draw.html?raw';
+import drawWordBevelTemplate from '../templates/pages/draw-word-bevel.html?raw';
+import drawWordTemplate from '../templates/pages/draw-word.html?raw';
+import layoutTemplate from '../templates/pages/result-layout.html?raw';
+import pawnBackingTemplate from '../templates/pages/pawn-backing.html?raw';
+import pawnTemplate from '../templates/pages/pawn.html?raw';
+import trophyTemplate from '../templates/pages/trophy.html?raw';
+import winnerTemplate from '../templates/pages/winner.html?raw';
 import { createScreenSection } from './screen-section';
 
 /** The only theme with confetti and the beveled DRAW word, which are structural, not just styling. */

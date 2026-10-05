@@ -156,7 +156,7 @@
   }
 }
 
-.radio-list--theme .radio-row:hover {
+.radio-row:hover {
   font-weight: 700;
 
   .radio-row__dot::before {
@@ -331,6 +331,7 @@
   .settings__preview {
     flex: 1 1 auto;
     width: 100%;
+    min-width: 0;
     max-width: var(--settings-preview-width);
     margin-inline: auto;
   }
@@ -373,12 +374,28 @@
     background-color: transparent;
   }
 
+  .settings__start-wrapper,
+  .settings__start-wrapper:has(.settings__start:not(:disabled):hover) {
+    flex: 1 1 100%;
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .settings__start {
+    transform-origin: center;
+  }
+
   .settings__group-title {
     margin-bottom: 16px;
   }
 
   .settings__preview {
     margin-top: 56px;
+  }
+
+  .settings__preview-board {
+    align-self: center;
   }
 }
 
@@ -389,10 +406,6 @@
 
   .radio-list {
     margin-left: 20px;
-  }
-
-  .settings__start-wrapper {
-    margin-top: 8px;
   }
 
   .radio-row__arrow {
