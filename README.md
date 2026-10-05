@@ -2,6 +2,8 @@
 
 A Memory card game for two players that runs in the browser. Two players take turns on one device and the one who finds more pairs wins. Built as a course project for the Developer Akademie with TypeScript, Vite and SCSS, without a UI framework.
 
+[**Live Demo (Ctrl + Click → new tab)**](https://memory.viktor-wilhelm.de/)
+
 | Version | Link | Built from |
 | --- | --- | --- |
 | Production | [memory.viktor-wilhelm.de](https://memory.viktor-wilhelm.de/) | `main` |
