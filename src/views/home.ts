@@ -1,5 +1,5 @@
 import { setState } from '../app/state';
-import homeTemplate from '../templates/home.html?raw';
+import homeTemplate from '../templates/pages/home.html?raw';
 import { createScreenSection } from './screen-section';
 
 /** Opens the Settings screen. */

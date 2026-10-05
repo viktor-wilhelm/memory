@@ -1,12 +1,12 @@
 import { fillTemplate } from '../app/template';
 import type { PlayerColor } from '../app/types';
-import labelIconTemplate from '../templates/partials/label-icon.html?raw';
-import chessPawnSvg from '../templates/icons/chess-pawn.svg?raw';
-import exitSvg from '../templates/icons/exit.svg?raw';
-import exitGameTextSvg from '../templates/icons/exit-game-text.svg?raw';
-import resultPawnOutlineSvg from '../templates/icons/result-pawn-outline.svg?raw';
-import resultPawnSvg from '../templates/icons/result-pawn.svg?raw';
-import scaleSvg from '../templates/icons/scale.svg?raw';
+import labelIconTemplate from '../templates/pages/label-icon.html?raw';
+import chessPawnSvg from '/assets/icons/chess-pawn.svg?raw';
+import exitSvg from '/assets/icons/exit.svg?raw';
+import exitGameTextSvg from '/assets/icons/exit-game-text.svg?raw';
+import resultPawnOutlineSvg from '/assets/icons/result-pawn-outline.svg?raw';
+import resultPawnSvg from '/assets/icons/result-pawn.svg?raw';
+import scaleSvg from '/assets/icons/scale.svg?raw';
 
 /**
  * Builds the Code vibes flag/label icon of a player. It is exported from Figma as one PNG per
