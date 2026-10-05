@@ -1,6 +1,6 @@
 import { fillTemplate } from '../app/template';
 import type { PlayerColor } from '../app/types';
-import labelIconTemplate from '../templates/partials/label-icon.html?raw';
+import labelIconTemplate from '../templates/pages/label-icon.html?raw';
 import chessPawnSvg from '/assets/icons/chess-pawn.svg?raw';
 import exitSvg from '/assets/icons/exit.svg?raw';
 import exitGameTextSvg from '/assets/icons/exit-game-text.svg?raw';

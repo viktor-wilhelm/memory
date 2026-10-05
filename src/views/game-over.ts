@@ -4,11 +4,11 @@ import type { GameState, PlayerColor } from '../app/types';
 import { CHESS_PAWN_ICON, CODE_VIBES_LABEL_ICON } from '../config/icons';
 import { PLAYERS } from '../config/players';
 import { DEFAULT_THEME, THEMES, type ThemeConfig } from '../config/themes';
-import layoutTemplate from '../templates/game-over/layout.html?raw';
-import playerNameTemplate from '../templates/game-over/player-name.html?raw';
-import playerTemplate from '../templates/game-over/player.html?raw';
-import titleImageTemplate from '../templates/game-over/title-image.html?raw';
-import titleTextTemplate from '../templates/game-over/title-text.html?raw';
+import layoutTemplate from '../templates/pages/game-over-layout.html?raw';
+import playerNameTemplate from '../templates/pages/player-name.html?raw';
+import playerTemplate from '../templates/pages/player.html?raw';
+import titleImageTemplate from '../templates/pages/title-image.html?raw';
+import titleTextTemplate from '../templates/pages/title-text.html?raw';
 import { createScreenSection } from './screen-section';
 
 /**
